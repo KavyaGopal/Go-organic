@@ -12,31 +12,27 @@ A one stop place to buy all the organic and healthy food. It is a web applicatio
 ## Features
 - Login|Register|Logout
 
-- Browse|Search
+- Browse|Search|Add items to the cart
 
-- Checkout Cart
-
-- Test Cases: Jasmine framework
+- Checkout cart
 
 ## Technology Stack
 - Front end: Angular
 
 - Back end: Go
 
-- DB: MongoDB
-
-- Test Cases: Jasmine framework
+- DB: MongoDB|MySQL
 
 ## Setup and Install
 
 This will mention about the setup and install instructions for running the code
 
 ## Testing
-For testing, we will do unit testing for both front and back end when developing, also end to end testing needs to be done.
+For testing, we will do unit testing for both front and back end when developing, also end to end testing.
 
-- [Instructions on end to end testing]
-- [Instructions on back end unit testing]
-- [Instructions on front end unit testing]
+- end to end testing
+- back end unit testing
+- front end unit testing
 
 ## Authors
 
@@ -46,4 +42,4 @@ For testing, we will do unit testing for both front and back end when developing
 |Ashwin Rai|ashwin181|raiashwin018@gmail.com|
 |Kavya Gopal|KavyaGopal|95kavya@gmail.com|
 |Vaibhav Kulkarni|KulkarniVaibhav|kulvaibhavp@gmail.com|
-|Zubin Arya|virtuoso02031995|virtuoso02031995@gmail.com|
+|Zubin Arya|rebelsoul17|virtuoso02031995@gmail.com|

@@ -42,4 +42,4 @@ For testing, we will do unit testing for both front and back end when developing
 |Ashwin Rai|ashwin181|raiashwin018@gmail.com|
 |Kavya Gopal|KavyaGopal|95kavya@gmail.com|
 |Vaibhav Kulkarni|KulkarniVaibhav|kulvaibhavp@gmail.com|
-|Zubin Arya|rebelsoul17|virtuoso02031995@gmail.com|
+|Zubin Arya|zubin-arya|virtuoso02031995@gmail.com|

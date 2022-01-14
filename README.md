@@ -10,7 +10,7 @@ Checkout Cart
 Ashwin Rai\
 Kavya Gopal\
 Vaibhav Kulkarni\
-Zubin Arya\
+Zubin Arya
 
 # Technology Stack
 Front end: Angular 7

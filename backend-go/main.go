@@ -8,7 +8,7 @@ import (
 
 func main() {
 
-	// Go-Organic, the web server
+	// Go-Organic, the web server!
 
 	helloHandler := func(w http.ResponseWriter, req *http.Request) {
 		io.WriteString(w, "Welcome to Go-Organic!\n")

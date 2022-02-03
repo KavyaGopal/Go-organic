@@ -9,7 +9,7 @@ import (
 )
 	
 //init product variable for mock
-var products []model.Product
+var products []model.ProductMock
 
 //get all products
 func getProducts(w http.ResponseWriter, r *http.Request){
@@ -29,7 +29,7 @@ func getProduct(w http.ResponseWriter, r *http.Request){
 			return 
 		}
 	}
-	json.NewEncoder(w).Encode(&model.Product{})
+	json.NewEncoder(w).Encode(&model.ProductMock{})
 }
 
 
@@ -38,11 +38,11 @@ func main() {
 	r := mux.NewRouter()
 
 	//Mock data TODO: get the data from the sqlite
-	products = append(products, model.Product{ID: "1", Name: "Groceries"})
-	products = append(products, model.Product{ID: "2", Name: "Fruits"})
-	products = append(products, model.Product{ID: "3", Name: "Snacks"})
-	products = append(products, model.Product{ID: "4", Name: "Vegetables"})
-	products = append(products, model.Product{ID: "5", Name: "Dairy"})
+	products = append(products, model.ProductMock{ID: "1", Name: "Groceries"})
+	products = append(products, model.ProductMock{ID: "2", Name: "Fruits"})
+	products = append(products, model.ProductMock{ID: "3", Name: "Snacks"})
+	products = append(products, model.ProductMock{ID: "4", Name: "Vegetables"})
+	products = append(products, model.ProductMock{ID: "5", Name: "Dairy"})
 
 	r.HandleFunc("/api/products", getProducts).Methods("GET")
 	r.HandleFunc("/api/products/{id}", getProduct).Methods("GET")

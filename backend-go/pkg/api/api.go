@@ -1,18 +1,19 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
-	"github.com/gorilla/mux"
+
 	"github.com/KavyaGopal/Go-organic/backend-go/pkg/model"
-	"encoding/json"
+	"github.com/gorilla/mux"
 )
-	
+
 //init product variable for mock
 var products []model.ProductMockUpdate
 
 //get all products
-func getProducts(w http.ResponseWriter, r *http.Request){
+func getProducts(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(products)
 
@@ -24,14 +25,13 @@ func getProduct(w http.ResponseWriter, r *http.Request){
 	params := mux.Vars(r) // get the params
 	// loop through products and find the id
 	for _, item := range products {
-		if item .ID == params["id"]{
+		if item.ID == params["id"] {
 			json.NewEncoder(w).Encode(item)
-			return 
+			return
 		}
 	}
 	json.NewEncoder(w).Encode(&model.ProductMock{})
 }
-
 
 func main() {
 	//init router
@@ -53,6 +53,6 @@ func main() {
 	r.HandleFunc("/api/products", getProducts).Methods("GET")
 	r.HandleFunc("/api/products/{id}", getProduct).Methods("GET")
 
-	log.Fatal(http.ListenAndServe(":8000",r))
+	log.Fatal(http.ListenAndServe(":8000", r))
 
 }

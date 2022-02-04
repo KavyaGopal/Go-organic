@@ -29,7 +29,7 @@ A one stop place to buy all the organic and healthy food. It is a web applicatio
 
 - Backend: Install Golang
 
-- Database Install SQLite 3 using Gorm
+- Database: Install SQLite 3 using Gorm
 
 ## Run instructions
 
@@ -42,7 +42,7 @@ A one stop place to buy all the organic and healthy food. It is a web applicatio
     go run pkg/api/api.go
 
 ## Documentation
-[Go-Organic Wiki](https://github.com/KavyaGopal/Go-organic.wiki.git)  
+[Go-Organic Wiki](https://github.com/KavyaGopal/Go-organic/wiki)
 
 ## Testing
 For testing, we will do unit testing for both front and back end when developing, also end to end testing.

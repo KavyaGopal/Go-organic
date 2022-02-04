@@ -31,7 +31,7 @@
      class="header-two d-flex flex-row justify-content-end">
       <!-- <div class="d-flex flex-row"> -->
 
-        <div class=" align-self-center  pr-2 mr-3"
+        <!-- <div class=" align-self-center  pr-2 mr-3"
         [ngClass]="{'locMargin': (isTab$ | async)}">
       <div class="d-flex flex-row">
         <button
@@ -46,9 +46,21 @@
         <div class=" col-sm-9 mb-3   p-0">
           <div class="align-self-start main-loc">Gainesville</div>
          <div class="align-self-end loc">Gnv, FL</div>
-      </div>
         </div>
+        </div>
+          </div> -->
+
+
+          
+
+          <!-- Comment -->
+        <div class="align-self-center pr-3 mb-3  ">
+          <div class="row ">
+            <div class="col-4"><img src="../../../assets/location_icon.svg"></div>
+            <div class="col-8" *ngIf="!(isTab$ | async)"> Gainesville </div>
           </div>
+          </div>
+
         <div class="align-self-center pr-2 mb-3  ">
          <div class="row ">
           <div class="col-4"><img src="../../../assets/user_icon.svg"></div>

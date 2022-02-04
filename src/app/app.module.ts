@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LayoutModule } from '@angular/cdk/layout';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 
+import { NavigationHeaderComponent } from './components/navigation-header/navigation-header.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HomeComponent } from './components/home/home.component';
 
@@ -16,6 +17,7 @@ import { HomeComponent } from './components/home/home.component';
 @NgModule({
   declarations: [
     AppComponent,
+    NavigationHeaderComponent,
     DashboardComponent,
     HomeComponent
   ],

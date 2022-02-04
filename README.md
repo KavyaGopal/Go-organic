@@ -17,15 +17,32 @@ A one stop place to buy all the organic and healthy food. It is a web applicatio
 - Checkout cart
 
 ## Technology Stack
-- Front end: Angular
+- Front end: Angular 13
 
-- Back end: Go
+- Back end: Go (1.17)
 
-- DB: MongoDB|MySQL
+- DB: SQLite3 using Gorm
 
 ## Setup and Install
 
-This will mention about the setup and install instructions for running the code
+- FrontEnd: Install NodeJS, Angular
+
+- Backend: Install Golang
+
+- Database Install SQLite 3 using Gorm
+
+## Run instructions
+
+#### Frontend
+    npm install;
+    ng serve -o
+#### Backend
+
+    cd backend-go;
+    go run pkg/api/api.go
+
+## Documentation
+[Go-Organic Wiki](https://github.com/KavyaGopal/Go-organic.wiki.git)  
 
 ## Testing
 For testing, we will do unit testing for both front and back end when developing, also end to end testing.

@@ -1,1 +1,227 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* html, body { height: 100%; }
+body { margin: 0; font-family: 'Poppins', sans-serif, Roboto, "Helvetica Neue", sans-serif; } */
+button{
+    outline: none;
+}
+
+/* Animation Start */
+.tracking-in-expand-fwd {
+	-webkit-animation: tracking-in-expand-fwd 0.8s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+	        animation: tracking-in-expand-fwd 0.8s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+}
+ @-webkit-keyframes tracking-in-expand-fwd {
+    0% {
+      letter-spacing: -0.5em;
+      -webkit-transform: translateZ(-700px);
+              transform: translateZ(-700px);
+      opacity: 0;
+    }
+    40% {
+      opacity: 0.6;
+    }
+    100% {
+      -webkit-transform: translateZ(0);
+              transform: translateZ(0);
+      opacity: 1;
+    }
+  }
+  @keyframes tracking-in-expand-fwd {
+    0% {
+      letter-spacing: -0.5em;
+      -webkit-transform: translateZ(-700px);
+              transform: translateZ(-700px);
+      opacity: 0;
+    }
+    40% {
+      opacity: 0.6;
+    }
+    100% {
+      -webkit-transform: translateZ(0);
+              transform: translateZ(0);
+      opacity: 1;
+    }
+  }
+
+  .focus-in-contract-bck{-webkit-animation:focus-in-contract-bck 1s cubic-bezier(.25,.46,.45,.94) .5s both;animation:focus-in-contract-bck 1s cubic-bezier(.25,.46,.45,.94) .5s both}
+
+@-webkit-keyframes focus-in-contract-bck{0%{letter-spacing:1em;-webkit-transform:translateZ(300px);transform:translateZ(300px);-webkit-filter:blur(12px);filter:blur(12px);opacity:0}100%{-webkit-transform:translateZ(12px);transform:translateZ(12px);-webkit-filter:blur(0);filter:blur(0);opacity:1}}@keyframes focus-in-contract-bck{0%{letter-spacing:1em;-webkit-transform:translateZ(300px);transform:translateZ(300px);-webkit-filter:blur(12px);filter:blur(12px);opacity:0}100%{-webkit-transform:translateZ(12px);transform:translateZ(12px);-webkit-filter:blur(0);filter:blur(0);opacity:1}}
+
+  /* Animation End */
+.section-heading{
+    font-family: Poppins;
+    line-height: 1.48;
+    text-transform: uppercase;
+    margin: 0.6em;
+    font-size: 2.4em;
+    font-weight: 600;
+    letter-spacing: 6.8px;
+    /* margin-left: 3em; */
+    display: block;
+}
+.card-title{
+    font-family: Poppins !important;
+    font-weight: bolder !important;
+    font-size: 1em !important;
+}
+
+.card-text{
+    font-size: 0.89em !important;
+
+}
+
+.item-details span{
+    font-size: .7em;
+    color: #707070;
+}
+
+.section-container{
+    margin: 4em;
+    font-family: Poppins;
+
+}
+button.btn-green{
+    color:white !important;
+    font-family: Poppins !important;
+    text-transform: uppercase;
+    font-size: 0.8em !important;
+
+}
+.item-price{
+    color: black;
+    font-family: Poppins !important;
+    font-size: 1.3em;
+    font-weight: 600;
+
+}
+
+.grow { transition: all .2s ease-in-out; }
+.grow:hover {
+     transform: scale(1.5);
+    margin: 2em; }
+
+.swiper-container{
+    width: 100%;
+    position: relative;
+}
+.nav-slider{
+    position: absolute;
+    top: 13em;
+    background: transparent;
+    border: transparent;
+    color: green;
+  }
+  .item-btn{
+    position: absolute;
+    top: 43%;
+    z-index: 1;
+    font-size: 3em;
+    color:#63b846;
+    background: transparent;
+    border: 0;
+    outline: none !important;
+
+}
+
+.cat-Container{
+    width: 25vw;
+    /* padding-top: 100%; */
+    margin: 1vw;
+    margin-bottom: 3em;
+    height: 24vw;
+    /* padding-top: 100%; */
+}
+.cat-Container img{
+    width: 100%;
+    height:100%;
+    /* height: ; */
+    
+    /* heig */
+    display: block;
+}
+.mat-dialog-container, .mat-dialog-content{
+    padding: 0 !important;
+}
+.cat-Container span{
+    width: 100%;
+    display: block;
+    font-family: Poppins;
+    font-weight: 600;
+    /* margin: 1em; */
+    /* margin-top: 1em; */
+    padding-top: 1vw;
+    font-size: 2vw;
+    text-transform: uppercase;
+}
+.blog-card{
+    font-family: Poppins;
+    
+    min-width: 247px;
+    max-width: 350px;
+    /* border-color: transparent; */
+    /* width: 245px; */
+    /* height: 300px; */
+    border-style: none;
+    border-radius: 5px;
+    box-shadow: 0 0 11px 0 rgba(0, 0, 0, 0.3);
+    /* margin: 1em; */
+    margin: 10px;
+}
+.blog-card img{
+    height: 200px;
+}
+.natural-img{
+    width: 9em;
+    height: 9em;
+}
+.testimony-container{
+    margin-right: 1em;
+    margin-left: 1em;
+    justify-content: center;
+}
+.testimony-img{
+    width: 5em;
+    height: 5em;
+    display: block;
+}
+.testimonyName{
+    display: block;
+    font-family: Poppins;
+    text-align: center;
+    font-weight: 600;
+
+}
+.testimonyDesc{
+    font-family: Poppins;
+    text-align: center;
+    font-size: .8em;
+
+}
+
+
+.btn-green-flat{
+    padding: 5px 36px;
+    height: 45px;
+    color: #ffffff !important;
+    text-transform: uppercase;
+      font-family: Poppins;
+      text-transform: uppercase;
+      font-weight: 500;
+      letter-spacing: 2px;
+      border-radius: 0 !important;
+      font-size: 1.4em;
+  
+  }
+
+  @media (max-width: 599px){
+  .section-heading {
+    margin: 0.2em;
+    margin-top: 1.5em;
+    font-size: 1.2em;
+    font-weight: 600;
+}
+.cat-Container span {
+    font-size: .86em;
+}
+  }

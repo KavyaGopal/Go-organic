@@ -1,0 +1,51 @@
+[
+    {
+        "id": 1,
+        "imgSrc": "../../../assets/items/apple.png",
+        "itemName": "Rice",
+        "itemDesc": "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        "itemWt": 500,
+        "itemGross": 500,
+        "itemCost": 250
+      }, {
+        "id": 2,
+        "imgSrc": "../../../assets/items/cherry.png",
+        "itemName": "WheAT",
+        "itemDesc": "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        "itemWt": 500,
+        "itemGross": 500,
+        "itemCost": 250
+      }, {
+        "id": 3,
+        "imgSrc": "../../../assets/items/orange.png",
+        "itemName": "Orange",
+        "itemDesc": "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        "itemWt": 500,
+        "itemGross": 500,
+        "itemCost": 250
+      }, {
+        "id": 4,
+        "imgSrc": "../../../assets/items/apple.png",
+        "itemName": "Apple",
+        "itemDesc": "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        "itemWt": 500,
+        "itemGross": 500,
+        "itemCost": 250
+      }, {
+        "id": 5,
+        "imgSrc": "../../../assets/items/apple.png",
+        "itemName": "Apple",
+        "itemDesc": "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        "itemWt": 500,
+        "itemGross": 500,
+        "itemCost": 250
+      }, {
+        "id": 6,
+        "imgSrc": "../../../assets/items/apple.png",
+        "itemName": "Apple",
+        "itemDesc": "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        "itemWt": 500,
+        "itemGross": 500,
+        "itemCost": 250
+      }
+]

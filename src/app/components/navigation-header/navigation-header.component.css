@@ -1,0 +1,286 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 280px;
+  box-shadow: 3px 0 6px rgba(0,0,0,.24);
+}
+.logo1{
+  height: 60px !important;
+  padding-top: 5px;
+}
+
+
+.sidenav .mat-toolbar {
+  /* background: inherit; */
+  background-color:  #4d4e50;
+  color:white;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 1.2em;
+  text-transform: uppercase;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 8;
+}
+::ng-deep mat-toolbar .sticky-toolbar {
+  position: sticky !important;
+  position: -webkit-sticky !important; /* For macOS/iOS Safari */
+  top: 0 !important; /* Sets the sticky toolbar to be on top */
+  z-index: 1000; /* Ensure that your app's content doesn't overlap the toolbar */
+}
+
+/* @media (min-width: 768px) {
+  .sidenav {
+    display: none;
+  }
+
+} */
+
+.hidden{
+  display: none;
+}
+
+.spacer{
+  flex:1 1 auto;
+}
+
+mat-toolbar {
+  background-color: white;
+}
+mat-toolbar a {
+  display: inline-block;
+  margin: 0 10px;
+  color: white;
+  text-decoration: none;
+  
+}
+
+.darkGrey{
+ background-color:  #4d4e50;
+ color: white;
+}
+
+.mat-fab{
+  width: 65px;
+  height: 65px;
+  left: 1.5em;
+  outline: none;
+  /* color: #636469; */
+  background-color: #636469 !important;
+}
+
+.header-container{
+  /* height: 205px; */
+}
+
+.logo{
+  height: 83px !important; 
+  width: 167px !important;
+}
+.mat-icon{
+  height: 100%;
+  width: 100%;
+  font-size: 3em;
+  color:white;
+}
+.loc{
+  color:#707070;
+  opacity: 0.6;
+  font-family: 'Poppins';
+  margin-top: -13px;
+}
+
+.header-one{
+  height: 40px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: .9em;
+  text-transform: uppercase;
+
+}
+
+
+.header-one a{
+  font-size: 0.75em;
+  /* font-weight: 00; */
+}
+.header-two{
+  width: 80%;
+  
+  margin: 0 auto;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+ font-size: 0.8em;
+  color:#4d4e50;  
+  height: 104px;
+}
+.header-two a{
+  color:#4d4e50; 
+}
+.header-two img{
+  height: 35px;
+  width: 35px;
+}
+.header-three{
+  /* width: 80%;
+   */
+   /* transition: 0.35s all cubic-bezier(0.65, 0.05, 0.36, 1); */
+   min-height: 65px;;
+  margin: 0 auto;
+  border-radius: 50px;
+  font-weight: 200;
+  font-size: .9em;
+  font-family: 'Poppins', sans-serif;
+  z-index: 3;
+  height: auto !important;
+
+    /* border-radius: 30px; */
+    /* color: #ffffff;
+    background: #4d4e50; */
+  
+}
+/* .mat-toolbar-row, .mat-toolbar-single-row {
+  height: auto !important;
+} */
+/* ::ng-deep mat-toolbar mat-toolbar-row.header-three {
+  position: sticky !important;
+  top: var(--default-height);
+} */
+
+/* .header-three-trial{
+  display: flex;
+  align-items: stretch;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  padding-left: 45px;
+} */
+
+mat-nav-list.list-horizontal {
+  padding: 0;
+  display: contents;
+}
+mat-nav-list.list-horizontal .mat-list-item {
+  display: inline-block;
+  /* height: auto; */
+  height: auto;
+  width: auto;
+}
+button.mat-menu-item {
+  width: 100%;
+  font-weight: 500;
+  font-size: 1em;
+  /* font-family: 'Poppins', sans-serif; */
+  color: white;
+  text-transform: uppercase;
+  font-family: Montserrat;
+}
+
+/* .mat-toolbar-row, .mat-toolbar-single-row{
+  height: unset !important;
+} */
+ .mat-list-item .mat-list-item-content {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+/*
+.navbar-nav{
+  padding: 20px 0;
+  transition: 0.35s all cubic-bezier(0.65, 0.05, 0.36, 1);
+}*/
+
+
+.locMargin{
+  margin-right: auto !important ;
+}
+.fullWidth{
+  width: 100% !important;
+}
+
+::ng-deep .mat-list-base .mat-list-item .mat-list-item-content, .mat-list-base .mat-list-option .mat-list-item-content{
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 1em;
+  text-transform: uppercase;
+  padding: 0 5px !important;
+}
+
+
+/* @media (max-width: 480px) {
+  .loc{
+    margin-right: auto !important;
+  }
+
+} */
+/* @media (max-width: 480px){
+  .loc{
+    margin-right: auto !important;
+  }
+
+  .header-two{
+    width: 100%;
+  }
+} */
+
+.footer-header h4{
+  font-family: 'Poppins', sans-serif;
+  color: white;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+.footer-container hr{
+  width: 13%;
+  text-align: left;
+  margin-left: 0;
+  /* color: white; */
+  background: white;
+  height: 2px;
+  font-family: 'Poppins', sans-serif;
+    color: white;
+   
+}
+.footer-content{
+  font-family: 'Poppins', sans-serif;
+  /* font-size: 0.83em; */
+  color: #d6d6d6;
+}
+ul, ol {
+  list-style: none;
+  text-transform: uppercase;
+  /* font-family: 'Poppins', sans-serif;
+  font-size: 0.8em;
+  color: #d6d6d6; */
+  padding: 0;
+  margin: 0;
+} 
+
+@media (max-width: 599px){
+  /* mat-toolbar {
+    background-color: rgb(95, 173, 118);
+  } */
+
+  .header-two img {
+    height: 6vw;
+    width: 6vw;
+
+}
+
+.loc, .main-loc{
+  font-size: 12px;
+}
+.mat-icon {
+
+  font-size: 35px;
+}
+.header-two{
+  height: 63px;
+  padding-top: 19px;
+}
+}
+/* @media only screen and (max-width: 480px) {
+} */

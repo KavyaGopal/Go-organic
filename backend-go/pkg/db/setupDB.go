@@ -13,22 +13,20 @@ func main() {
 	}
 
 	// Migrate the schema
-	db.AutoMigrate(&model.ProductMock{})
+	db.AutoMigrate(&model.ProdMaster{})
+	// &model.CategoryMaster{})
+	// var categories = []model.CategoryMaster{{CategoryName: "Fruits"}, {CategoryName: "Vegetables"}, {CategoryName: "Snacks"}, {CategoryName: "Dairy"}, {CategoryName: "Groceries"}}
 
-	// // Create
-	// db.Create(&Product{Code: "D42", Price: 100})
+	var products = []model.ProdMaster{{Name: "Mango", Category: "Fruits", Price: 20.32, Description: "Mango"},
+		{Name: "Apple", Category: "Fruits", Price: 25.10, Description: "Apple"},
+		{Name: "Spinach", Category: "Vegetables", Price: 10.32, Description: "Spinach"},
+		{Name: "Cabbage", Category: "Vegetables", Price: 15.32, Description: "Cabbage"},
+		{Name: "Waffles", Category: "Snacks", Price: 30.32, Description: "Waffles"},
+		{Name: "Muffins", Category: "Snacks", Price: 11.32, Description: "Muffins"},
+		{Name: "Milk", Category: "Dairy", Price: 14.32, Description: "Milk"},
+		{Name: "Curd", Category: "Dairy", Price: 16.00, Description: "Curd"},
+		{Name: "Nuts", Category: "Groceries", Price: 18.00, Description: "Nuts"},
+		{Name: "Beans", Category: "Groceries", Price: 26.00, Description: "Beans"}}
 
-	// // Read
-	// var product Product
-	// db.First(&product, 1)                 // find product with integer primary key
-	// db.First(&product, "code = ?", "D42") // find product with code D42
-
-	// // Update - update product's price to 200
-	// db.Model(&product).Update("Price", 200)
-	// // Update - update multiple fields
-	// db.Model(&product).Updates(Product{Price: 200, Code: "F42"}) // non-zero fields
-	// db.Model(&product).Updates(map[string]interface{}{"Price": 200, "Code": "F42"})
-
-	// // Delete - delete product
-	// db.Delete(&product, 1)
+	db.Create(&products)
 }

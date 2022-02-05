@@ -10,7 +10,7 @@ import (
 )
 
 //init product variable for mock
-var products []model.ProductMock
+var products []model.ProductMockUpdate
 
 //get all products
 func getProducts(w http.ResponseWriter, r *http.Request) {

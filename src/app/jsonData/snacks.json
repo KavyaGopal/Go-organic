@@ -1,0 +1,51 @@
+[
+    {
+        "id": 1,
+        "imgSrc": "../../../assets/items/cashew.jpeg",
+        "itemName": "Roasted Cashew",
+        "itemDesc": "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        "itemWt": 100,
+        "itemGross": 100,
+        "itemCost": 15
+      }, {
+        "id": 2,
+        "imgSrc": "../../../assets/items/peanuts.jpeg",
+        "itemName": "Roasted Peanut",
+        "itemDesc": "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        "itemWt": 100,
+        "itemGross": 100,
+        "itemCost": 12
+      }, {
+        "id": 3,
+        "imgSrc": "../../../assets/items/riceCake.jpeg",
+        "itemName": "Carrot Sticks",
+        "itemDesc": "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        "itemWt": 50,
+        "itemGross": 50,
+        "itemCost": 9
+      }, {
+        "id": 4,
+        "imgSrc": "../../../assets/items/mango.jpeg",
+        "itemName": "Dried Mango",
+        "itemDesc": "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        "itemWt": 100,
+        "itemGross": 100,
+        "itemCost": 8
+      }, {
+        "id": 5,
+        "imgSrc": "../../../assets/items/mix.jpeg",
+        "itemName": "Trial Mix",
+        "itemDesc": "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        "itemWt": 100,
+        "itemGross": 100,
+        "itemCost": 5
+      }, {
+        "id": 6,
+        "imgSrc": "../../../assets/items/riceCake.jpeg",
+        "itemName": "Rice cake",
+        "itemDesc": "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+        "itemWt": 100,
+        "itemGross": 100,
+        "itemCost": 12
+      }
+]

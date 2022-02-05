@@ -1,0 +1,143 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+// $VitaPure-primary: mat-palette($mat-indigo);
+// $VitaPure-accent: mat-palette($mat-pink, A200, A100, A400);
+
+// // The warn palette is optional (defaults to red).
+// $VitaPure-warn: mat-palette($mat-red);
+
+$primary: (
+  50 : #eaeaea,
+  100 : #cacacb,
+  200 : #a6a7a8,
+  300 : #828385,
+  400 : #68696a,
+  500 : #4d4e50,
+  600 : #464749,
+  700 : #3d3d40,
+  800 : #343537,
+  900 : #252527,
+  A100 : #8080f4,
+  A200 : #5151f0,
+  A400 : #0f0fff,
+  A700 : #0000f5,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #ffffff,
+      500 : #ffffff,
+      600 : #ffffff,
+      700 : #ffffff,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #ffffff,
+      A400 : #ffffff,
+      A700 : #ffffff,
+  )
+);
+$accent: (
+  50 : #ecf6e9,
+  100 : #d0eac8,
+  200 : #b1dca3,
+  300 : #92cd7e,
+  400 : #7ac362,
+  500 : #63b846,
+  600 : #5bb13f,
+  700 : #51a837,
+  800 : #47a02f,
+  900 : #359120,
+  A100 : #d5ffcd,
+  A200 : #abff9a,
+  A400 : #80ff67,
+  A700 : #6bff4d,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #000000,
+      500 : #000000,
+      600 : #000000,
+      700 : #000000,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #000000,
+      A700 : #000000,
+  )
+);
+
+// The warn palette is optional (defaults to red).
+$warn:  (
+  50 : #ffffec,
+  100 : #feffce,
+  200 : #feffae,
+  300 : #feff8e,
+  400 : #fdff75,
+  500 : #fdff5d,
+  600 : #fdff55,
+  700 : #fcff4b,
+  800 : #fcff41,
+  900 : #fcff30,
+  A100 : #ffffff,
+  A200 : #ffffff,
+  A400 : #feffdb,
+  A700 : #feffc2,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #000000,
+      500 : #000000,
+      600 : #000000,
+      700 : #000000,
+      800 : #000000,
+      900 : #000000,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #000000,
+      A700 : #000000,
+  )
+);
+$VitaPure-primary: mat-palette($primary, 500 );
+$VitaPure-accent: mat-palette($accent, 500, 600,700);
+
+// The warn palette is optional (defaults to red).
+$VitaPure-warn: mat-palette($warn, 500);
+
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$VitaPure-theme: mat-light-theme((
+  color: (
+    primary: $VitaPure-primary,
+    accent: $VitaPure-accent,
+    warn: $VitaPure-warn,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($VitaPure-theme);
+html, body { height: 100%; }
+body { margin: 0; font-family: 'Poppins', sans-serif, Roboto, "Helvetica Neue", sans-serif; }
+
+

@@ -19,7 +19,7 @@ func getProducts(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//get single book
+//get single product
 func getProduct(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(r) // get the params
@@ -32,6 +32,8 @@ func getProduct(w http.ResponseWriter, r *http.Request) {
 	}
 	json.NewEncoder(w).Encode(&model.ProductMock{})
 }
+
+//get the products from the database
 func getAllProductsFromDB(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var prodMockArray []model.ProdMaster
@@ -44,12 +46,12 @@ func main() {
 	//init router
 	r := mux.NewRouter()
 	model.ConnectDatabase()
-	//Mock data TODO: get the data from the sqlite
-	products = append(products, model.ProductMock{ID: "1", Name: "Groceries"})
-	products = append(products, model.ProductMock{ID: "2", Name: "Fruits"})
-	products = append(products, model.ProductMock{ID: "3", Name: "Snacks"})
-	products = append(products, model.ProductMock{ID: "4", Name: "Vegetables"})
-	products = append(products, model.ProductMock{ID: "5", Name: "Dairy"})
+	//Mock data
+	products = append(products, model.ProductMockUpdate{ID: "1", Name: "Groceries", Category: []string{"VeggieSalad", "VeggieBurrito", "KetoNuts"}})
+	products = append(products, model.ProductMockUpdate{ID: "2", Name: "Fruits", Category: []string{"Mango", "Orange", "Banana"}})
+	products = append(products, model.ProductMockUpdate{ID: "3", Name: "Vegetables", Category: []string{"Spinach", "Tomatoes", "Cabbage"}})
+	products = append(products, model.ProductMockUpdate{ID: "4", Name: "Snacks", Category: []string{"Peanut Butter", "Waffles", "ChocoWalnut"}})
+	products = append(products, model.ProductMockUpdate{ID: "5", Name: "Dairy", Category: []string{"Milk", "Curd", "Smoothie"}})
 
 	r.HandleFunc("/api/products", getProducts).Methods("GET")
 	r.HandleFunc("/api/productsFromDB", getAllProductsFromDB).Methods("GET")

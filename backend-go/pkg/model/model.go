@@ -25,10 +25,6 @@ type ProdMaster struct {
 	Description string  `gorm:"type:text" json:"description"`
 }
 
-// type CategoryMaster struct {
-// 	CatID        int    `gorm:"PRIMARY_KEY;not_null" json:"catid"`
-// 	CategoryName string `gorm:"type:varchar(255)" json:"categoryname"`
-// }
 type ProductMock struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`

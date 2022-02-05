@@ -32,11 +32,18 @@ func getProduct(w http.ResponseWriter, r *http.Request) {
 	}
 	json.NewEncoder(w).Encode(&model.ProductMock{})
 }
+func getAllProductsFromDB(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	var prodMockArray []model.ProdMaster
+	model.DB.Find(&prodMockArray)
+	json.NewEncoder(w).Encode(prodMockArray)
+
+}
 
 func main() {
 	//init router
 	r := mux.NewRouter()
-
+	model.ConnectDatabase()
 	//Mock data TODO: get the data from the sqlite
 	products = append(products, model.ProductMock{ID: "1", Name: "Groceries"})
 	products = append(products, model.ProductMock{ID: "2", Name: "Fruits"})
@@ -45,6 +52,7 @@ func main() {
 	products = append(products, model.ProductMock{ID: "5", Name: "Dairy"})
 
 	r.HandleFunc("/api/products", getProducts).Methods("GET")
+	r.HandleFunc("/api/productsFromDB", getAllProductsFromDB).Methods("GET")
 	r.HandleFunc("/api/products/{id}", getProduct).Methods("GET")
 
 	log.Fatal(http.ListenAndServe(":8000", r))

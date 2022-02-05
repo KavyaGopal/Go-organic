@@ -34,8 +34,10 @@ A one stop place to buy all the organic and healthy food. It is a web applicatio
 ## Run instructions
 
 #### Frontend
+    cd <location to the folder Go-organic>
     npm install;
     ng serve -o
+    
 #### Backend
 
     cd backend-go;

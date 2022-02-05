@@ -7,7 +7,6 @@ high level order of the categories to navigate and developed the mock APIs to ge
     - [Frontend](#frontend)  
     - [Backend](#backend)
 
-
 ## Task Completed
 - Setup and installation of the technology stack (Angular 13, Golang 1.17 and SQLite3)
 
@@ -21,3 +20,8 @@ high level order of the categories to navigate and developed the mock APIs to ge
 
 - Mock API setup for fetching product details
 - SQLite3 DB setup with Gorm 
+
+## Bugs Fixed
+
+https://github.com/KavyaGopal/Go-organic/issues/11 Update the json for the products in home page
+https://github.com/KavyaGopal/Go-organic/issues/15 Fix alignment issues in Header

@@ -12,6 +12,7 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { NavigationHeaderComponent } from './components/navigation-header/navigation-header.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HomeComponent } from './components/home/home.component';
+import{ HttpClientModule} from '@angular/common/http';
 
 
 @NgModule({
@@ -27,7 +28,9 @@ import { HomeComponent } from './components/home/home.component';
     BrowserAnimationsModule,
     SlickCarouselModule,
     MaterialModule,
-    LayoutModule
+    HttpClientModule,
+    LayoutModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -15,6 +15,8 @@ var products []model.ProductMockUpdate
 //get all products
 func getProducts(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+    w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	json.NewEncoder(w).Encode(products)
 
 }
@@ -22,6 +24,8 @@ func getProducts(w http.ResponseWriter, r *http.Request) {
 //get single product
 func getProduct(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+    w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	params := mux.Vars(r) // get the params
 	// loop through products and find the id
 	for _, item := range products {
@@ -36,6 +40,8 @@ func getProduct(w http.ResponseWriter, r *http.Request) {
 //get the products from the database
 func getAllProductsFromDB(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+    w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	var prodMockArray []model.ProdMaster
 	model.DB.Find(&prodMockArray)
 	json.NewEncoder(w).Encode(prodMockArray)

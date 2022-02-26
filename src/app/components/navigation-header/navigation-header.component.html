@@ -151,7 +151,11 @@
         </mat-list-item>  -->
         <!-- <div class="col  ml-auto text-center"><mat-icon aria-label="Side nav toggle icon">search</mat-icon></div> -->
         <mat-list-item class="ml-auto text-center">
-          <button mat-fab><mat-icon aria-label="Side nav toggle icon">search</mat-icon></button>
+          <!-- <button mat-fab><mat-icon aria-label="Side nav toggle icon">search</mat-icon></button> -->
+          <button mat-fab>
+            <mat-icon [matBadge]="cartItem" matBadgeColor="warn">shopping_cart</mat-icon>
+            <!-- <mat-icon aria-label="Side nav toggle icon">search</mat-icon> -->
+          </button>
         </mat-list-item> 
        </mat-nav-list>
     </mat-toolbar>

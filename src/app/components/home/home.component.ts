@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SlickCarouselComponent } from 'ngx-slick-carousel';
 import { MatDialog } from '@angular/material/dialog';
+import { CartService} from '../../services/cart.service'
 import * as groceries from '../../jsonData/groceries.json';
 import * as fruits from '../../jsonData/fruits.json';
 import * as vegetables from '../../jsonData/vegetables.json';
@@ -25,9 +26,12 @@ export class HomeComponent implements OnInit {
   groceriesData;
   snacksData;
   vegetablesData;
+  cartData:any = [];
+  cartCount: number = 0;
 
   constructor(
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private cartService: CartService
   ) { }
 
   ngOnInit(): void {
@@ -74,7 +78,45 @@ export class HomeComponent implements OnInit {
     ]
   };
 
-  
+  addToCart(item:any){
+    console.log(item);
+    debugger;
+    let checkCartData = localStorage.getItem('cartData');
+    if(checkCartData == null){
+      let storeCartData: any = [];
+      storeCartData.push(item);
+      localStorage.setItem('cartData', JSON.stringify(storeCartData));
+
+    }else{
+      var productId = item.id;
+      let index: number = -1;
+      this.cartData = JSON.parse(localStorage.getItem('cartData'))
+      for(let i=0; i< this.cartData.length; i++){
+        if(productId == this.cartData[i].id){     //parse both to ParseInt if all id is integer
+          // this.cartData[i].qnt = item.qnt; //add after adding quantity element in schema
+          index = i;
+          break;
+
+        }
+      }
+      if(index == -1){
+        this.cartData.push(item);
+        localStorage.setItem('cartData', JSON.stringify(this.cartData));
+      }else{
+        localStorage.setItem('cartData', JSON.stringify(this.cartData));
+
+      }
+
+    }
+   this.cartCountFunc();
+  }
+
+  cartCountFunc() {
+    var cartValue = JSON.parse(localStorage.getItem('cartData'));
+    this.cartCount = cartValue.length;
+    this.cartService.cartSubject.next(this.cartCount);
+
+  }
 
   addSlide() {
     // this.slides.push({img: "http://placehold.it/350x150/777777"})

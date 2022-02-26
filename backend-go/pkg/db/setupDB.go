@@ -6,6 +6,14 @@ import (
 	"gorm.io/gorm"
 )
 
+func addItems(){
+	//add items
+}
+
+func removeItems(){
+	//remove items
+}
+
 func main() {
 	db, err := gorm.Open(sqlite.Open("ProductMock.db"), &gorm.Config{})
 	if err != nil {

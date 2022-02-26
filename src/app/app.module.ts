@@ -13,6 +13,7 @@ import { NavigationHeaderComponent } from './components/navigation-header/naviga
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HomeComponent } from './components/home/home.component';
 import { CartComponent } from './components/cart/cart.component';
+import{ HttpClientModule} from '@angular/common/http';
 
 
 @NgModule({
@@ -29,7 +30,9 @@ import { CartComponent } from './components/cart/cart.component';
     BrowserAnimationsModule,
     SlickCarouselModule,
     MaterialModule,
-    LayoutModule
+    HttpClientModule,
+    LayoutModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

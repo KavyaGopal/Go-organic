@@ -6,7 +6,8 @@
         "itemDesc": "Rice is the seed of the grass species Oryza sativa or less commonly Oryza glaberrima.",
         "itemWt": 1000,
         "itemGross": 1000,
-        "itemCost": 18
+        "itemCost": 18,
+        "itemQuantity:": 0
       }, {
         "id": 2,
         "imgSrc": "../../../assets/items/wheat.jpeg",
@@ -14,7 +15,8 @@
         "itemDesc": "Wheat is a member of the grass family that produces a dry, one-seeded fruit commonly called a kernel.",
         "itemWt": 500,
         "itemGross": 500,
-        "itemCost": 12
+        "itemCost": 12,
+        "itemQuantity:": 0
       }, {
         "id": 3,
         "imgSrc": "../../../assets/items/sugar.jpeg",
@@ -22,7 +24,8 @@
         "itemDesc": "Sugar is the generic name for sweet-tasting, soluble carbohydrates, many of which are used in food.",
         "itemWt": 500,
         "itemGross": 500,
-        "itemCost": 18
+        "itemCost": 18,
+        "itemQuantity:": 0
       }, {
         "id": 3,
         "imgSrc": "../../../assets/items/sugar.jpeg",
@@ -30,7 +33,8 @@
         "itemDesc": "SAlt is the generic name for salt-tasting, soluble carbohydrates, many of which are used in food. It is salty in nature.",
         "itemWt": 500,
         "itemGross": 500,
-        "itemCost": 18
+        "itemCost": 18,
+        "itemQuantity:": 0
       },{
         "id": 5,
         "imgSrc": "../../../assets/items/chilli.png",
@@ -38,7 +42,8 @@
         "itemDesc": "Chili powder is the dried, pulverized fruit of one or more varieties of chili pepper, sometimes with the addition of other spices.",
         "itemWt": 100,
         "itemGross": 100,
-        "itemCost": 8
+        "itemCost": 8,
+        "itemQuantity:": 0
       }, {
         "id": 6,
         "imgSrc": "../../../assets/items/chilli.png",
@@ -46,6 +51,7 @@
         "itemDesc": "Garam masala is a blend of ground spices originating from South Asia.It is common in Indian, Pakistani, Nepalese and Bangladeshi.",
         "itemWt": 200,
         "itemGross": 200,
-        "itemCost": 12
+        "itemCost": 12,
+        "itemQuantity:": 0
       }
 ]

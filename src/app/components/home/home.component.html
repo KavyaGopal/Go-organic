@@ -218,8 +218,8 @@
     <div class="section-container section-md-sm">
       <span class="section-heading">Cosmetics</span>
       <div class="swiper-container">
-        <ngx-slick-carousel class="carousel" #vegetablesSlickModal="slick-carousel" [config]="slideConfig">
-          <div ngxSlickItem *ngFor="let item of vegetablesData" class="slide d-flex justify-content-center">
+        <ngx-slick-carousel class="carousel" #cosmeticsSlickModal="slick-carousel" [config]="slideConfig">
+          <div ngxSlickItem *ngFor="let item of cosmeticsData" class="slide d-flex justify-content-center">
             <!-- <img src="{{ slide.img }}" alt="" width="100%"> -->
             <div class="card my-3 swiper-card">
               <img [src]="item.imgSrc" class="card-img-top" alt="..." />
@@ -249,10 +249,10 @@
             </div>
           </div>
         </ngx-slick-carousel>
-        <button class="item-btn arrBack"  aria-label="Back" (click)="vegPrev()">
+        <button class="item-btn arrBack"  aria-label="Back" (click)="cosmeticsPrev()">
           <mat-icon>arrow_back_ios</mat-icon>
         </button>
-        <button class="item-btn arrNext" aria-label="Back" (click)="vegNext()">
+        <button class="item-btn arrNext" aria-label="Back" (click)="cosmeticsNext()">
           <mat-icon>arrow_forward_ios</mat-icon>
         </button>
       </div>

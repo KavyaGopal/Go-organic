@@ -18,6 +18,7 @@ import { GetApiService } from './../../get-api.service';
 })
 export class HomeComponent implements OnInit {
   @ViewChild('groceriesSlickModal') groceriesSlickModal: SlickCarouselComponent;
+  @ViewChild('cosmeticsSlickModal') cosmeticsSlickModal: SlickCarouselComponent;
   @ViewChild('fruitsSlickModal') fruitsSlickModal: SlickCarouselComponent;
   @ViewChild('snacksSlickModal') snacksSlickModal: SlickCarouselComponent;
   @ViewChild('vegetablesSlickModal') vegetablesSlickModal: SlickCarouselComponent;
@@ -75,7 +76,6 @@ export class HomeComponent implements OnInit {
     // Get data for catalog from backend-cosmetics
     this.api.cosmeticsApiCall().subscribe(
       (data)=>{
-        console.warn("get api data ", data);
         this.cosmeticsData=data;
       }
     )
@@ -194,6 +194,15 @@ export class HomeComponent implements OnInit {
   vegPrev() {
     this.vegetablesSlickModal.slickPrev();
   }
+
+  cosmeticsNext() {
+    this.cosmeticsSlickModal.slickNext();
+  }
+
+  cosmeticsPrev() {
+    this.cosmeticsSlickModal.slickPrev();
+  }
+
 
 
 }

@@ -17,10 +17,22 @@ export class AppComponent {
 
   //this calls api on page load
   ngOnInit(){
-    this.api.apiCall().subscribe(
-      (data)=>{
-        console.warn("get api data ", data);
-      }
-    )
+    // this.api.apiCall().subscribe(
+    //   (data)=>{
+    //     console.warn("get api data ", data);
+    //   }
+    // )
+
+    // this.api.fruitsApiCall().subscribe(
+    //   (data)=>{
+    //     console.warn("get api data for Fruits", data);
+    //   }
+    // )
+
+    // this.api.snacksApiCall().subscribe(
+    //   (data)=>{
+    //     console.warn("get api data for Snacks ", data);
+    //   }
+    // )
   }
 }

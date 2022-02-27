@@ -10,8 +10,28 @@ export class GetApiService {
   ) { }
 
   //call the GET api backend
-  apiCall()
+  // apiCall()
+  // {
+  //   return this.httpClient.get('http://localhost:8000/getFruits');
+  // }
+  groceriesApiCall()
   {
-    return this.httpClient.get('http://localhost:8000/api/products');
+    return this.httpClient.get('http://localhost:8000/getFruits');
+  }
+  fruitsApiCall()
+  {
+    return this.httpClient.get('http://localhost:8000/getFruits');
+  }
+  snacksApiCall()
+  {
+    return this.httpClient.get('http://localhost:8000/getFruits');
+  }
+  vegetablesApiCall()
+  {
+    return this.httpClient.get('http://localhost:8000/getFruits');
+  }
+  cosmeticsApiCall()
+  {
+    return this.httpClient.get('http://localhost:8000/getFruits');
   }
 }

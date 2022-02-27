@@ -2,10 +2,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { SlickCarouselComponent } from 'ngx-slick-carousel';
 import { MatDialog } from '@angular/material/dialog';
 import { CartService} from '../../services/cart.service'
-import * as groceries from '../../jsonData/groceries.json';
-import * as fruits from '../../jsonData/fruits.json';
-import * as vegetables from '../../jsonData/vegetables.json';
-import * as snacks from '../../jsonData/snacks.json';
+// import * as groceries from '../../jsonData/groceries.json';
+// import * as fruits from '../../jsonData/fruits.json';
+import { GetApiService } from './../../get-api.service';
+
+// import * as vegetables from '../../jsonData/vegetables.json';
+// import * as snacks from '../../jsonData/snacks.json';
 
 
 
@@ -26,20 +28,58 @@ export class HomeComponent implements OnInit {
   groceriesData;
   snacksData;
   vegetablesData;
+  cosmeticsData;
   cartData:any = [];
   cartCount: number = 0;
 
   constructor(
     public dialog: MatDialog,
-    private cartService: CartService
+    private cartService: CartService,
+    private api:GetApiService
   ) { }
 
   ngOnInit(): void {
     // this.itemData = items;
-    this.groceriesData = (groceries as any).default;
-    this.vegetablesData = (vegetables as any).default;
-    this.fruitsData = (fruits as any).default;
-    this.snacksData = (snacks as any).default;
+    // this.groceriesData = (groceries as any).default;
+    // this.vegetablesData = (vegetables as any).default;
+    // this.fruitsData = (fruits as any).default;
+
+    // Get data for catalog from backend-groceries
+    this.api.groceriesApiCall().subscribe(
+      (data)=>{
+        console.warn("get api data ", data);
+        this.groceriesData=data;
+      }
+    )
+    // Get data for catalog from backend-fruits
+    this.api.fruitsApiCall().subscribe(
+      (data)=>{
+        console.warn("get api data ", data);
+        this.fruitsData=data;
+      }
+    )
+    // Get data for catalog from backend-snacks
+    this.api.snacksApiCall().subscribe(
+      (data)=>{
+        console.warn("get api data ", data);
+        this.snacksData=data;
+      }
+    )
+    // Get data for catalog from backend-vegetables
+    this.api.vegetablesApiCall().subscribe(
+      (data)=>{
+        console.warn("get api data ", data);
+        this.vegetablesData=data;
+      }
+    )
+    // Get data for catalog from backend-cosmetics
+    this.api.cosmeticsApiCall().subscribe(
+      (data)=>{
+        console.warn("get api data ", data);
+        this.cosmeticsData=data;
+      }
+    )
+    // this.snacksData = (snacks as any).default;
   }
 
 

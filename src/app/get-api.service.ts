@@ -16,7 +16,7 @@ export class GetApiService {
   // }
   groceriesApiCall()
   {
-    return this.httpClient.get('http://localhost:8000/getFruits');
+    return this.httpClient.get('http://localhost:8000/getGroceries');
   }
   fruitsApiCall()
   {
@@ -24,14 +24,14 @@ export class GetApiService {
   }
   snacksApiCall()
   {
-    return this.httpClient.get('http://localhost:8000/getFruits');
+    return this.httpClient.get('http://localhost:8000/getSnacks');
   }
   vegetablesApiCall()
   {
-    return this.httpClient.get('http://localhost:8000/getFruits');
+    return this.httpClient.get('http://localhost:8000/getVegetables');
   }
   cosmeticsApiCall()
   {
-    return this.httpClient.get('http://localhost:8000/getFruits');
+    return this.httpClient.get('http://localhost:8000/getCosmetics');
   }
 }

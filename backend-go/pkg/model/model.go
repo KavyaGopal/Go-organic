@@ -53,3 +53,43 @@ type FruitMock struct {
 	ItemQuantity  int64 `json:"itemQuantity"`
 	ItemCost      int64 `json:"itemCost"`
 }
+
+type VegetablesMock struct {
+	ID            int64   `json:"id"`
+	ImageSource   string   `json:"imgSrc"`
+	ItemName      string `json:"itemName"`
+	ItemDesc      string   `json:"itemDesc"`
+	ItemWeight 	  int64   `json:"itemWt"`
+	ItemQuantity  int64 `json:"itemQuantity"`
+	ItemCost      int64 `json:"itemCost"`
+}
+
+type GroceriesMock struct {
+	ID            int64   `json:"id"`
+	ImageSource   string   `json:"imgSrc"`
+	ItemName      string `json:"itemName"`
+	ItemDesc      string   `json:"itemDesc"`
+	ItemWeight 	  int64   `json:"itemWt"`
+	ItemQuantity  int64 `json:"itemQuantity"`
+	ItemCost      int64 `json:"itemCost"`
+}
+
+type SnacksMock struct {
+	ID            int64   `json:"id"`
+	ImageSource   string   `json:"imgSrc"`
+	ItemName      string `json:"itemName"`
+	ItemDesc      string   `json:"itemDesc"`
+	ItemWeight 	  int64   `json:"itemWt"`
+	ItemQuantity  int64 `json:"itemQuantity"`
+	ItemCost      int64 `json:"itemCost"`
+}
+
+type CosmeticsMock struct {
+	ID            int64   `json:"id"`
+	ImageSource   string   `json:"imgSrc"`
+	ItemName      string `json:"itemName"`
+	ItemDesc      string   `json:"itemDesc"`
+	ItemWeight 	  int64   `json:"itemWt"`
+	ItemQuantity  int64 `json:"itemQuantity"`
+	ItemCost      int64 `json:"itemCost"`
+}

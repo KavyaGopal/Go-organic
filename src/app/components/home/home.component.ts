@@ -3,7 +3,9 @@ import { SlickCarouselComponent } from 'ngx-slick-carousel';
 import { MatDialog } from '@angular/material/dialog';
 import { CartService} from '../../services/cart.service'
 import * as groceries from '../../jsonData/groceries.json';
-import * as fruits from '../../jsonData/fruits.json';
+// import * as fruits from '../../jsonData/fruits.json';
+import { GetApiService } from './../../get-api.service';
+
 import * as vegetables from '../../jsonData/vegetables.json';
 import * as snacks from '../../jsonData/snacks.json';
 
@@ -31,14 +33,21 @@ export class HomeComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private cartService: CartService
+    private cartService: CartService,
+    private api:GetApiService
   ) { }
 
   ngOnInit(): void {
     // this.itemData = items;
     this.groceriesData = (groceries as any).default;
     this.vegetablesData = (vegetables as any).default;
-    this.fruitsData = (fruits as any).default;
+    // this.fruitsData = (fruits as any).default;
+    this.api.apiCall().subscribe(
+      (data)=>{
+        console.warn("get api data ", data);
+        this.fruitsData=data;
+      }
+    )
     this.snacksData = (snacks as any).default;
   }
 

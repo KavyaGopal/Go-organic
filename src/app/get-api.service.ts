@@ -12,6 +12,6 @@ export class GetApiService {
   //call the GET api backend
   apiCall()
   {
-    return this.httpClient.get('http://localhost:8000/api/products');
+    return this.httpClient.get('http://localhost:8000/getFruits');
   }
 }

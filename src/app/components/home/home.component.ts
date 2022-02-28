@@ -133,7 +133,7 @@ export class HomeComponent implements OnInit {
       this.cartData = JSON.parse(localStorage.getItem('cartData'))
       for(let i=0; i< this.cartData.length; i++){
         if(productId == this.cartData[i].id){     //parse both to ParseInt if all id is integer
-          // this.cartData[i].qnt = item.qnt; //add after adding quantity element in schema
+          this.cartData[i].itemQuantity = item.itemQuantity + 1; //add after adding quantity element in schema
           index = i;
           break;
 

@@ -3,6 +3,7 @@ import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import * as groceries from '../../jsonData/groceries.json';
+import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 
 @Component({
   selector: 'app-cart',
@@ -11,20 +12,67 @@ import * as groceries from '../../jsonData/groceries.json';
 })
 export class CartComponent implements OnInit {
 
-  displayedColumns: string[] = ['id', 'imgSrc', 'itemCost', 'itemDesc', 'itemName',
-                    'itemWt','star'];
+  displayedColumns: string[] = ['id', 'itemName','imgSrc', 'itemCost', 'itemDesc', 
+                    'itemSubtotal','star'];
   dataSource = new MatTableDataSource<cartItem>();
+  getCartDetails: any = [];
+  total: number = 0;
 
 @ViewChild(MatPaginator) paginator: MatPaginator;
 @ViewChild(MatSort) sort: MatSort;
   constructor() {
   //  localStorage.getItem('cartData');;
     
-    this.dataSource =  new MatTableDataSource<cartItem>(ELEMENT_DATA);
+    // this.dataSource =  new MatTableDataSource<cartItem>(ELEMENT_DATA);
    }
 
   ngOnInit(): void {
+    this.cartDetails();
+    this.getTotal();
   }
+
+  cartDetails(){
+    if(localStorage.getItem('cartData')){
+      this.getCartDetails = JSON.parse(localStorage.getItem('cartData'));
+      console.log(this.getCartDetails);
+      this.dataSource = new MatTableDataSource<cartItem>(this.getCartDetails);
+    }
+  }
+
+  getTotal(){
+    if(localStorage.getItem('cartData')){
+      this.getCartDetails = JSON.parse(localStorage.getItem('cartData'));
+      this.total =  this.getCartDetails.reduce((acc, val)=>{
+        return acc + (val.itemCost * val.itemQuantity) //add quantity in schema
+      },0)
+      ;
+    }
+  }
+
+  decQty(item){
+    for(let i=0; i<this.getCartDetails.length; i++){
+      if(this.getCartDetails[i].id == item.id){
+        if(item.itemQuantity !=1) //condition to add only 5 items
+        this.getCartDetails[i].itemQuantity = parseInt(item.itemQuantity) - 1; 
+      }
+
+    }
+    localStorage.setItem('cartData',JSON.stringify(this.getCartDetails));
+    this.getTotal();
+
+  }
+  incQty(item){
+    for(let i=0; i<this.getCartDetails.length; i++){
+      if(this.getCartDetails[i].id == item.id){
+        if(item.itemQuantity !=5) //condition to add only 5 items
+        this.getCartDetails[i].itemQuantity = parseInt(item.itemQuantity) + 1; 
+      }
+
+    }
+    localStorage.setItem('cartData',JSON.stringify(this.getCartDetails))
+    this.getTotal();
+  }
+
 
 }
 export interface cartItem {

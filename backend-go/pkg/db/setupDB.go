@@ -34,7 +34,8 @@ func main() {
 		{Name: "Milk", Category: "Dairy", Price: 14.32, Description: "Milk"},
 		{Name: "Curd", Category: "Dairy", Price: 16.00, Description: "Curd"},
 		{Name: "Nuts", Category: "Groceries", Price: 18.00, Description: "Nuts"},
-		{Name: "Beans", Category: "Groceries", Price: 26.00, Description: "Beans"}}
+		{Name: "Beans", Category: "Groceries", Price: 26.00, Description: "Beans"},
+		{Name: "Halwa", Category: "Halwa", Price: 26.00, Description: "Halwa"}}
 
 	db.Create(&products)
 }

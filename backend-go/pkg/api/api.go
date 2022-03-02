@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-
+	"fmt"
 	"github.com/KavyaGopal/Go-organic/backend-go/pkg/model"
 	"github.com/gorilla/mux"
 )
@@ -16,11 +16,15 @@ var vegetables []model.VegetablesMock
 var groceries []model.GroceriesMock
 var cosmetics []model.CosmeticsMock
 
+func handleCors(w http.ResponseWriter, r *http.Request){
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+    w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+}
+
 //get the products from the database
 func getAllProductsFromDB(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-    w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	handleCors(w,r)
 	var prodMockArray []model.ProdMaster
 	model.DB.Find(&prodMockArray)
 	json.NewEncoder(w).Encode(prodMockArray)
@@ -29,8 +33,7 @@ func getAllProductsFromDB(w http.ResponseWriter, r *http.Request) {
 
 //get all fruits
 func getFruits(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
+	handleCors(w,r)
     w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	json.NewEncoder(w).Encode(fruits)
 
@@ -38,8 +41,7 @@ func getFruits(w http.ResponseWriter, r *http.Request) {
 
 //get all snacks
 func getSnacks(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
+	handleCors(w,r)
     w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	json.NewEncoder(w).Encode(snacks)
 
@@ -47,29 +49,34 @@ func getSnacks(w http.ResponseWriter, r *http.Request) {
 
 //get all vegetables
 func getVegetables(w http.ResponseWriter, r *http.Request) {
+	handleCors(w,r)
 	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-    w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	json.NewEncoder(w).Encode(vegetables)
 
 }
 
 //get all cosmetics
 func getCosmetics(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-    w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	handleCors(w,r)
+    w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(cosmetics)
 
 }
 
 //get all groceries
 func getGroceries(w http.ResponseWriter, r *http.Request) {
+	handleCors(w,r)
 	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-    w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	json.NewEncoder(w).Encode(groceries)
 
+}
+
+//adding health check
+func HealthCheck(w http.ResponseWriter, r *http.Request){
+
+	w.WriteHeader(http.StatusOK)
+	
+	fmt.Fprint(w, "API is up and running")
 }
 
 func main() {
@@ -118,6 +125,9 @@ func main() {
 	r.HandleFunc("/getCosmetics", getCosmetics).Methods("GET")
 	r.HandleFunc("/getGroceries", getGroceries).Methods("GET")
 	r.HandleFunc("/api/productsFromDB", getAllProductsFromDB).Methods("GET")
+	//add health check
+	r.HandleFunc("/health-check", HealthCheck).Methods("GET")
+	http.Handle("/", r)
 
 	log.Fatal(http.ListenAndServe(":8000", r))
 

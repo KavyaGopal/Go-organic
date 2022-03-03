@@ -15,6 +15,7 @@ var snacks []model.SnacksMock
 var vegetables []model.VegetablesMock
 var groceries []model.GroceriesMock
 var cosmetics []model.CosmeticsMock
+var productMaster []model.ProdMaster
 
 func handleCors(w http.ResponseWriter, r *http.Request){
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -25,9 +26,8 @@ func handleCors(w http.ResponseWriter, r *http.Request){
 func getAllProductsFromDB(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	handleCors(w,r)
-	var prodMockArray []model.ProdMaster
-	model.DB.Find(&prodMockArray)
-	json.NewEncoder(w).Encode(prodMockArray)
+	model.DB.Find(&productMaster)
+	json.NewEncoder(w).Encode(productMaster)
 
 }
 
@@ -125,6 +125,7 @@ func main() {
 	r.HandleFunc("/getCosmetics", getCosmetics).Methods("GET")
 	r.HandleFunc("/getGroceries", getGroceries).Methods("GET")
 	r.HandleFunc("/api/productsFromDB", getAllProductsFromDB).Methods("GET")
+
 	//add health check
 	r.HandleFunc("/health-check", HealthCheck).Methods("GET")
 	http.Handle("/", r)

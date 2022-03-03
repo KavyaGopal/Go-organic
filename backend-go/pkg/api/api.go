@@ -2,9 +2,10 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
-	"fmt"
+
 	"github.com/KavyaGopal/Go-organic/backend-go/pkg/model"
 	"github.com/gorilla/mux"
 )
@@ -17,39 +18,30 @@ var groceries []model.GroceriesMock
 var cosmetics []model.CosmeticsMock
 var productMaster []model.ProdMaster
 
-func handleCors(w http.ResponseWriter, r *http.Request){
+func handleCors(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-    w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-}
-
-//get the products from the database
-func getAllProductsFromDB(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	handleCors(w,r)
-	model.DB.Find(&productMaster)
-	json.NewEncoder(w).Encode(productMaster)
-
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 }
 
 //get all fruits
 func getFruits(w http.ResponseWriter, r *http.Request) {
-	handleCors(w,r)
-    w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	handleCors(w, r)
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	json.NewEncoder(w).Encode(fruits)
 
 }
 
 //get all snacks
 func getSnacks(w http.ResponseWriter, r *http.Request) {
-	handleCors(w,r)
-    w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	handleCors(w, r)
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	json.NewEncoder(w).Encode(snacks)
 
 }
 
 //get all vegetables
 func getVegetables(w http.ResponseWriter, r *http.Request) {
-	handleCors(w,r)
+	handleCors(w, r)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(vegetables)
 
@@ -57,33 +49,63 @@ func getVegetables(w http.ResponseWriter, r *http.Request) {
 
 //get all cosmetics
 func getCosmetics(w http.ResponseWriter, r *http.Request) {
-	handleCors(w,r)
-    w.Header().Set("Content-Type", "application/json")
+	handleCors(w, r)
+	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(cosmetics)
 
 }
 
 //get all groceries
 func getGroceries(w http.ResponseWriter, r *http.Request) {
-	handleCors(w,r)
+	handleCors(w, r)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(groceries)
 
 }
 
 //adding health check
-func HealthCheck(w http.ResponseWriter, r *http.Request){
+func HealthCheck(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
-	
+
 	fmt.Fprint(w, "API is up and running")
+}
+
+//get all the products from the database
+func getAllProductsFromDB(w http.ResponseWriter, r *http.Request) {
+
+	w.Header().Set("Content-Type", "application/json")
+	handleCors(w, r)
+
+	//db query from sqlite
+	model.DB.Find(&productMaster)
+
+	err := json.NewEncoder(w).Encode(productMaster)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+}
+
+//get filtered query as item categories from db
+func getFilteredCategory(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	handleCors(w, r)
+	params := mux.Vars(r) // get the params
+	log.Println("params are", params)
+	// var productJsonArray []model.ProdMasterUpdate
+
+	//get the json array from function : getAllProductsFromDBUpdate
+	model.DB.Where("item_category=?", params["itemCategory"]).Find(&productMaster)
+
+	json.NewEncoder(w).Encode(productMaster)
 }
 
 func main() {
 	//init router
 	r := mux.NewRouter()
 	model.ConnectDatabase()
-	
+
 	fruits = append(fruits, model.FruitMock{ID: 1, ImageSource: "../../../assets/items/apple.png", ItemName: "Apple", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 200, ItemCost: 12})
 	fruits = append(fruits, model.FruitMock{ID: 2, ImageSource: "../../../assets/items/cherry.png", ItemName: "Cherry", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 200, ItemCost: 15})
 	fruits = append(fruits, model.FruitMock{ID: 3, ImageSource: "../../../assets/items/orange.png", ItemName: "Orange", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 200, ItemCost: 5})
@@ -124,8 +146,10 @@ func main() {
 	r.HandleFunc("/getVegetables", getVegetables).Methods("GET")
 	r.HandleFunc("/getCosmetics", getCosmetics).Methods("GET")
 	r.HandleFunc("/getGroceries", getGroceries).Methods("GET")
-	r.HandleFunc("/api/productsFromDB", getAllProductsFromDB).Methods("GET")
 
+	//add apis to fetch data from db
+	r.HandleFunc("/api/fetchAllProductsFromDB", getAllProductsFromDB).Methods("GET")
+	r.HandleFunc("/api/fetchProduct/{itemCategory}", getFilteredCategory).Methods("GET")
 	//add health check
 	r.HandleFunc("/health-check", HealthCheck).Methods("GET")
 	http.Handle("/", r)

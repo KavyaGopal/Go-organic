@@ -87,6 +87,20 @@ func getAllProductsFromDB(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//get filtered query as item categories from db
+func getFilteredCategory(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	handleCors(w, r)
+	params := mux.Vars(r) // get the params
+	log.Println("params are", params)
+	// var productJsonArray []model.ProdMasterUpdate
+
+	//get the json array from function : getAllProductsFromDBUpdate
+	model.DB.Where("item_category=?", params["itemCategory"]).Find(&productMaster)
+
+	json.NewEncoder(w).Encode(productMaster)
+}
+
 func main() {
 	//init router
 	r := mux.NewRouter()
@@ -133,8 +147,9 @@ func main() {
 	r.HandleFunc("/getCosmetics", getCosmetics).Methods("GET")
 	r.HandleFunc("/getGroceries", getGroceries).Methods("GET")
 
+	//add apis to fetch data from db
 	r.HandleFunc("/api/fetchAllProductsFromDB", getAllProductsFromDB).Methods("GET")
-
+	r.HandleFunc("/api/fetchProduct/{itemCategory}", getAllProductsFromDB).Methods("GET")
 	//add health check
 	r.HandleFunc("/health-check", HealthCheck).Methods("GET")
 	http.Handle("/", r)

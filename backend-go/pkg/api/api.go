@@ -149,7 +149,7 @@ func main() {
 
 	//add apis to fetch data from db
 	r.HandleFunc("/api/fetchAllProductsFromDB", getAllProductsFromDB).Methods("GET")
-	r.HandleFunc("/api/fetchProduct/{itemCategory}", getAllProductsFromDB).Methods("GET")
+	r.HandleFunc("/api/fetchProduct/{itemCategory}", getFilteredCategory).Methods("GET")
 	//add health check
 	r.HandleFunc("/health-check", HealthCheck).Methods("GET")
 	http.Handle("/", r)

@@ -16,22 +16,22 @@ export class GetApiService {
   // }
   groceriesApiCall()
   {
-    return this.httpClient.get('http://localhost:8000/getGroceries');
+    return this.httpClient.get('http://localhost:8000/api/fetchProduct/Groceries');
   }
   fruitsApiCall()
   {
-    return this.httpClient.get('http://localhost:8000/getFruits');
+    return this.httpClient.get('http://localhost:8000/api/fetchProduct/Fruits');
   }
   snacksApiCall()
   {
-    return this.httpClient.get('http://localhost:8000/getSnacks');
+    return this.httpClient.get('http://localhost:8000/api/fetchProduct/Snacks');
   }
   vegetablesApiCall()
   {
-    return this.httpClient.get('http://localhost:8000/getVegetables');
+    return this.httpClient.get('http://localhost:8000/api/fetchProduct/Vegetables');
   }
   cosmeticsApiCall()
   {
-    return this.httpClient.get('http://localhost:8000/getCosmetics');
+    return this.httpClient.get('http://localhost:8000/api/fetchProduct/Cosmetics');
   }
 }

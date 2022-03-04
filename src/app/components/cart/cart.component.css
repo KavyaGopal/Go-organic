@@ -1,6 +1,17 @@
 table {
     width: 100%;
 }
+img{
+    border-radius: 50%;
+    height: 4em;
+    width: 4em;
+    margin: .6em;
+}
+
+.total{
+    color: #4d4e50;
+    font-size: 2em;
+}
 .mat-row:hover {
     background-color: #e9f3ff;
 }
@@ -15,13 +26,11 @@ table {
     font-size: 14px;
     width: 100%;
 }
-.mat-icon {
-    color: #3e75ff;
-}
+
 th.mat-header-cell {
     font-size: 15px;
     font-weight: 400;
-    color: chocolate;
+    color: #63b846;
 }
 td.mat-cell {
     padding: 0 5px;
@@ -48,7 +57,7 @@ td.mat-cell {
         display: inline-flex !important;
    }
     .mat-cell:nth-child(2) {
-        color: #e07d1a;
+        color: #63b846;
         display: contents !important;
         font-size: 16px;
    }
@@ -100,7 +109,7 @@ td.mat-cell {
         display: inline-flex;
    }
     .mat-table .mat-cell:nth-child(2) {
-        color: #e07d1a;
+        color: #63b846;
         font-size: 16px;
    }
     .mat-table .has_label_on_mobile:before {
@@ -115,7 +124,7 @@ td.mat-cell {
    }
     .mat-table .mat-column-star {
         flex-direction: row-reverse;
-        color: #e07d1a;
+        color: #63b846;
         width: 100%;
    }
     .mat-table .mat-column-star span {

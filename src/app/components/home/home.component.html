@@ -48,7 +48,7 @@
                     Add to Cart
                   </button>
                   <!-- Add and subract button: To add functionality -->
-                  <div>
+                  <!-- <div>
                     <button mat-mini-fab aria-label="subtract">
                       <mat-icon>remove</mat-icon>
                     </button>
@@ -56,7 +56,7 @@
                     <button mat-mini-fab aria-label="add">
                       <mat-icon>add</mat-icon>
                     </button>
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <div class="card-footer p-0 text-center">
@@ -100,7 +100,7 @@
                 </div>
                 <div class="d-flex justify-content-between align-items-end">
                   <div class="item-price">${{ item.itemCost }}</div>
-                  <button mat-raised-button color="accent" class="btn-green">
+                  <button mat-raised-button color="accent" class="btn-green" (click)="addToCart(item)">
                     Add to Cart
                   </button>
                 </div>
@@ -146,7 +146,7 @@
                 </div>
                 <div class="d-flex justify-content-between align-items-end">
                   <div class="item-price">${{ item.itemCost }}</div>
-                  <button mat-raised-button color="accent" class="btn-green">
+                  <button mat-raised-button color="accent" class="btn-green" (click)="addToCart(item)">
                     Add to Cart
                   </button>
                 </div>
@@ -192,7 +192,7 @@
                 </div>
                 <div class="d-flex justify-content-between align-items-end">
                   <div class="item-price">${{ item.itemCost }}</div>
-                  <button mat-raised-button color="accent" class="btn-green">
+                  <button mat-raised-button color="accent" class="btn-green" (click)="addToCart(item)">
                     Add to Cart
                   </button>
                 </div>
@@ -238,7 +238,7 @@
                 </div>
                 <div class="d-flex justify-content-between align-items-end">
                   <div class="item-price">${{ item.itemCost }}</div>
-                  <button mat-raised-button color="accent" class="btn-green">
+                  <button mat-raised-button color="accent" class="btn-green" (click)="addToCart(item)">
                     Add to Cart
                   </button>
                 </div>

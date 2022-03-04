@@ -1,6 +1,6 @@
 package model
 
-import (
+import(
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -8,7 +8,7 @@ import (
 var DB *gorm.DB
 
 func ConnectDatabase() {
-	database, err := gorm.Open(sqlite.Open("ProductMock.db"))
+	database, err := gorm.Open(sqlite.Open("ProductData.db"))
 
 	if err != nil {
 		panic("Failed to connect to database!")
@@ -19,29 +19,14 @@ func ConnectDatabase() {
 // Product Struct (Model)
 type ProdMaster struct {
 	ID          int64   `gorm:"AUTO_INCREMENT;PRIMARY_KEY;not_null" json:"id"`
-	Name        string  `gorm:"type:varchar(255);NOT NULL" json:"name"`
-	Category    string  `"gorm:varchar(255)" json="category"`
-	Price       float32 `gorm:"type:decimal(10,2)" json:"price"`
-	Description string  `gorm:"type:text" json:"description"`
-}
-
-type ProductMock struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
-}
-
-type ProductMockUpdate struct {
-	ID       string   `json:"productId"`
-	Name     string   `json:"productName"`
-	Category []string `json:"productCategory"`
-}
-
-type CategoryMock struct {
-	ID          string `json:"categoryId"`
-	Name        string `json:"categoryName"`
-	Description string `json:"description"`
-	Price       string `json:"price"`
-	Rating      string `json:"rating"`
+	ImageSource string  `gorm:"type:varchar(255);NOT NULL" json:"imgSrc"`
+	ItemName    string  `gorm:"type:varchar(255);NOT NULL" json:"itemName"`
+	ItemCategory    string  `gorm:"type:varchar(255);NOT NULL" json:"itemCategory"`
+	ItemDesc    string  `gorm:"type:text" json:"itemDesc"`
+	ItemWeight  float32 `gorm:"type:decimal(10,2)" json:"itemWt"`
+	ItemQuantity int64 	`gorm:"<-" json:"itemQuantity"`
+	ItemCost     float32 `gorm:"type:decimal(10,2)" json:"itemCost"`
+	
 }
 
 type FruitMock struct {

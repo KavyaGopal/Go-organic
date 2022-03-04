@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -10,104 +11,100 @@ import (
 )
 
 //init product variable for mock
-var products []model.ProductMockUpdate
 var fruits []model.FruitMock
 var snacks []model.SnacksMock
 var vegetables []model.VegetablesMock
 var groceries []model.GroceriesMock
 var cosmetics []model.CosmeticsMock
+var productMaster []model.ProdMaster
 
-//get all products
-func getProducts(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
+func handleCors(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-    w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	json.NewEncoder(w).Encode(products)
-
-}
-
-//get single product
-func getProduct(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-    w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	params := mux.Vars(r) // get the params
-	// loop through products and find the id
-	for _, item := range products {
-		if item.ID == params["id"] {
-			json.NewEncoder(w).Encode(item)
-			return
-		}
-	}
-	json.NewEncoder(w).Encode(&model.ProductMock{})
-}
-
-//get the products from the database
-func getAllProductsFromDB(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-    w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	var prodMockArray []model.ProdMaster
-	model.DB.Find(&prodMockArray)
-	json.NewEncoder(w).Encode(prodMockArray)
-
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 }
 
 //get all fruits
 func getFruits(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-    w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	handleCors(w, r)
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	json.NewEncoder(w).Encode(fruits)
 
 }
 
 //get all snacks
 func getSnacks(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-    w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	handleCors(w, r)
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	json.NewEncoder(w).Encode(snacks)
 
 }
 
 //get all vegetables
 func getVegetables(w http.ResponseWriter, r *http.Request) {
+	handleCors(w, r)
 	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-    w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	json.NewEncoder(w).Encode(vegetables)
 
 }
 
 //get all cosmetics
 func getCosmetics(w http.ResponseWriter, r *http.Request) {
+	handleCors(w, r)
 	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-    w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	json.NewEncoder(w).Encode(cosmetics)
 
 }
 
 //get all groceries
 func getGroceries(w http.ResponseWriter, r *http.Request) {
+	handleCors(w, r)
 	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-    w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	json.NewEncoder(w).Encode(groceries)
 
+}
+
+//adding health check
+func HealthCheck(w http.ResponseWriter, r *http.Request) {
+
+	w.WriteHeader(http.StatusOK)
+
+	fmt.Fprint(w, "API is up and running")
+}
+
+//get all the products from the database
+func getAllProductsFromDB(w http.ResponseWriter, r *http.Request) {
+
+	w.Header().Set("Content-Type", "application/json")
+	handleCors(w, r)
+
+	//db query from sqlite
+	model.DB.Find(&productMaster)
+
+	err := json.NewEncoder(w).Encode(productMaster)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+}
+
+//get filtered query as item categories from db
+func getFilteredCategory(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	handleCors(w, r)
+	params := mux.Vars(r) // get the params
+	log.Println("params are", params)
+	// var productJsonArray []model.ProdMasterUpdate
+
+	//get the json array from function : getAllProductsFromDBUpdate
+	model.DB.Where("item_category=?", params["itemCategory"]).Find(&productMaster)
+
+	json.NewEncoder(w).Encode(productMaster)
 }
 
 func main() {
 	//init router
 	r := mux.NewRouter()
 	model.ConnectDatabase()
-	//Mock data
-	products = append(products, model.ProductMockUpdate{ID: "1", Name: "Groceries", Category: []string{"VeggieSalad", "VeggieBurrito", "KetoNuts"}})
-	products = append(products, model.ProductMockUpdate{ID: "2", Name: "Fruits", Category: []string{"Mango", "Orange", "Banana"}})
-	products = append(products, model.ProductMockUpdate{ID: "3", Name: "Vegetables", Category: []string{"Spinach", "Tomatoes", "Cabbage"}})
-	products = append(products, model.ProductMockUpdate{ID: "4", Name: "Snacks", Category: []string{"Peanut Butter", "Waffles", "ChocoWalnut"}})
-	products = append(products, model.ProductMockUpdate{ID: "5", Name: "Dairy", Category: []string{"Milk", "Curd", "Smoothie"}})
 
 	fruits = append(fruits, model.FruitMock{ID: 1, ImageSource: "../../../assets/items/apple.png", ItemName: "Apple", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 12})
 	fruits = append(fruits, model.FruitMock{ID: 2, ImageSource: "../../../assets/items/cherry.png", ItemName: "Cherry", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 15})
@@ -144,16 +141,18 @@ func main() {
 	groceries = append(groceries, model.GroceriesMock{ID: 45, ImageSource: "../../../assets/items/chilli.png", ItemName: "Chilli Powder", ItemDesc: "Chili powder is the dried, pulverized fruit of one or more varieties of chili pepper, sometimes with the addition of other spices.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 12})
 	groceries = append(groceries, model.GroceriesMock{ID: 46, ImageSource: "../../../assets/items/chilli.png", ItemName: "Garam Masala", ItemDesc: "Garam masala is a blend of ground spices originating from South Asia.It is common in Indian, Pakistani, Nepalese and Bangladeshi.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 20})
 
-	
-
-	r.HandleFunc("/api/products", getProducts).Methods("GET")
 	r.HandleFunc("/getFruits", getFruits).Methods("GET")
 	r.HandleFunc("/getSnacks", getSnacks).Methods("GET")
 	r.HandleFunc("/getVegetables", getVegetables).Methods("GET")
 	r.HandleFunc("/getCosmetics", getCosmetics).Methods("GET")
 	r.HandleFunc("/getGroceries", getGroceries).Methods("GET")
-	r.HandleFunc("/api/productsFromDB", getAllProductsFromDB).Methods("GET")
-	r.HandleFunc("/api/products/{id}", getProduct).Methods("GET")
+
+	//add apis to fetch data from db
+	r.HandleFunc("/api/fetchAllProductsFromDB", getAllProductsFromDB).Methods("GET")
+	r.HandleFunc("/api/fetchProduct/{itemCategory}", getFilteredCategory).Methods("GET")
+	//add health check
+	r.HandleFunc("/health-check", HealthCheck).Methods("GET")
+	http.Handle("/", r)
 
 	log.Fatal(http.ListenAndServe(":8000", r))
 

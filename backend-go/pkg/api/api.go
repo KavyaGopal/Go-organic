@@ -16,7 +16,6 @@ var snacks []model.SnacksMock
 var vegetables []model.VegetablesMock
 var groceries []model.GroceriesMock
 var cosmetics []model.CosmeticsMock
-var productMaster []model.ProdMaster
 
 func handleCors(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -76,7 +75,7 @@ func getAllProductsFromDB(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	handleCors(w, r)
-
+	var productMaster []model.ProdMaster
 	//db query from sqlite
 	model.DB.Find(&productMaster)
 
@@ -94,7 +93,7 @@ func getFilteredCategory(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r) // get the params
 	log.Println("params are", params)
 	// var productJsonArray []model.ProdMasterUpdate
-
+	var productMaster []model.ProdMaster
 	//get the json array from function : getAllProductsFromDBUpdate
 	model.DB.Where("item_category=?", params["itemCategory"]).Find(&productMaster)
 

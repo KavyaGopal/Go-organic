@@ -5,7 +5,8 @@ import { CartService} from '../../services/cart.service'
 // import * as groceries from '../../jsonData/groceries.json';
 // import * as fruits from '../../jsonData/fruits.json';
 import { GetApiService } from './../../get-api.service';
-
+import { concatMap } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
 // import * as vegetables from '../../jsonData/vegetables.json';
 // import * as snacks from '../../jsonData/snacks.json';
 
@@ -46,40 +47,56 @@ export class HomeComponent implements OnInit {
     // this.fruitsData = (fruits as any).default;
 
     // Get data for catalog from backend-groceries
-    this.api.groceriesApiCall().subscribe(
-      (data)=>{
-        console.warn("get api data ", data);
-        this.groceriesData=data;
-      }
-    )
-    // Get data for catalog from backend-fruits
-    this.api.fruitsApiCall().subscribe(
-      (data)=>{
-        console.warn("get api data ", data);
-        this.fruitsData=data;
-      }
-    )
-    // Get data for catalog from backend-snacks
-    this.api.snacksApiCall().subscribe(
-      (data)=>{
-        console.warn("get api data ", data);
-        this.snacksData=data;
-      }
-    )
-    // Get data for catalog from backend-vegetables
-    this.api.vegetablesApiCall().subscribe(
-      (data)=>{
-        console.warn("get api data ", data);
-        this.vegetablesData=data;
-      }
-    )
-    // Get data for catalog from backend-cosmetics
-    this.api.cosmeticsApiCall().subscribe(
-      (data)=>{
-        this.cosmeticsData=data;
-      }
-    )
-    // this.snacksData = (snacks as any).default;
+   
+      forkJoin({data1:this.api.groceriesApiCall(),
+      data2:this.api.fruitsApiCall(),
+      data3:this.api.snacksApiCall(),
+      data4:this.api.vegetablesApiCall(),
+      data5:this.api.cosmeticsApiCall()})
+   .subscribe(({data1,data2,data3,data4,data5}) => {
+     
+      this.groceriesData=data1;
+      this.fruitsData=data2;
+      this.snacksData=data3;
+      this.vegetablesData=data4;
+      this.cosmeticsData=data5;
+      
+
+   });
+    // this.api.groceriesApiCall().subscribe(
+    //   (data)=>{
+    //     console.warn("get api data ", data);
+    //     this.groceriesData=data;
+    //   }
+    // )
+    // // Get data for catalog from backend-fruits
+    // this.api.fruitsApiCall().subscribe(
+    //   (data1)=>{
+    //     console.warn("get api data ", data1);
+    //     this.fruitsData=data1;
+    //   }
+    // )
+    // // Get data for catalog from backend-snacks
+    // this.api.snacksApiCall().subscribe(
+    //   (data2)=>{
+    //     console.warn("get api data ", data2);
+    //     this.snacksData=data2;
+    //   }
+    // )
+    // // Get data for catalog from backend-vegetables
+    // this.api.vegetablesApiCall().subscribe(
+    //   (data3)=>{
+    //     console.warn("get api data ", data3);
+    //     this.vegetablesData=data3;
+    //   }
+    // )
+    // // Get data for catalog from backend-cosmetics
+    // this.api.cosmeticsApiCall().subscribe(
+    //   (data4)=>{
+    //     this.cosmeticsData=data4;
+    //   }
+    // )
+    // // this.snacksData = (snacks as any).default;
   }
 
 

@@ -1,7 +1,9 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
+    "allowJs": true,
+    "baseUrl": "../node_modules",
+    "types": ["cypress"],
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "resolveJsonModule": true,
@@ -21,6 +23,7 @@
       "dom"
     ]
   },
+
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true

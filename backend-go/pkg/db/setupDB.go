@@ -5,16 +5,17 @@ import (
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
+
 func main() {
-	
-	db, err := gorm.Open(sqlite.Open("ProductData.db"), &gorm.Config{})
+
+	db, err := gorm.Open(sqlite.Open("pkg/api/ProductData.db"), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
 	}
 
 	// Migrate the schema
 	db.AutoMigrate(&model.ProdMaster{})
-	
+
 	var products = []model.ProdMaster{
 		//fruits
 		{ImageSource: "../../../assets/items/apple.png", ItemName: "Apple", ItemCategory: "Fruits", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 12},

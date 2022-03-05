@@ -41,7 +41,14 @@ https://github.com/KavyaGopal/Go-organic/issues/47 Code Clean up: Remove cypress
 
 - Frontend
 
+UNIT TESTS:
 
+https://github.com/KavyaGopal/Go-organic/blob/main/cypressTests.gif
+
+
+ADD To CART
+
+https://github.com/KavyaGopal/Go-organic/blob/main/Sprint2-addToCart-final.gif
 
 
 - Backend

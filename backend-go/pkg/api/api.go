@@ -24,15 +24,15 @@ func handleCors(w http.ResponseWriter, r *http.Request) {
 }
 
 //get all fruits
-func getFruits(w http.ResponseWriter, r *http.Request) {
+func GetFruits(w http.ResponseWriter, r *http.Request) {
 	handleCors(w, r)
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	json.NewEncoder(w).Encode(fruits)
-
+	return
 }
 
 //get all snacks
-func getSnacks(w http.ResponseWriter, r *http.Request) {
+func GetSnacks(w http.ResponseWriter, r *http.Request) {
 	handleCors(w, r)
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	json.NewEncoder(w).Encode(snacks)
@@ -40,7 +40,7 @@ func getSnacks(w http.ResponseWriter, r *http.Request) {
 }
 
 //get all vegetables
-func getVegetables(w http.ResponseWriter, r *http.Request) {
+func GetVegetables(w http.ResponseWriter, r *http.Request) {
 	handleCors(w, r)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(vegetables)
@@ -48,15 +48,16 @@ func getVegetables(w http.ResponseWriter, r *http.Request) {
 }
 
 //get all cosmetics
-func getCosmetics(w http.ResponseWriter, r *http.Request) {
+func GetCosmetics(w http.ResponseWriter, r *http.Request) {
 	handleCors(w, r)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(cosmetics)
+	return
 
 }
 
 //get all groceries
-func getGroceries(w http.ResponseWriter, r *http.Request) {
+func GetGroceries(w http.ResponseWriter, r *http.Request) {
 	handleCors(w, r)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(groceries)
@@ -72,7 +73,7 @@ func HealthCheck(w http.ResponseWriter, r *http.Request) {
 }
 
 //get all the products from the database
-func getAllProductsFromDB(w http.ResponseWriter, r *http.Request) {
+func GetAllProductsFromDB(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	handleCors(w, r)
@@ -88,7 +89,7 @@ func getAllProductsFromDB(w http.ResponseWriter, r *http.Request) {
 }
 
 //get filtered query as item categories from db
-func getFilteredCategory(w http.ResponseWriter, r *http.Request) {
+func GetFilteredCategory(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	handleCors(w, r)
 	params := mux.Vars(r) // get the params
@@ -103,7 +104,7 @@ func getFilteredCategory(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	//init router
-	r := mux.NewRouter()
+	router := mux.NewRouter()
 	model.ConnectDatabase()
 
 	fruits = append(fruits, model.FruitMock{ID: 1, ImageSource: "../../../assets/items/apple.png", ItemName: "Apple", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 12})
@@ -141,19 +142,19 @@ func main() {
 	groceries = append(groceries, model.GroceriesMock{ID: 45, ImageSource: "../../../assets/items/chilli.png", ItemName: "Chilli Powder", ItemDesc: "Chili powder is the dried, pulverized fruit of one or more varieties of chili pepper, sometimes with the addition of other spices.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 12})
 	groceries = append(groceries, model.GroceriesMock{ID: 46, ImageSource: "../../../assets/items/chilli.png", ItemName: "Garam Masala", ItemDesc: "Garam masala is a blend of ground spices originating from South Asia.It is common in Indian, Pakistani, Nepalese and Bangladeshi.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 20})
 
-	r.HandleFunc("/getFruits", getFruits).Methods("GET")
-	r.HandleFunc("/getSnacks", getSnacks).Methods("GET")
-	r.HandleFunc("/getVegetables", getVegetables).Methods("GET")
-	r.HandleFunc("/getCosmetics", getCosmetics).Methods("GET")
-	r.HandleFunc("/getGroceries", getGroceries).Methods("GET")
+	router.HandleFunc("/getFruits", GetFruits).Methods("GET")
+	router.HandleFunc("/getSnacks", GetSnacks).Methods("GET")
+	router.HandleFunc("/getVegetables", GetVegetables).Methods("GET")
+	router.HandleFunc("/getCosmetics", GetCosmetics).Methods("GET")
+	router.HandleFunc("/getGroceries", GetGroceries).Methods("GET")
 
 	//add apis to fetch data from db
-	r.HandleFunc("/api/fetchAllProductsFromDB", getAllProductsFromDB).Methods("GET")
-	r.HandleFunc("/api/fetchProduct/{itemCategory}", getFilteredCategory).Methods("GET")
-	//add health check
-	r.HandleFunc("/health-check", HealthCheck).Methods("GET")
-	http.Handle("/", r)
+	router.HandleFunc("/api/fetchAllProductsFromDB", GetAllProductsFromDB).Methods("GET")
+	router.HandleFunc("/api/fetchProduct/{itemCategory}", GetFilteredCategory).Methods("GET")
+	
+	router.HandleFunc("/health-check", HealthCheck).Methods("GET")
+	http.Handle("/", router)
 
-	log.Fatal(http.ListenAndServe(":8000", r))
+	log.Fatal(http.ListenAndServe(":8000", router))
 
 }

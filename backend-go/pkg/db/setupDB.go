@@ -6,16 +6,9 @@ import (
 	"gorm.io/gorm"
 )
 
-func addItems() {
-	//add items
-}
-
-func removeItems() {
-	//remove items
-}
-
 func main() {
-	db, err := gorm.Open(sqlite.Open("ProductData.db"), &gorm.Config{})
+
+	db, err := gorm.Open(sqlite.Open("pkg/api/ProductData.db"), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
 	}

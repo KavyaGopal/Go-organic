@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-
 	"github.com/KavyaGopal/Go-organic/backend-go/pkg/model"
 	"github.com/gorilla/mux"
 )
@@ -79,6 +78,8 @@ func HealthCheck(w http.ResponseWriter, r *http.Request) {
 //get all the products from the database
 func GetAllProductsFromDB(w http.ResponseWriter, r *http.Request) {
 
+	log.Println("GetAllProductsFromDB function called")
+
 	w.Header().Set("Content-Type", "application/json")
 	handleCors(w, r)
 	var productMaster []model.ProdMaster
@@ -97,7 +98,7 @@ func GetFilteredCategory(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	handleCors(w, r)
 	params := mux.Vars(r) // get the params
-	log.Println("params are", params)
+	log.Println("GetFilteredCategory function called for ", params)
 	// var productJsonArray []model.ProdMasterUpdate
 	var productMaster []model.ProdMaster
 	//get the json array from function : getAllProductsFromDBUpdate

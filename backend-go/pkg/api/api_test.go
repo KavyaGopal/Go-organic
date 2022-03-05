@@ -2,16 +2,11 @@ package main
 
 import (
 	"testing"
-
-	// "github.com/gorilla/mux"
-
-	// "github.com/stretchr/testify/assert"
-	"fmt"
 	"net/http"
 	"net/http/httptest"
-
 	"github.com/KavyaGopal/Go-organic/backend-go/pkg/model"
 	"github.com/gorilla/mux"
+	"github.com/stretchr/testify/require"
 )
 
 func Router() *mux.Router {
@@ -30,19 +25,6 @@ func Router() *mux.Router {
 	return router
 }
 
-func executeRequest(req *http.Request) *httptest.ResponseRecorder {
-	rr := httptest.NewRecorder()
-	Router().ServeHTTP(rr, req)
-
-	return rr
-}
-
-func checkResponseCode(t *testing.T, expected, actual int) {
-	if expected != actual {
-		t.Errorf("Expected response code %d. Got %d\n", expected, actual)
-	}
-}
-
 //test case for fetching one product->fruits/groceries/snacks/cosmetics/vegetables
 //one at a time
 func TestGetFilteredCategory(t *testing.T) {
@@ -52,15 +34,35 @@ func TestGetFilteredCategory(t *testing.T) {
 	for i := 0; i < len(categoriesArray); i++ {
 		request, _ := http.NewRequest("GET", "/api/fetchProduct/"+categoriesArray[i], nil)
 		rr := httptest.NewRecorder()
-		// handler := http.HandlerFunc(getFruits)
 		Router().ServeHTTP(rr, request)
-		fmt.Println("response is", rr.Body.String())
+		// fmt.Println("response is", rr.Body.String())
 
 		if status := rr.Code; status != http.StatusOK {
 			t.Errorf("handler returned wrong status code: got %v want %v",
 				status, http.StatusOK)
 		}
+
+		expectedFruitsJson := `[{"id":1,"imgSrc":"../../../assets/items/apple.png","itemName":"Apple","itemCategory":"Fruits","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":12},{"id":2,"imgSrc":"../../../assets/items/cherry.png","itemName":"Cherry","itemCategory":"Fruits","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":10},{"id":3,"imgSrc":"../../../assets/items/orange.png","itemName":"Orange","itemCategory":"Fruits","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":9},{"id":4,"imgSrc":"../../../assets/items/pineapple.jpeg","itemName":"Pineapple","itemCategory":"Fruits","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":9},{"id":5,"imgSrc":"../../../assets/items/jackfruit.jpeg","itemName":"Jackfruit","itemCategory":"Fruits","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":9},{"id":6,"imgSrc":"../../../assets/items/watermelon.jpeg","itemName":"Watermelon","itemCategory":"Fruits","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":9}]`
+		expectedVegetablesJson := `[{"id":7,"imgSrc":"../../../assets/items/potato.jpeg","itemName":"Potato","itemCategory":"Vegetables","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":10},{"id":8,"imgSrc":"../../../assets/items/tomato.jpeg","itemName":"Tomato","itemCategory":"Vegetables","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":9},{"id":9,"imgSrc":"../../../assets/items/cauliflower.jpeg","itemName":"Cauliflower","itemCategory":"Vegetables","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":10},{"id":10,"imgSrc":"../../../assets/items/brinjal.jpeg","itemName":"Brinjal","itemCategory":"Vegetables","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":9},{"id":11,"imgSrc":"../../../assets/items/onion.jpeg","itemName":"Onion","itemCategory":"Vegetables","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":8},{"id":12,"imgSrc":"../../../assets/items/carrot.jpeg","itemName":"Carrot","itemCategory":"Vegetables","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":8}]`
+		expectedCosmeticsJson := `[{"id":19,"imgSrc":"../../../assets/items/cleanser.jpeg","itemName":"Cleanser","itemCategory":"Cosmetics","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":12},{"id":20,"imgSrc":"../../../assets/items/bodyBalm.jpeg","itemName":"Body Balm","itemCategory":"Cosmetics","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":12},{"id":21,"imgSrc":"../../../assets/items/oil.jpeg","itemName":"Hair Oil","itemCategory":"Cosmetics","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":13},{"id":22,"imgSrc":"../../../assets/items/faceMask.jpeg","itemName":"Face Mask","itemCategory":"Cosmetics","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":10},{"id":23,"imgSrc":"../../../assets/items/kajal.jpeg","itemName":"Kajal","itemCategory":"Cosmetics","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":8},{"id":24,"imgSrc":"../../../assets/items/soap.jpeg","itemName":"Soap","itemCategory":"Cosmetics","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":8}]`
+		expectedSnacksJson := `[{"id":13,"imgSrc":"../../../assets/items/cashew.jpeg","itemName":"Roasted Cashew","itemCategory":"Snacks","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":10},{"id":14,"imgSrc":"../../../assets/items/peanuts.jpeg","itemName":"Roasted Peanut","itemCategory":"Snacks","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":11},{"id":15,"imgSrc":"../../../assets/items/riceCake.jpeg","itemName":"Carrot Sticks","itemCategory":"Snacks","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":13},{"id":16,"imgSrc":"../../../assets/items/mango.jpeg","itemName":"Dried Mango","itemCategory":"Snacks","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":9},{"id":17,"imgSrc":"../../../assets/items/mix.jpeg","itemName":"Trial Mix","itemCategory":"Snacks","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":8},{"id":18,"imgSrc":"../../../assets/items/riceCake.jpeg","itemName":"Rice cake","itemCategory":"Snacks","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":8}]`
+		expectedGroceriesJson := `[{"id":25,"imgSrc":"../../../assets/items/rice.jpeg","itemName":"Rice","itemCategory":"Groceries","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":10},{"id":26,"imgSrc":"../../../assets/items/wheat.jpeg","itemName":"Wheat","itemCategory":"Groceries","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":9},{"id":27,"imgSrc":"../../../assets/items/sugar.jpeg","itemName":"Sugar","itemCategory":"Groceries","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":10},{"id":28,"imgSrc":"../../../assets/items/sugar.jpeg","itemName":"Salt","itemCategory":"Groceries","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":9},{"id":29,"imgSrc":"../../../assets/items/chilli.png","itemName":"Chilli Powder","itemCategory":"Groceries","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":8},{"id":30,"imgSrc":"../../../assets/items/chilli.png","itemName":"Garam Masala","itemCategory":"Groceries","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":8}]`
+		
+		var jsonMap map[string]string
+
+    	jsonMap = make(map[string]string)
+
+		jsonMap["Fruits"] = expectedFruitsJson
+    	jsonMap["Vegetables"] = expectedVegetablesJson
+    	jsonMap["Cosmetics"] = expectedCosmeticsJson
+		jsonMap["Snacks"] = expectedSnacksJson
+		jsonMap["Groceries"] = expectedGroceriesJson
+
+		//check equality of json for each product
+		require.JSONEq(t, jsonMap[categoriesArray[i]], rr.Body.String())
+
 	}
+	
 
 }
 
@@ -69,7 +71,7 @@ func TestGetFilteredCategory(t *testing.T) {
 func TestGetAllProductsFromDB(t *testing.T) {
 	// 	//write test cases for fetching all products from db
 	model.ConnectDatabase()
-	request, err := http.NewRequest("GET", "/get", nil)
+	request, err := http.NewRequest("GET", "/api/fetchAllProductsFromDB", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -80,73 +82,30 @@ func TestGetAllProductsFromDB(t *testing.T) {
 		t.Errorf("handler returned wrong status code: got %v want %v",
 			status, http.StatusOK)
 	}
-	fmt.Println("response is ", rr.Body.String())
-	// assert.Equal(t, 200, response.Code, "OK response is expected")
+
+	//expected json for all products fetched from the database
+	expected := `[{"id":1,"imgSrc":"../../../assets/items/apple.png","itemName":"Apple","itemCategory":"Fruits","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":12},{"id":2,"imgSrc":"../../../assets/items/cherry.png","itemName":"Cherry","itemCategory":"Fruits","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":10},{"id":3,"imgSrc":"../../../assets/items/orange.png","itemName":"Orange","itemCategory":"Fruits","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":9},{"id":4,"imgSrc":"../../../assets/items/pineapple.jpeg","itemName":"Pineapple","itemCategory":"Fruits","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":9},{"id":5,"imgSrc":"../../../assets/items/jackfruit.jpeg","itemName":"Jackfruit","itemCategory":"Fruits","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":9},{"id":6,"imgSrc":"../../../assets/items/watermelon.jpeg","itemName":"Watermelon","itemCategory":"Fruits","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":9},{"id":7,"imgSrc":"../../../assets/items/potato.jpeg","itemName":"Potato","itemCategory":"Vegetables","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":10},{"id":8,"imgSrc":"../../../assets/items/tomato.jpeg","itemName":"Tomato","itemCategory":"Vegetables","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":9},{"id":9,"imgSrc":"../../../assets/items/cauliflower.jpeg","itemName":"Cauliflower","itemCategory":"Vegetables","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":10},{"id":10,"imgSrc":"../../../assets/items/brinjal.jpeg","itemName":"Brinjal","itemCategory":"Vegetables","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":9},{"id":11,"imgSrc":"../../../assets/items/onion.jpeg","itemName":"Onion","itemCategory":"Vegetables","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":8},{"id":12,"imgSrc":"../../../assets/items/carrot.jpeg","itemName":"Carrot","itemCategory":"Vegetables","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":8},{"id":13,"imgSrc":"../../../assets/items/cashew.jpeg","itemName":"Roasted Cashew","itemCategory":"Snacks","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":10},{"id":14,"imgSrc":"../../../assets/items/peanuts.jpeg","itemName":"Roasted Peanut","itemCategory":"Snacks","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":11},{"id":15,"imgSrc":"../../../assets/items/riceCake.jpeg","itemName":"Carrot Sticks","itemCategory":"Snacks","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":13},{"id":16,"imgSrc":"../../../assets/items/mango.jpeg","itemName":"Dried Mango","itemCategory":"Snacks","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":9},{"id":17,"imgSrc":"../../../assets/items/mix.jpeg","itemName":"Trial Mix","itemCategory":"Snacks","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":8},{"id":18,"imgSrc":"../../../assets/items/riceCake.jpeg","itemName":"Rice cake","itemCategory":"Snacks","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":8},{"id":19,"imgSrc":"../../../assets/items/cleanser.jpeg","itemName":"Cleanser","itemCategory":"Cosmetics","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":12},{"id":20,"imgSrc":"../../../assets/items/bodyBalm.jpeg","itemName":"Body Balm","itemCategory":"Cosmetics","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":12},{"id":21,"imgSrc":"../../../assets/items/oil.jpeg","itemName":"Hair Oil","itemCategory":"Cosmetics","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":13},{"id":22,"imgSrc":"../../../assets/items/faceMask.jpeg","itemName":"Face Mask","itemCategory":"Cosmetics","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":10},{"id":23,"imgSrc":"../../../assets/items/kajal.jpeg","itemName":"Kajal","itemCategory":"Cosmetics","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":8},{"id":24,"imgSrc":"../../../assets/items/soap.jpeg","itemName":"Soap","itemCategory":"Cosmetics","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":8},{"id":25,"imgSrc":"../../../assets/items/rice.jpeg","itemName":"Rice","itemCategory":"Groceries","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":10},{"id":26,"imgSrc":"../../../assets/items/wheat.jpeg","itemName":"Wheat","itemCategory":"Groceries","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":9},{"id":27,"imgSrc":"../../../assets/items/sugar.jpeg","itemName":"Sugar","itemCategory":"Groceries","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":10},{"id":28,"imgSrc":"../../../assets/items/sugar.jpeg","itemName":"Salt","itemCategory":"Groceries","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":9},{"id":29,"imgSrc":"../../../assets/items/chilli.png","itemName":"Chilli Powder","itemCategory":"Groceries","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":8},{"id":30,"imgSrc":"../../../assets/items/chilli.png","itemName":"Garam Masala","itemCategory":"Groceries","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":8}]`
+	
+	//check equality of json for all products
+	require.JSONEq(t, expected, rr.Body.String())
+
+	
+
 }
 
-// func TestHealthCheck(t *testing.T) {
-
-// 	//write test cases for api health
-// 	request, _ := http.NewRequest("GET", "/health-check", nil)
-// 	response := httptest.NewRecorder()
-// 	handler := http.HandlerFunc(HealthCheck)
-// 	handler.ServeHTTP(response, request)
-
-// 	if status := response.Code; status != http.StatusOK {
-// 		t.Errorf("handler returned wrong status code: got %v want %v",
-// 			status, http.StatusOK)
-// 	}
-
-// 	fmt.Println("response got is " + response.Body.String())
-
-// 	expected := `API is up and running`
-// 	if response.Body.String() != expected {
-// 		t.Errorf("handler returned unexpected body: got %v want %v",
-// 			response.Body.String(), expected)
-// 	}
-// }
-
+//test for sample mock json->Fruit
 func TestGetFruits(t *testing.T) {
-	// model.ConnectDatabase()
+
 	fruits = append(fruits, model.FruitMock{ID: 1, ImageSource: "../../../assets/items/apple.png", ItemName: "Apple", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 12})
 	fruits = append(fruits, model.FruitMock{ID: 2, ImageSource: "../../../assets/items/cherry.png", ItemName: "Cherry", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 15})
 	fruits = append(fruits, model.FruitMock{ID: 3, ImageSource: "../../../assets/items/orange.png", ItemName: "Orange", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 5})
 	fruits = append(fruits, model.FruitMock{ID: 4, ImageSource: "../../../assets/items/pineapple.jpeg", ItemName: "Pineapple", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 9})
 	fruits = append(fruits, model.FruitMock{ID: 5, ImageSource: "../../../assets/items/jackfruit.jpeg", ItemName: "Jackfruit", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 12})
 	fruits = append(fruits, model.FruitMock{ID: 6, ImageSource: "../../../assets/items/watermelon.jpeg", ItemName: "Watermelon", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 20})
-
-	snacks = append(snacks, model.SnacksMock{ID: 11, ImageSource: "../../../assets/items/cashew.jpeg", ItemName: "Roasted Cashew", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 100, ItemQuantity: 1, ItemCost: 15})
-	snacks = append(snacks, model.SnacksMock{ID: 12, ImageSource: "../../../assets/items/peanuts.jpeg", ItemName: "Roasted Peanut", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 100, ItemQuantity: 1, ItemCost: 12})
-	snacks = append(snacks, model.SnacksMock{ID: 13, ImageSource: "../../../assets/items/riceCake.jpeg", ItemName: "Carrot Sticks", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 50, ItemQuantity: 1, ItemCost: 9})
-	snacks = append(snacks, model.SnacksMock{ID: 14, ImageSource: "../../../assets/items/mango.jpeg", ItemName: "Dried Mango", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 100, ItemQuantity: 1, ItemCost: 8})
-	snacks = append(snacks, model.SnacksMock{ID: 15, ImageSource: "../../../assets/items/mix.jpeg", ItemName: "Trial Mix", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 100, ItemQuantity: 1, ItemCost: 5})
-	snacks = append(snacks, model.SnacksMock{ID: 16, ImageSource: "../../../assets/items/riceCake.jpeg", ItemName: "Rice cake", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 100, ItemQuantity: 1, ItemCost: 12})
-
-	vegetables = append(vegetables, model.VegetablesMock{ID: 21, ImageSource: "../../../assets/items/potato.jpeg", ItemName: "Potato", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 6})
-	vegetables = append(vegetables, model.VegetablesMock{ID: 22, ImageSource: "../../../assets/items/tomato.jpeg", ItemName: "Tomato", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 9})
-	vegetables = append(vegetables, model.VegetablesMock{ID: 23, ImageSource: "../../../assets/items/cauliflower.jpeg", ItemName: "Cauliflower", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 5})
-	vegetables = append(vegetables, model.VegetablesMock{ID: 24, ImageSource: "../../../assets/items/brinjal.jpeg", ItemName: "Brinjal", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 13})
-	vegetables = append(vegetables, model.VegetablesMock{ID: 25, ImageSource: "../../../assets/items/onion.jpeg", ItemName: "Onion", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 15})
-	vegetables = append(vegetables, model.VegetablesMock{ID: 26, ImageSource: "../../../assets/items/carrot.jpeg", ItemName: "Carrot", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 12})
-
-	cosmetics = append(cosmetics, model.CosmeticsMock{ID: 31, ImageSource: "../../../assets/items/cleanser.jpeg", ItemName: "Cleanser", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 12})
-	cosmetics = append(cosmetics, model.CosmeticsMock{ID: 32, ImageSource: "../../../assets/items/bodyBalm.jpeg", ItemName: "Body Balm", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 15})
-	cosmetics = append(cosmetics, model.CosmeticsMock{ID: 33, ImageSource: "../../../assets/items/oil.jpeg", ItemName: "Hair Oil", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 5})
-	cosmetics = append(cosmetics, model.CosmeticsMock{ID: 34, ImageSource: "../../../assets/items/faceMask.jpeg", ItemName: "Face Mask", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 9})
-	cosmetics = append(cosmetics, model.CosmeticsMock{ID: 35, ImageSource: "../../../assets/items/kajal.jpeg", ItemName: "Kajal", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 12})
-	cosmetics = append(cosmetics, model.CosmeticsMock{ID: 36, ImageSource: "../../../assets/items/soap.jpeg", ItemName: "Soap", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 20})
-
-	groceries = append(groceries, model.GroceriesMock{ID: 41, ImageSource: "../../../assets/items/rice.jpeg", ItemName: "Rice", ItemDesc: "Rice is the seed of the grass species Oryza sativa or less commonly Oryza glaberrima.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 12})
-	groceries = append(groceries, model.GroceriesMock{ID: 42, ImageSource: "../../../assets/items/wheat.jpeg", ItemName: "Wheat", ItemDesc: "Wheat is a member of the grass family that produces a dry, one-seeded fruit commonly called a kernel.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 15})
-	groceries = append(groceries, model.GroceriesMock{ID: 43, ImageSource: "../../../assets/items/sugar.jpeg", ItemName: "Sugar", ItemDesc: "Sugar is the generic name for sweet-tasting, soluble carbohydrates, many of which are used in food.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 5})
-	groceries = append(groceries, model.GroceriesMock{ID: 44, ImageSource: "../../../assets/items/sugar.jpeg", ItemName: "Salt", ItemDesc: "SAlt is the generic name for salt-tasting, soluble carbohydrates, many of which are used in food. It is salty in nature.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 9})
-	groceries = append(groceries, model.GroceriesMock{ID: 45, ImageSource: "../../../assets/items/chilli.png", ItemName: "Chilli Powder", ItemDesc: "Chili powder is the dried, pulverized fruit of one or more varieties of chili pepper, sometimes with the addition of other spices.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 12})
-	groceries = append(groceries, model.GroceriesMock{ID: 46, ImageSource: "../../../assets/items/chilli.png", ItemName: "Garam Masala", ItemDesc: "Garam masala is a blend of ground spices originating from South Asia.It is common in Indian, Pakistani, Nepalese and Bangladeshi.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 20})
-
+	
 	//write test cases for api health
 	request, _ := http.NewRequest("GET", "/getFruits", nil)
 	response := httptest.NewRecorder()
-	// handler := http.HandlerFunc(GetFruits)
 	Router().ServeHTTP(response, request)
 
 	if status := response.Code; status != http.StatusOK {
@@ -154,11 +113,13 @@ func TestGetFruits(t *testing.T) {
 			status, http.StatusOK)
 	}
 
-	fmt.Println("response got is ", response.Body)
-
-	// expected := `API is up and running`
-	// if response.Body.String() != expected {
-	// 	t.Errorf("handler returned unexpected body: got %v want %v",
-	// 	response.Body.String(), expected)
-	// }
+	//expected json for the fruit
+	expected := `[{"id":1,"imgSrc":"../../../assets/items/apple.png","itemName":"Apple","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":12},{"id":2,"imgSrc":"../../../assets/items/cherry.png","itemName":"Cherry","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":15},{"id":3,"imgSrc":"../../../assets/items/orange.png","itemName":"Orange","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":5},{"id":4,"imgSrc":"../../../assets/items/pineapple.jpeg","itemName":"Pineapple","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":9},{"id":5,"imgSrc":"../../../assets/items/jackfruit.jpeg","itemName":"Jackfruit","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":12},{"id":6,"imgSrc":"../../../assets/items/watermelon.jpeg","itemName":"Watermelon","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":20}]`
+	
+	//check equality of json for the fruit product
+	require.JSONEq(t, expected, response.Body.String())
 }
+
+
+
+

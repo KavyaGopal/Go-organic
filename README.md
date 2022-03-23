@@ -65,7 +65,7 @@ For testing, we will do unit testing for both front and back end when developing
 
 #### Authors
 | Name | GitHub ID | Email ID | Work Type |
-|------|-----------|---------------------|
+|------|-----------|---------------------|--------|
 |Ashwin Rai|ashwin181|raiashwin018@gmail.com|Backend Developer|
 |Kavya Gopal|KavyaGopal|95kavya@gmail.com|Frontend Developer|
 |Vaibhav Kulkarni|KulkarniVaibhav|kulvaibhavp@gmail.com|Frontend Developer|

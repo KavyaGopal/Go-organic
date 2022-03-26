@@ -4,7 +4,10 @@
             <mat-toolbar color= "primary" class="mainDiv">Sign In</mat-toolbar>
             <mat-form-field>
               <!-- <mat-label>User Name</mat-label> -->
-              <input matInput placeholder="Username">
+              <input matInput placeholder="Email">
+              <mat-error *ngif="email?.errors?.['email']">
+                Please enter correct email format
+              </mat-error>
             </mat-form-field>
           
             <mat-form-field>
@@ -12,6 +15,9 @@
                 <input matInput placeholder="Password" type="password">
             </mat-form-field>
             <button mat-raised-button type='submit'>Sign in</button>
+            <span class="signUp">
+              New to Go-Organic? <a [routerLink]="['/sign-up']">Sign Up</a>
+            </span>
           </form>
           
     </mat-card>

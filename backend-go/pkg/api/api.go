@@ -6,7 +6,9 @@ import (
 	"log"
 	"net/http"
 	"github.com/KavyaGopal/Go-organic/backend-go/pkg/model"
+	"github.com/KavyaGopal/Go-organic/backend-go/pkg/db"
 	"github.com/gorilla/mux"
+	"github.com/jinzhu/gorm"
 )
 
 //init product variable for mock
@@ -84,7 +86,7 @@ func GetAllProductsFromDB(w http.ResponseWriter, r *http.Request) {
 	handleCors(w, r)
 	var productMaster []model.ProdMaster
 	//db query from sqlite
-	model.DB.Find(&productMaster)
+	setupDB.DB.Find(&productMaster)
 
 	err := json.NewEncoder(w).Encode(productMaster)
 	if err != nil {
@@ -102,9 +104,35 @@ func GetFilteredCategory(w http.ResponseWriter, r *http.Request) {
 	// var productJsonArray []model.ProdMasterUpdate
 	var productMaster []model.ProdMaster
 	//get the json array from function : getAllProductsFromDBUpdate
-	model.DB.Where("item_category=?", params["itemCategory"]).Find(&productMaster)
+	setupDB.DB.Where("item_category=?", params["itemCategory"]).Find(&productMaster)
 
 	json.NewEncoder(w).Encode(productMaster)
+}
+
+//register api
+func RegisterUser(w http.ResponseWriter, r *http.Request) {
+	handleCors(w, r)
+	db, err := gorm.Open("sqlite3", "pkg/api/ProductData.db")
+	if err != nil {
+		panic("failed to connect database")
+	}
+	defer db.Close()
+
+	decoder := json.NewDecoder(r.Body)
+	var user model.User
+	
+	err2 := decoder.Decode(&user)
+	if err2 != nil {
+		panic(err2)
+	}
+
+	result := db.Create(&model.User{Name: user.Name, Email: user.Email, Address: user.Address, Password: user.Password, Age: user.Age, Phone: user.Phone})
+	if result.Error != nil {
+		fmt.Println(result.Error)
+		json.NewEncoder(w).Encode("User already exists")
+	} else {
+		json.NewEncoder(w).Encode("New User Successfully Added: " + user.Name)
+	}
 }
 
 func main() {
@@ -112,7 +140,7 @@ func main() {
 	a := &App{}
 
 	a.Router = mux.NewRouter()
-	model.ConnectDatabase()
+	setupDB.ConnectDatabase()
 
 	fruits = append(fruits, model.FruitMock{ID: 1, ImageSource: "../../../assets/items/apple.png", ItemName: "Apple", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 12})
 	fruits = append(fruits, model.FruitMock{ID: 2, ImageSource: "../../../assets/items/cherry.png", ItemName: "Cherry", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 15})
@@ -154,6 +182,9 @@ func main() {
 	a.Router.HandleFunc("/getVegetables", GetVegetables).Methods("GET")
 	a.Router.HandleFunc("/getCosmetics", GetCosmetics).Methods("GET")
 	a.Router.HandleFunc("/getGroceries", GetGroceries).Methods("GET")
+
+	//register api endpoint
+	a.Router.HandleFunc("/registerUser", RegisterUser).Methods("POST")
 
 	//add apis to fetch data from db
 	a.Router.HandleFunc("/api/fetchAllProductsFromDB", GetAllProductsFromDB).Methods("GET")

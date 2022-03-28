@@ -112,7 +112,7 @@ func GetFilteredCategory(w http.ResponseWriter, r *http.Request) {
 //register api
 func RegisterUser(w http.ResponseWriter, r *http.Request) {
 	handleCors(w, r)
-	db, err := gorm.Open("sqlite3", "pkg/api/ProductData.db")
+	db, err := gorm.Open("sqlite3", "ProductData.db")
 	if err != nil {
 		panic("failed to connect database")
 	}

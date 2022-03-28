@@ -14,6 +14,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HomeComponent } from './components/home/home.component';
 import { CartComponent } from './components/cart/cart.component';
 import{ HttpClientModule} from '@angular/common/http';
+import { CheckoutComponent } from './Components/checkout/checkout.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import{ HttpClientModule} from '@angular/common/http';
     NavigationHeaderComponent,
     DashboardComponent,
     HomeComponent,
-    CartComponent
+    CartComponent,
+    CheckoutComponent
   ],
   imports: [
     BrowserModule,

@@ -1,32 +1,46 @@
 package model
 
-import(
-	"gorm.io/driver/sqlite"
-	"gorm.io/gorm"
-)
-
-var DB *gorm.DB
-
-func ConnectDatabase() {
-	database, err := gorm.Open(sqlite.Open("ProductData.db"))
-
-	if err != nil {
-		panic("Failed to connect to database!")
-	}
-	DB = database
-}
-
 // Product Struct (Model)
 type ProdMaster struct {
 	ID          int64   `gorm:"AUTO_INCREMENT;PRIMARY_KEY;not_null" json:"id"`
 	ImageSource string  `gorm:"type:varchar(255);NOT NULL" json:"imgSrc"`
 	ItemName    string  `gorm:"type:varchar(255);NOT NULL" json:"itemName"`
-	ItemCategory    string  `gorm:"type:varchar(255);NOT NULL" json:"itemCategory"`
+	ItemCategory string  `gorm:"type:varchar(255);NOT NULL" json:"itemCategory"`
 	ItemDesc    string  `gorm:"type:text" json:"itemDesc"`
 	ItemWeight  float32 `gorm:"type:decimal(10,2)" json:"itemWt"`
 	ItemQuantity int64 	`gorm:"<-" json:"itemQuantity"`
 	ItemCost     float32 `gorm:"type:decimal(10,2)" json:"itemCost"`
 	
+}
+
+//user profile
+type User struct {
+	ID           int64  `gorm:"AUTO_INCREMENT;PRIMARY_KEY;not_null" json:"id"`
+	Name         string `gorm:"type:varchar(255);NOT NULL" json:"name"`
+	Email        string `gorm:"unique; Not null " json:"email"`
+	Address      string `gorm:"type:varchar(255);NOT NULL" json:"address"`
+	Password     string `gorm:"Not null " json:"password"`
+	Age          int64 	`gorm:"<-" json:"age"`
+	Phone      	 int64 `gorm:"unique; Not null " json:"phone"`
+}
+
+type Login struct {
+	Email    string
+	Password string
+}
+
+
+type Address struct {
+	Street  string `gorm:"type:varchar(255);NOT NULL" json:"street"`
+	Apartment  string `gorm:"type:varchar(255);NOT NULL" json:"apartment"`
+	City     string `gorm:"type:varchar(255);NOT NULL" json:"city"`
+	State    string `gorm:"type:varchar(255);NOT NULL" json:"state"`
+	Zip      int64 	`gorm:"<-" json:"zipcode"`
+}
+
+type JsonMessage struct {
+	Status int64 `gorm:"<-" json:"status"`
+	Message string `gorm:"type:varchar(255);NOT NULL" json:"message"`
 }
 
 type FruitMock struct {

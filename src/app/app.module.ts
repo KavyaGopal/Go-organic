@@ -22,8 +22,8 @@ import { MatInputModule} from '@angular/material/input';
 import { MatButtonModule} from '@angular/material/button';
 import { MatCardModule} from '@angular/material/card';
 import {MatToolbarModule} from '@angular/material/toolbar';
-
-
+import { ReactiveFormsModule} from '@angular/forms';
+import { FormsModule} from '@angular/forms';
 
 
 
@@ -52,7 +52,9 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     MatInputModule,
     MatButtonModule,
     MatCardModule,
-    MatToolbarModule
+    MatToolbarModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

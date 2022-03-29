@@ -38,6 +38,11 @@ type Address struct {
 	Zip      int64 	`gorm:"<-" json:"zipcode"`
 }
 
+type JsonMessage struct {
+	Status int64 `gorm:"<-" json:"status"`
+	Message string `gorm:"type:varchar(255);NOT NULL" json:"message"`
+}
+
 type FruitMock struct {
 	ID            int64   `json:"id"`
 	ImageSource   string   `json:"imgSrc"`

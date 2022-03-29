@@ -112,7 +112,7 @@ func GetFilteredCategory(w http.ResponseWriter, r *http.Request) {
 //register api
 func RegisterUser(w http.ResponseWriter, r *http.Request) {
 	handleCors(w, r)
-	db, err := gorm.Open("sqlite3", "ProductData.db")
+	db, err := gorm.Open("sqlite3", "pkg/api/ProductData.db")
 	if err != nil {
 		panic("failed to connect database")
 	}
@@ -127,12 +127,72 @@ func RegisterUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	result := db.Create(&model.User{Name: user.Name, Email: user.Email, Address: user.Address, Password: user.Password, Age: user.Age, Phone: user.Phone})
+
+	var jsonMessage model.JsonMessage
+
 	if result.Error != nil {
 		fmt.Println(result.Error)
-		json.NewEncoder(w).Encode("User already exists")
+		log.Println("Unauthorized Access ")
+		jsonMessage = model.JsonMessage{Status: 500 , Message: "User already exists"}
+		json.NewEncoder(w).Encode(jsonMessage)
 	} else {
-		json.NewEncoder(w).Encode("New User Successfully Added: " + user.Name)
+		jsonMessage = model.JsonMessage{Status: 200 , Message: "New User Successfully Added: " + user.Name}
+		json.NewEncoder(w).Encode(jsonMessage)
 	}
+}
+
+//log in user
+func LoginUser(w http.ResponseWriter, r *http.Request){
+	
+	handleCors(w, r)
+	db, err := gorm.Open("sqlite3", "pkg/api/ProductData.db")
+	if err != nil {
+		panic("failed to connect database")
+	}
+	defer db.Close()
+
+	decoder := json.NewDecoder(r.Body)
+
+	var login model.Login
+
+	err2 := decoder.Decode(&login)
+	if err2 != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	if login.Email == "" || login.Password == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	var user_ model.User
+	// Get the existing entry present in the database for the given username
+	db.Table("users").Where("Email = ?", login.Email).Find(&user_)
+
+	var jsonMessage model.JsonMessage
+
+	if err != nil {
+		// If there is an issue with the database, return a 500 error
+		w.WriteHeader(http.StatusInternalServerError)
+		log.Println("Internal Server Error")
+		jsonMessage = model.JsonMessage{Status: 500 , Message: "Internal Server Error"}
+		json.NewEncoder(w).Encode(jsonMessage)
+		return
+	}
+
+	if user_.Email == "" {
+		w.WriteHeader(http.StatusUnauthorized)
+		log.Println("Unauthorized Access ")
+		jsonMessage = model.JsonMessage{Status: http.StatusUnauthorized , Message: "Unauthorized Access"}
+		json.NewEncoder(w).Encode(jsonMessage)
+		return
+	}
+	
+	log.Println("User successfully logged in ", user_.Name)
+	// var jsonMessage = model.JsonMessage{200, "User Name "+ user_.Name+ "successfully logged in"}
+	jsonMessage = model.JsonMessage{Status: 200, Message: "User Name " + user_.Name + " successfully logged in"}
+	json.NewEncoder(w).Encode(jsonMessage)
+	
 }
 
 func main() {
@@ -140,7 +200,7 @@ func main() {
 	a := &App{}
 
 	a.Router = mux.NewRouter()
-	setupDB.ConnectDatabase()
+	setupDB.ConnectEndPointDatabase()
 
 	fruits = append(fruits, model.FruitMock{ID: 1, ImageSource: "../../../assets/items/apple.png", ItemName: "Apple", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 12})
 	fruits = append(fruits, model.FruitMock{ID: 2, ImageSource: "../../../assets/items/cherry.png", ItemName: "Cherry", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 15})
@@ -185,6 +245,8 @@ func main() {
 
 	//register api endpoint
 	a.Router.HandleFunc("/registerUser", RegisterUser).Methods("POST")
+	//login api endpoint
+	a.Router.HandleFunc("/loginUser", LoginUser).Methods("POST")
 
 	//add apis to fetch data from db
 	a.Router.HandleFunc("/api/fetchAllProductsFromDB", GetAllProductsFromDB).Methods("GET")

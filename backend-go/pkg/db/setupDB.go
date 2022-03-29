@@ -17,6 +17,15 @@ func ConnectDatabase() {
 	DB = database
 }
 
+func ConnectEndPointDatabase() {
+	database, err := gorm.Open(sqlite.Open("pkg/api/ProductData.db"))
+
+	if err != nil {
+		panic("Failed to connect to database!")
+	}
+	DB = database
+}
+
 func CreateDatabase(){
 
 	db, err := gorm.Open(sqlite.Open("pkg/api/ProductData.db"), &gorm.Config{})

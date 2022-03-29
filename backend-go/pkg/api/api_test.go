@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"github.com/KavyaGopal/Go-organic/backend-go/pkg/model"
+	"github.com/KavyaGopal/Go-organic/backend-go/pkg/db"
 	"github.com/gorilla/mux"
 	"github.com/stretchr/testify/require"
 )
@@ -29,7 +30,7 @@ func Router() *mux.Router {
 //one at a time
 func TestGetFilteredCategory(t *testing.T) {
 	// 	//write test case for fetch single product from db
-	model.ConnectDatabase()
+	setupDB.ConnectDatabase()
 	categoriesArray := [5]string{"Fruits", "Snacks", "Vegetables", "Cosmetics", "Groceries"}
 	for i := 0; i < len(categoriesArray); i++ {
 		request, _ := http.NewRequest("GET", "/api/fetchProduct/"+categoriesArray[i], nil)
@@ -70,7 +71,7 @@ func TestGetFilteredCategory(t *testing.T) {
 //all at once
 func TestGetAllProductsFromDB(t *testing.T) {
 	// 	//write test cases for fetching all products from db
-	model.ConnectDatabase()
+	setupDB.ConnectDatabase()
 	request, err := http.NewRequest("GET", "/api/fetchAllProductsFromDB", nil)
 	if err != nil {
 		t.Fatal(err)

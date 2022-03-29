@@ -14,6 +14,18 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HomeComponent } from './components/home/home.component';
 import { CartComponent } from './components/cart/cart.component';
 import{ HttpClientModule} from '@angular/common/http';
+import { LoginComponent } from './components/login/login.component';
+import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatFormFieldModule} from '@angular/material/form-field';
+import { MatInputModule} from '@angular/material/input';
+import { MatButtonModule} from '@angular/material/button';
+import { MatCardModule} from '@angular/material/card';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import { ReactiveFormsModule} from '@angular/forms';
+import { FormsModule} from '@angular/forms';
+
+
 
 
 @NgModule({
@@ -22,7 +34,10 @@ import{ HttpClientModule} from '@angular/common/http';
     NavigationHeaderComponent,
     DashboardComponent,
     HomeComponent,
-    CartComponent
+    CartComponent,
+    LoginComponent,
+    SignUpComponent
+     
   ],
   imports: [
     BrowserModule,
@@ -32,7 +47,14 @@ import{ HttpClientModule} from '@angular/common/http';
     MaterialModule,
     HttpClientModule,
     LayoutModule,
-    
+    FlexLayoutModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCardModule,
+    MatToolbarModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

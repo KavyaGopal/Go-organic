@@ -1,0 +1,25 @@
+<div fxLayoutAlign="center center mat-elevation-z5" fxFlexFill>
+    <mat-card fxFlex="25">
+        <form [formGroup]="login" fxLayoutAlign="stretch" fxLayout="column" (ngSubmit)="onSubmit()">
+            <mat-toolbar color="primary" class="mainDiv ">Sign In</mat-toolbar>
+            <mat-form-field>
+                <!-- <mat-label>User Name</mat-label> -->
+                <input type="text" matInput email placeholder="Email" formControlName="email">
+            </mat-form-field>
+            <span class="error" *ngIf="email.invalid && email.touched ">email is not valid</span>
+
+            <mat-form-field>
+                <!-- <mat-label>Password</mat-label> -->
+                <input type="text" matInput minlength="3" placeholder="Password" type="password" formControlName="password">
+            </mat-form-field>
+            <span class="error" *ngIf="password.invalid && password.touched ">password is not valid</span>
+
+            <button mat-raised-button type='submit'>Sign in</button>
+
+            <span class="signUp">
+              New to Go-Organic? <a [routerLink]="['/sign-up']">Sign Up</a>
+            </span>
+        </form>
+
+    </mat-card>
+</div>

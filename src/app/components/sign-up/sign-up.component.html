@@ -1,0 +1,40 @@
+<div fxLayoutAlign="center center mat-elevation-z5" fxFlexFill>
+    <mat-card fxFlex="25">
+        <form [formGroup]="loginForm" fxLayoutAlign="stretch" fxLayout="column" (ngSubmit)="onSubmit()">
+
+            <mat-toolbar color="primary" class="mainDiv">Sign Up</mat-toolbar>
+            <mat-form-field>
+                <!-- <mat-label>User Name</mat-label> -->
+                <input type="text" matInput placeholder="User Name" formControlName="userName">
+            </mat-form-field>
+            <span class="error" *ngIf="userName.invalid && userName.touched">Username is not valid</span>
+            <mat-form-field>
+                <!-- <mat-label>User Name</mat-label> -->
+                <input type="text" pattern="[0-9]*" matInput placeholder="Phone Number" minlength="10" maxlength="10" formControlName="phNumber">
+            </mat-form-field>
+            <span class="error" *ngIf="phNumber.invalid && phNumber.touched">Phone number is not valid</span>
+            <mat-form-field>
+                <!-- <mat-label>User Name</mat-label> -->
+                <input type="text" matInput placeholder="Address" formControlName="address">
+            </mat-form-field>
+            <mat-form-field>
+                <!-- <mat-label>User Name</mat-label> -->
+                <input type="text" matInput email placeholder="Email" formControlName="email">
+            </mat-form-field>
+            <span class="error" *ngIf="email.invalid && email.touched">email is not valid</span>
+
+            <mat-form-field>
+                <!-- <mat-label>Password</mat-label> -->
+                <input type="text" matInput minlength="3" placeholder="Password" type="password" formControlName="password1">
+            </mat-form-field>
+            <span class="error1" *ngIf="password1.invalid && password1.touched">password is not valid</span>
+            <mat-form-field>
+                <!-- <mat-label>Password</mat-label> -->
+                <input type="text" matInput placeholder="Re-enter Password" type="password" formControlName="password2">
+            </mat-form-field>
+            <span class="error" *ngIf="password2.invalid && password2.touched">password is not valid</span>
+            <button mat-raised-button [disabled]="loginForm.invalid" type='submit'>Sign Up</button>
+        </form>
+
+    </mat-card>
+</div>

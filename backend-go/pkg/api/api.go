@@ -5,9 +5,12 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-
+	"github.com/KavyaGopal/Go-organic/backend-go/pkg/db"
 	"github.com/KavyaGopal/Go-organic/backend-go/pkg/model"
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
+	"github.com/jinzhu/gorm"
+	"golang.org/x/crypto/bcrypt"
 )
 
 //init product variable for mock
@@ -17,46 +20,54 @@ var vegetables []model.VegetablesMock
 var groceries []model.GroceriesMock
 var cosmetics []model.CosmeticsMock
 
-func handleCors(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+type App struct {
+	Router *mux.Router
+}
+
+func (a *App) Run(addr string) {}
+
+func handleCors(w *http.ResponseWriter, req *http.Request) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 }
 
 //get all fruits
-func getFruits(w http.ResponseWriter, r *http.Request) {
-	handleCors(w, r)
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+func GetFruits(w http.ResponseWriter, r *http.Request) {
+	handleCors(&w, r)
+	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(fruits)
-
+	return
 }
 
 //get all snacks
-func getSnacks(w http.ResponseWriter, r *http.Request) {
-	handleCors(w, r)
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+func GetSnacks(w http.ResponseWriter, r *http.Request) {
+	handleCors(&w, r)
+	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(snacks)
 
 }
 
 //get all vegetables
-func getVegetables(w http.ResponseWriter, r *http.Request) {
-	handleCors(w, r)
+func GetVegetables(w http.ResponseWriter, r *http.Request) {
+	handleCors(&w, r)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(vegetables)
 
 }
 
 //get all cosmetics
-func getCosmetics(w http.ResponseWriter, r *http.Request) {
-	handleCors(w, r)
+func GetCosmetics(w http.ResponseWriter, r *http.Request) {
+	handleCors(&w, r)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(cosmetics)
+	return
 
 }
 
 //get all groceries
-func getGroceries(w http.ResponseWriter, r *http.Request) {
-	handleCors(w, r)
+func GetGroceries(w http.ResponseWriter, r *http.Request) {
+	handleCors(&w, r)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(groceries)
 
@@ -71,13 +82,15 @@ func HealthCheck(w http.ResponseWriter, r *http.Request) {
 }
 
 //get all the products from the database
-func getAllProductsFromDB(w http.ResponseWriter, r *http.Request) {
+func GetAllProductsFromDB(w http.ResponseWriter, r *http.Request) {
+
+	log.Println("GetAllProductsFromDB function called")
 
 	w.Header().Set("Content-Type", "application/json")
-	handleCors(w, r)
+	handleCors(&w, r)
 	var productMaster []model.ProdMaster
 	//db query from sqlite
-	model.DB.Find(&productMaster)
+	setupDB.DB.Find(&productMaster)
 
 	err := json.NewEncoder(w).Encode(productMaster)
 	if err != nil {
@@ -87,23 +100,126 @@ func getAllProductsFromDB(w http.ResponseWriter, r *http.Request) {
 }
 
 //get filtered query as item categories from db
-func getFilteredCategory(w http.ResponseWriter, r *http.Request) {
+func GetFilteredCategory(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	handleCors(w, r)
+	handleCors(&w, r)
 	params := mux.Vars(r) // get the params
-	log.Println("params are", params)
+	log.Println("GetFilteredCategory function called for ", params)
 	// var productJsonArray []model.ProdMasterUpdate
 	var productMaster []model.ProdMaster
 	//get the json array from function : getAllProductsFromDBUpdate
-	model.DB.Where("item_category=?", params["itemCategory"]).Find(&productMaster)
+	setupDB.DB.Where("item_category=?", params["itemCategory"]).Find(&productMaster)
 
 	json.NewEncoder(w).Encode(productMaster)
 }
 
+//register api
+func RegisterUser(w http.ResponseWriter, r *http.Request) {
+
+	log.Println("Register API Invoked ")
+
+	w.Header().Set("Content-Type", "application/json")
+	handleCors(&w, r)
+	db, err := gorm.Open("sqlite3", "pkg/api/ProductData.db")
+	if err != nil {
+		panic("failed to connect database")
+	}
+	defer db.Close()
+
+	decoder := json.NewDecoder(r.Body)
+	var user model.User
+
+	err2 := decoder.Decode(&user)
+	if err2 != nil {
+		panic(err2)
+	}
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), 8)
+	result := db.Create(&model.User{Name: user.Name, Email: user.Email, Address: user.Address, Password: string(hashedPassword), Age: user.Age, Phone: user.Phone})
+
+	var jsonMessage model.JsonMessage
+
+	if result.Error != nil {
+		fmt.Println(result.Error)
+		log.Println("Unauthorized Access ")
+		jsonMessage = model.JsonMessage{Status: 500, Message: "User already exists"}
+		json.NewEncoder(w).Encode(jsonMessage)
+	} else {
+		jsonMessage = model.JsonMessage{Status: 200, Message: "New User Successfully Added: " + user.Name}
+		json.NewEncoder(w).Encode(jsonMessage)
+	}
+}
+
+//log in user
+func LoginUser(w http.ResponseWriter, r *http.Request) {
+
+	w.Header().Set("Content-Type", "application/json")
+	handleCors(&w, r)
+	db, err := gorm.Open("sqlite3", "pkg/api/ProductData.db")
+	if err != nil {
+		panic("failed to connect database")
+	}
+	defer db.Close()
+
+	decoder := json.NewDecoder(r.Body)
+
+	var login model.Login
+
+	err2 := decoder.Decode(&login)
+	if err2 != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	if login.Email == "" || login.Password == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	var user_ model.User
+	// Get the existing entry present in the database for the given username
+	db.Table("users").Where("Email = ?", login.Email).Find(&user_)
+
+	var jsonMessage model.JsonMessage
+
+	if err != nil {
+		// If there is an issue with the database, return a 500 error
+		w.WriteHeader(http.StatusInternalServerError)
+		log.Println("Internal Server Error")
+		jsonMessage = model.JsonMessage{Status: 500, Message: "Internal Server Error"}
+		json.NewEncoder(w).Encode(jsonMessage)
+		return
+	}
+
+	if user_.Email == "" {
+		w.WriteHeader(http.StatusUnauthorized)
+		log.Println("Unauthorized Access ")
+		jsonMessage = model.JsonMessage{Status: http.StatusUnauthorized, Message: "Unauthorized Access"}
+		json.NewEncoder(w).Encode(jsonMessage)
+		return
+	}
+	// Compare the stored hashed password, with the hashed version of the password that was received
+	if err = bcrypt.CompareHashAndPassword([]byte(user_.Password), []byte(login.Password)); err != nil {
+		// If the two passwords don't match, return a 401 status
+		w.WriteHeader(http.StatusUnauthorized)
+		log.Println("Unauthorized Access ")
+		jsonMessage = model.JsonMessage{Status: http.StatusUnauthorized, Message: "Unauthorized Access"}
+		json.NewEncoder(w).Encode(jsonMessage)
+
+		return
+	}
+
+	log.Println("User successfully logged in ", user_.Name)
+	// var jsonMessage = model.JsonMessage{200, "User Name "+ user_.Name+ "successfully logged in"}
+	jsonMessage = model.JsonMessage{Status: 200, Message: "User Name " + user_.Name + " successfully logged in"}
+	json.NewEncoder(w).Encode(jsonMessage)
+
+}
+
 func main() {
 	//init router
-	r := mux.NewRouter()
-	model.ConnectDatabase()
+	a := &App{}
+
+	a.Router = mux.NewRouter()
+	setupDB.ConnectEndPointDatabase()
 
 	fruits = append(fruits, model.FruitMock{ID: 1, ImageSource: "../../../assets/items/apple.png", ItemName: "Apple", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 12})
 	fruits = append(fruits, model.FruitMock{ID: 2, ImageSource: "../../../assets/items/cherry.png", ItemName: "Cherry", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 15})
@@ -140,19 +256,26 @@ func main() {
 	groceries = append(groceries, model.GroceriesMock{ID: 45, ImageSource: "../../../assets/items/chilli.png", ItemName: "Chilli Powder", ItemDesc: "Chili powder is the dried, pulverized fruit of one or more varieties of chili pepper, sometimes with the addition of other spices.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 12})
 	groceries = append(groceries, model.GroceriesMock{ID: 46, ImageSource: "../../../assets/items/chilli.png", ItemName: "Garam Masala", ItemDesc: "Garam masala is a blend of ground spices originating from South Asia.It is common in Indian, Pakistani, Nepalese and Bangladeshi.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 20})
 
-	r.HandleFunc("/getFruits", getFruits).Methods("GET")
-	r.HandleFunc("/getSnacks", getSnacks).Methods("GET")
-	r.HandleFunc("/getVegetables", getVegetables).Methods("GET")
-	r.HandleFunc("/getCosmetics", getCosmetics).Methods("GET")
-	r.HandleFunc("/getGroceries", getGroceries).Methods("GET")
+	a.Router.HandleFunc("/getFruits", GetFruits).Methods("GET")
+	a.Router.HandleFunc("/getSnacks", GetSnacks).Methods("GET")
+	a.Router.HandleFunc("/getVegetables", GetVegetables).Methods("GET")
+	a.Router.HandleFunc("/getCosmetics", GetCosmetics).Methods("GET")
+	a.Router.HandleFunc("/getGroceries", GetGroceries).Methods("GET")
+
+	//register api endpoint
+	a.Router.HandleFunc("/registerUser", RegisterUser).Methods("POST")
+	//login api endpoint
+	a.Router.HandleFunc("/loginUser", LoginUser).Methods("POST")
 
 	//add apis to fetch data from db
-	r.HandleFunc("/api/fetchAllProductsFromDB", getAllProductsFromDB).Methods("GET")
-	r.HandleFunc("/api/fetchProduct/{itemCategory}", getFilteredCategory).Methods("GET")
-	//add health check
-	r.HandleFunc("/health-check", HealthCheck).Methods("GET")
-	http.Handle("/", r)
+	a.Router.HandleFunc("/api/fetchAllProductsFromDB", GetAllProductsFromDB).Methods("GET")
+	a.Router.HandleFunc("/api/fetchProduct/{itemCategory}", GetFilteredCategory).Methods("GET")
 
-	log.Fatal(http.ListenAndServe(":8000", r))
+	a.Router.HandleFunc("/health-check", HealthCheck).Methods("GET")
+	http.Handle("/", a.Router)
+
+	// log.Fatal(http.ListenAndServe(":8000", a.Router))
+	// a.Run(":8010")
+	log.Fatal(http.ListenAndServe(":8000", handlers.CORS(handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}), handlers.AllowedMethods([]string{"GET", "POST", "PUT", "HEAD", "OPTIONS"}), handlers.AllowedOrigins([]string{"*"}))(a.Router)))
 
 }

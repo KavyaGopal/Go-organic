@@ -1,4 +1,4 @@
-package main
+package setupDB
 
 import (
 	"github.com/KavyaGopal/Go-organic/backend-go/pkg/model"
@@ -6,22 +6,36 @@ import (
 	"gorm.io/gorm"
 )
 
-func addItems() {
-	//add items
+var DB *gorm.DB
+
+func ConnectDatabase() {
+	database, err := gorm.Open(sqlite.Open("ProductData.db"))
+
+	if err != nil {
+		panic("Failed to connect to database!")
+	}
+	DB = database
 }
 
-func removeItems() {
-	//remove items
+func ConnectEndPointDatabase() {
+	database, err := gorm.Open(sqlite.Open("pkg/api/ProductData.db"))
+
+	if err != nil {
+		panic("Failed to connect to database!")
+	}
+	DB = database
 }
 
-func main() {
-	db, err := gorm.Open(sqlite.Open("ProductData.db"), &gorm.Config{})
+func CreateDatabase(){
+
+	db, err := gorm.Open(sqlite.Open("pkg/api/ProductData.db"), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
 	}
 
 	// Migrate the schema
 	db.AutoMigrate(&model.ProdMaster{})
+	db.AutoMigrate(&model.User{})
 
 	var products = []model.ProdMaster{
 		//fruits
@@ -61,4 +75,5 @@ func main() {
 		{ImageSource: "../../../assets/items/chilli.png", ItemName: "Garam Masala", ItemCategory: "Groceries", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 8}}
 
 	db.Create(&products)
+
 }

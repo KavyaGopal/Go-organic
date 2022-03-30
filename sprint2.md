@@ -43,10 +43,12 @@ https://github.com/KavyaGopal/Go-organic/issues/47 Code Clean up: Remove cypress
 
 UNIT TESTS:
 
+
 ![cypressTests](https://user-images.githubusercontent.com/20243138/156867511-49980f44-0118-4b09-8580-ee2b8d56b1f6.gif)
 
 
 ADD To CART
+
 
 ![Sprint2-addToCart-final](https://user-images.githubusercontent.com/20243138/156867522-d706d191-9d88-4247-bf29-5cc84b94eb2d.gif)
 

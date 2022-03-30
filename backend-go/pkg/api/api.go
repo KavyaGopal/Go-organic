@@ -5,11 +5,13 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+
+	setupDB "github.com/KavyaGopal/Go-organic/backend-go/pkg/db"
 	"github.com/KavyaGopal/Go-organic/backend-go/pkg/model"
-	"github.com/KavyaGopal/Go-organic/backend-go/pkg/db"
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
-	"github.com/gorilla/handlers"
+	"golang.org/x/crypto/bcrypt"
 )
 
 //init product variable for mock
@@ -27,8 +29,8 @@ func (a *App) Run(addr string) {}
 
 func handleCors(w *http.ResponseWriter, req *http.Request) {
 	(*w).Header().Set("Access-Control-Allow-Origin", "*")
-    (*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
-    (*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 }
 
 //get all fruits
@@ -127,29 +129,29 @@ func RegisterUser(w http.ResponseWriter, r *http.Request) {
 
 	decoder := json.NewDecoder(r.Body)
 	var user model.User
-	
+
 	err2 := decoder.Decode(&user)
 	if err2 != nil {
 		panic(err2)
 	}
-
-	result := db.Create(&model.User{Name: user.Name, Email: user.Email, Address: user.Address, Password: user.Password, Age: user.Age, Phone: user.Phone})
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), 8)
+	result := db.Create(&model.User{Name: user.Name, Email: user.Email, Address: user.Address, Password: string(hashedPassword), Age: user.Age, Phone: user.Phone})
 
 	var jsonMessage model.JsonMessage
 
 	if result.Error != nil {
 		fmt.Println(result.Error)
 		log.Println("Unauthorized Access ")
-		jsonMessage = model.JsonMessage{Status: 500 , Message: "User already exists"}
+		jsonMessage = model.JsonMessage{Status: 500, Message: "User already exists"}
 		json.NewEncoder(w).Encode(jsonMessage)
 	} else {
-		jsonMessage = model.JsonMessage{Status: 200 , Message: "New User Successfully Added: " + user.Name}
+		jsonMessage = model.JsonMessage{Status: 200, Message: "New User Successfully Added: " + user.Name}
 		json.NewEncoder(w).Encode(jsonMessage)
 	}
 }
 
 //log in user
-func LoginUser(w http.ResponseWriter, r *http.Request){
+func LoginUser(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	handleCors(&w, r)
@@ -183,7 +185,7 @@ func LoginUser(w http.ResponseWriter, r *http.Request){
 		// If there is an issue with the database, return a 500 error
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println("Internal Server Error")
-		jsonMessage = model.JsonMessage{Status: 500 , Message: "Internal Server Error"}
+		jsonMessage = model.JsonMessage{Status: 500, Message: "Internal Server Error"}
 		json.NewEncoder(w).Encode(jsonMessage)
 		return
 	}
@@ -191,16 +193,26 @@ func LoginUser(w http.ResponseWriter, r *http.Request){
 	if user_.Email == "" {
 		w.WriteHeader(http.StatusUnauthorized)
 		log.Println("Unauthorized Access ")
-		jsonMessage = model.JsonMessage{Status: http.StatusUnauthorized , Message: "Unauthorized Access"}
+		jsonMessage = model.JsonMessage{Status: http.StatusUnauthorized, Message: "Unauthorized Access"}
 		json.NewEncoder(w).Encode(jsonMessage)
 		return
 	}
-	
+	// Compare the stored hashed password, with the hashed version of the password that was received
+	if err = bcrypt.CompareHashAndPassword([]byte(user_.Password), []byte(login.Password)); err != nil {
+		// If the two passwords don't match, return a 401 status
+		w.WriteHeader(http.StatusUnauthorized)
+		log.Println("Unauthorized Access ")
+		jsonMessage = model.JsonMessage{Status: http.StatusUnauthorized, Message: "Unauthorized Access"}
+		json.NewEncoder(w).Encode(jsonMessage)
+
+		return
+	}
+
 	log.Println("User successfully logged in ", user_.Name)
 	// var jsonMessage = model.JsonMessage{200, "User Name "+ user_.Name+ "successfully logged in"}
 	jsonMessage = model.JsonMessage{Status: 200, Message: "User Name " + user_.Name + " successfully logged in"}
 	json.NewEncoder(w).Encode(jsonMessage)
-	
+
 }
 
 func main() {
@@ -266,6 +278,5 @@ func main() {
 	// log.Fatal(http.ListenAndServe(":8000", a.Router))
 	// a.Run(":8010")
 	log.Fatal(http.ListenAndServe(":8000", handlers.CORS(handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}), handlers.AllowedMethods([]string{"GET", "POST", "PUT", "HEAD", "OPTIONS"}), handlers.AllowedOrigins([]string{"*"}))(a.Router)))
-	
 
 }

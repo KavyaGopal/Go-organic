@@ -21,7 +21,7 @@ type User struct {
 	Address      string `gorm:"type:varchar(255);NOT NULL" json:"address"`
 	Password     string `gorm:"Not null " json:"password"`
 	Age          int64 	`gorm:"<-" json:"age"`
-	Phone      	 int64 `gorm:"unique; Not null " json:"phone"`
+	Phone      	 string `gorm:"unique; Not null " json:"phone"`
 }
 
 type Login struct {

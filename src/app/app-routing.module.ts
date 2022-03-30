@@ -5,6 +5,8 @@ import { HomeComponent } from './components/home/home.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CartComponent } from './components/cart/cart.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
+import { LoginComponent } from './components/login/login.component';
+import { SignUpComponent } from './components/sign-up/sign-up.component';
 
 
 const routes: Routes = [
@@ -12,7 +14,10 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent  },
   { path: 'dashboard', component: DashboardComponent  },
   { path: 'cart', component: CartComponent  },
-  { path: 'checkout', component: CheckoutComponent}
+  { path: 'checkout', component: CheckoutComponent},
+  { path: 'login', component: LoginComponent  },
+  { path: 'sign-up', component: SignUpComponent  }
+
 
   // { path: 'error', component: ErrorComponent },
   // { path: 'error/404', component: ErrorComponent },

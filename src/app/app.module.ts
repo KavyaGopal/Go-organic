@@ -14,6 +14,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HomeComponent } from './components/home/home.component';
 import { CartComponent } from './components/cart/cart.component';
 import{ HttpClientModule} from '@angular/common/http';
+import { CheckoutComponent } from './Components/checkout/checkout.component';
 import { LoginComponent } from './components/login/login.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -35,6 +36,7 @@ import { FormsModule} from '@angular/forms';
     DashboardComponent,
     HomeComponent,
     CartComponent,
+    CheckoutComponent
     LoginComponent,
     SignUpComponent
      

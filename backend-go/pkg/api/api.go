@@ -9,6 +9,7 @@ import (
 	"github.com/KavyaGopal/Go-organic/backend-go/pkg/db"
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
+	"github.com/gorilla/handlers"
 )
 
 //init product variable for mock
@@ -23,30 +24,32 @@ type App struct {
 }
 
 func (a *App) Run(addr string) {}
-func handleCors(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+func handleCors(w *http.ResponseWriter, req *http.Request) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+    (*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+    (*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 }
 
 //get all fruits
 func GetFruits(w http.ResponseWriter, r *http.Request) {
-	handleCors(w, r)
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	handleCors(&w, r)
+	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(fruits)
 	return
 }
 
 //get all snacks
 func GetSnacks(w http.ResponseWriter, r *http.Request) {
-	handleCors(w, r)
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	handleCors(&w, r)
+	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(snacks)
 
 }
 
 //get all vegetables
 func GetVegetables(w http.ResponseWriter, r *http.Request) {
-	handleCors(w, r)
+	handleCors(&w, r)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(vegetables)
 
@@ -54,7 +57,7 @@ func GetVegetables(w http.ResponseWriter, r *http.Request) {
 
 //get all cosmetics
 func GetCosmetics(w http.ResponseWriter, r *http.Request) {
-	handleCors(w, r)
+	handleCors(&w, r)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(cosmetics)
 	return
@@ -63,7 +66,7 @@ func GetCosmetics(w http.ResponseWriter, r *http.Request) {
 
 //get all groceries
 func GetGroceries(w http.ResponseWriter, r *http.Request) {
-	handleCors(w, r)
+	handleCors(&w, r)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(groceries)
 
@@ -83,7 +86,7 @@ func GetAllProductsFromDB(w http.ResponseWriter, r *http.Request) {
 	log.Println("GetAllProductsFromDB function called")
 
 	w.Header().Set("Content-Type", "application/json")
-	handleCors(w, r)
+	handleCors(&w, r)
 	var productMaster []model.ProdMaster
 	//db query from sqlite
 	setupDB.DB.Find(&productMaster)
@@ -98,7 +101,7 @@ func GetAllProductsFromDB(w http.ResponseWriter, r *http.Request) {
 //get filtered query as item categories from db
 func GetFilteredCategory(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	handleCors(w, r)
+	handleCors(&w, r)
 	params := mux.Vars(r) // get the params
 	log.Println("GetFilteredCategory function called for ", params)
 	// var productJsonArray []model.ProdMasterUpdate
@@ -111,7 +114,11 @@ func GetFilteredCategory(w http.ResponseWriter, r *http.Request) {
 
 //register api
 func RegisterUser(w http.ResponseWriter, r *http.Request) {
-	handleCors(w, r)
+
+	log.Println("Register API Invoked ")
+
+	w.Header().Set("Content-Type", "application/json")
+	handleCors(&w, r)
 	db, err := gorm.Open("sqlite3", "pkg/api/ProductData.db")
 	if err != nil {
 		panic("failed to connect database")
@@ -143,8 +150,9 @@ func RegisterUser(w http.ResponseWriter, r *http.Request) {
 
 //log in user
 func LoginUser(w http.ResponseWriter, r *http.Request){
-	
-	handleCors(w, r)
+
+	w.Header().Set("Content-Type", "application/json")
+	handleCors(&w, r)
 	db, err := gorm.Open("sqlite3", "pkg/api/ProductData.db")
 	if err != nil {
 		panic("failed to connect database")
@@ -255,7 +263,9 @@ func main() {
 	a.Router.HandleFunc("/health-check", HealthCheck).Methods("GET")
 	http.Handle("/", a.Router)
 
-	log.Fatal(http.ListenAndServe(":8000", a.Router))
-	a.Run(":8010")
+	// log.Fatal(http.ListenAndServe(":8000", a.Router))
+	// a.Run(":8010")
+	log.Fatal(http.ListenAndServe(":8000", handlers.CORS(handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}), handlers.AllowedMethods([]string{"GET", "POST", "PUT", "HEAD", "OPTIONS"}), handlers.AllowedOrigins([]string{"*"}))(a.Router)))
+	
 
 }

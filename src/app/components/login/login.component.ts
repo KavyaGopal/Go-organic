@@ -37,9 +37,10 @@ export class LoginComponent implements OnInit {
       console.log("The error is:");
       console.warn(e)
     },
-      complete: () => {alert("Login Success");
+      complete: () => {
+      // alert("Login Success");
       this.login.reset();
-      // this.router.navigate(['login'])
+      this.router.navigate(['home'])
       }
     })
   }

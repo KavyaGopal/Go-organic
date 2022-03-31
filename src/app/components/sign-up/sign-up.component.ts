@@ -57,9 +57,10 @@ export class SignUpComponent implements OnInit {
       console.log("The error is:");
       console.warn(e)
     },
-      complete: () => {alert("Login Success");
+      complete: () => {
+      // alert("Login Success");
       this.loginForm.reset();
-      // this.router.navigate(['login'])
+      this.router.navigate(['login'])
       }
     })
   }

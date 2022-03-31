@@ -36,7 +36,7 @@ import { FormsModule} from '@angular/forms';
     DashboardComponent,
     HomeComponent,
     CartComponent,
-    CheckoutComponent
+    CheckoutComponent,
     LoginComponent,
     SignUpComponent
      

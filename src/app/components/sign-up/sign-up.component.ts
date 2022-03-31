@@ -19,8 +19,8 @@ export class SignUpComponent implements OnInit {
     name: new FormControl('', Validators.required),
     phone: new FormControl('', Validators.required),
     address: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required)
-    // password2: new FormControl('', Validators.required)
+    password: new FormControl('', Validators.required),
+    password2: new FormControl('', Validators.required)
   })
 
   ngOnInit(): void {
@@ -33,9 +33,11 @@ export class SignUpComponent implements OnInit {
   get password() {
     return this.loginForm.get("password")
   }
-  // get password2() {
-  //   return this.loginForm.get("password2")
-  // }
+
+  get password2() {
+    return this.loginForm.get("password2")
+  }
+
   get name() {
     return this.loginForm.get("name")
   }

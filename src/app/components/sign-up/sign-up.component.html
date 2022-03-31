@@ -28,10 +28,10 @@
                 <input type="text" matInput minlength="3" placeholder="Password" type="password" formControlName="password">
             </mat-form-field>
             <span class="error1" *ngIf="password.invalid && password.touched">password is not valid</span>
-            <!-- <mat-form-field>
+            <mat-form-field>
                 <input type="text" matInput placeholder="Re-enter Password" type="password" formControlName="password2">
             </mat-form-field>
-            <span class="error" *ngIf="password2.invalid && password2.touched">password is not valid</span> -->
+            <span class="error" *ngIf="password2.invalid && password2.touched">password is not valid</span>
             <button mat-raised-button [disabled]="loginForm.invalid" type='submit'>Sign Up</button>
         </form>
 

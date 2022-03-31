@@ -5,7 +5,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"github.com/KavyaGopal/Go-organic/backend-go/pkg/db"
+
+	setupDB "github.com/KavyaGopal/Go-organic/backend-go/pkg/db"
 	"github.com/KavyaGopal/Go-organic/backend-go/pkg/model"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
@@ -179,6 +180,7 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 	db.Table("users").Where("Email = ?", login.Email).Find(&user_)
 
 	var jsonMessage model.JsonMessage
+	var jsonLoginResponse model.JsonLoginResponse
 
 	if err != nil {
 		// If there is an issue with the database, return a 500 error
@@ -209,8 +211,8 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 
 	log.Println("User successfully logged in ", user_.Name)
 	// var jsonMessage = model.JsonMessage{200, "User Name "+ user_.Name+ "successfully logged in"}
-	jsonMessage = model.JsonMessage{Status: 200, Message: "User Name " + user_.Name + " successfully logged in"}
-	json.NewEncoder(w).Encode(jsonMessage)
+	jsonLoginResponse = model.JsonLoginResponse{Name: user_.Name, Email: user_.Email, Status: 200, Message: "User successfully logged in"}
+	json.NewEncoder(w).Encode(jsonLoginResponse)
 
 }
 
@@ -270,7 +272,7 @@ func main() {
 	//add apis to fetch data from db
 	a.Router.HandleFunc("/api/fetchAllProductsFromDB", GetAllProductsFromDB).Methods("GET")
 	a.Router.HandleFunc("/api/fetchProduct/{itemCategory}", GetFilteredCategory).Methods("GET")
-
+	// a.Router.HandleFunc("/api/getLoginCreds",).Methods("POST")
 	a.Router.HandleFunc("/health-check", HealthCheck).Methods("GET")
 	http.Handle("/", a.Router)
 

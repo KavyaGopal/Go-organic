@@ -5,8 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-
-	setupDB "github.com/KavyaGopal/Go-organic/backend-go/pkg/db"
+	"github.com/KavyaGopal/Go-organic/backend-go/pkg/db"
 	"github.com/KavyaGopal/Go-organic/backend-go/pkg/model"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"

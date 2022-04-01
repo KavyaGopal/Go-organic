@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 
@@ -217,9 +218,7 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 }
 func fetchItemQuantity(w http.ResponseWriter, r *http.Request) {
 	var items []model.Item
-
-	decoder := json.NewDecoder(r.Body)
-	err := decoder.Decode(&items)
+	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println("Internal Server Error")
@@ -227,34 +226,44 @@ func fetchItemQuantity(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(jsonMessage)
 		return
 	}
+	json.Unmarshal(body, &items)
 
-	var itemProd model.ProdMaster
-	var itemActualQuantities []int64
+	// if err != nil {
+	// 	w.WriteHeader(http.StatusInternalServerError)
+	// 	log.Println("Internal Server Error")
+	// 	jsonMessage := model.JsonMessage{Status: 500, Message: "Internal Server Error"}
+	// 	json.NewEncoder(w).Encode(jsonMessage)
+	// 	return
+	// }
 
-	for _, x := range items {
+	itemsProd := make([]model.ProdMaster, len(items))
+
+	for i, x := range items {
 		id := x.ItemID
 		quantity := x.ItemQuantity
 
-		setupDB.DB.First(&itemProd, id)
-		if itemProd.ItemQuantity < quantity {
+		setupDB.DB.First(&itemsProd[i], id)
+		if itemsProd[i].ItemInventory < quantity {
 			w.WriteHeader(http.StatusInternalServerError)
 			log.Println("Internal Server Error")
-			jsonMessage := model.JsonMessage{Status: 500, Message: "Item " + itemProd.ItemName + " is not available for selected quantity"}
+			jsonMessage := model.JsonMessage{Status: 500, Message: "Item " + itemsProd[i].ItemName + " is not available for selected quantity"}
 			json.NewEncoder(w).Encode(jsonMessage)
 			return
 
 		}
-		itemActualQuantities = append(itemActualQuantities, itemProd.ItemInventory)
 
 	}
+
 	for i, x := range items {
 		id := x.ItemID
+
 		quantity := x.ItemQuantity
-		setupDB.DB.Where("id=?", id).UpdateColumn("item_inventory", itemActualQuantities[i]-quantity)
+		var product model.ProdMaster
+		setupDB.DB.First(&product, id)
+		setupDB.DB.Model(&product).Update("item_inventory", itemsProd[i].ItemInventory-quantity)
 
 	}
 
-	log.Println("Internal Server Error")
 	jsonMessage := model.JsonMessage{Status: 200, Message: "Checkout of All Items Done Successfully"}
 	json.NewEncoder(w).Encode(jsonMessage)
 
@@ -318,7 +327,7 @@ func main() {
 	a.Router.HandleFunc("/api/fetchProduct/{itemCategory}", GetFilteredCategory).Methods("GET")
 
 	a.Router.HandleFunc("/health-check", HealthCheck).Methods("GET")
-
+	a.Router.HandleFunc("/api/fetchItemQuantity", fetchItemQuantity).Methods("POST")
 	http.Handle("/", a.Router)
 
 	// log.Fatal(http.ListenAndServe(":8000", a.Router))

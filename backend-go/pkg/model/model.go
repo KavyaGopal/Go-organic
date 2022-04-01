@@ -99,6 +99,6 @@ type CosmeticsMock struct {
 }
 
 type Item struct {
-	ItemID       string `json:"itemID"`
-	ItemQuantity int64  `json:"itemQuantity"`
+	ItemID       int64 `json:"itemID"`
+	ItemQuantity int64 `json:"itemQuantity"`
 }

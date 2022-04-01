@@ -8,6 +8,9 @@ import (
 	"github.com/KavyaGopal/Go-organic/backend-go/pkg/db"
 	"github.com/gorilla/mux"
 	"github.com/stretchr/testify/require"
+	"github.com/stretchr/testify/assert"
+	"encoding/json"
+	"bytes"
 )
 
 func Router() *mux.Router {
@@ -103,10 +106,16 @@ func TestGetAllProductsFromDB(t *testing.T) {
 func TestRegisterAPI(t *testing.T) {
 	//write test cases for the register api
 	setupDB.ConnectDatabase()
-	request, err := http.NewRequest("POST", "/registerUser", nil)
-	if err != nil {
-		t.Fatal(err)
+	user := &model.User{
+		Name:         "test",
+		Email:        "test",
+		Address:      "test",
+		Password: 	  "test",
+		Age:           10,
+		Phone:        "3528889222",
 	}
+	jsonPayload, _ := json.Marshal(user)
+	request, _ := http.NewRequest("POST", "/registerUser", bytes.NewBuffer(jsonPayload))
 	rr := httptest.NewRecorder()
 	handler := http.HandlerFunc(RegisterUser)
 	handler.ServeHTTP(rr, request)
@@ -115,13 +124,8 @@ func TestRegisterAPI(t *testing.T) {
 			status, http.StatusOK)
 	}
 
-	//expected json for all products fetched from the database
-	expected := `{"status":200,"message":"New User Successfully Added: Tanmay Patil"}`
-	
-	//check equality of json for all products
-	require.JSONEq(t, expected, rr.Body.String())
-
-	
+	assert.Equal(t, 200, rr.Code, "OK response is expected")
+	assert.Equal(t, "{\"status\":200,\"message\":\"New User Successfully Added: test\"}\n", rr.Body.String(), "Register Success")
 
 }
 

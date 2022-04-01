@@ -120,7 +120,7 @@ func RegisterUser(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	handleCors(&w, r)
-	db, err := gorm.Open("sqlite3", "pkg/api/ProductData.db")
+	db, err := gorm.Open("sqlite3", "ProductData.db")
 	if err != nil {
 		panic("failed to connect database")
 	}
@@ -143,6 +143,18 @@ func RegisterUser(w http.ResponseWriter, r *http.Request) {
 		log.Println("Unauthorized Access ")
 		jsonMessage = model.JsonMessage{Status: 500, Message: "User already exists"}
 		json.NewEncoder(w).Encode(jsonMessage)
+	} else if user.Email == "" {
+		w.WriteHeader(http.StatusUnauthorized)
+		log.Println("Email is Empty")
+		jsonMessage = model.JsonMessage{Status: http.StatusUnauthorized, Message: "User Email is empty"}
+		json.NewEncoder(w).Encode(jsonMessage)
+		return
+	} else if user.Phone == "" {
+		w.WriteHeader(http.StatusUnauthorized)
+		log.Println("Phone is Empty")
+		jsonMessage = model.JsonMessage{Status: http.StatusUnauthorized, Message: "User Phone is empty"}
+		json.NewEncoder(w).Encode(jsonMessage)
+		return
 	} else {
 		jsonMessage = model.JsonMessage{Status: 200, Message: "New User Successfully Added: " + user.Name}
 		json.NewEncoder(w).Encode(jsonMessage)

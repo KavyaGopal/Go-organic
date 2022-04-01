@@ -244,13 +244,13 @@ func fetchItemQuantity(w http.ResponseWriter, r *http.Request) {
 			return
 
 		}
-		itemActualQuantities = append(itemActualQuantities, itemProd.ItemQuantity)
+		itemActualQuantities = append(itemActualQuantities, itemProd.ItemInventory)
 
 	}
 	for i, x := range items {
 		id := x.ItemID
 		quantity := x.ItemQuantity
-		setupDB.DB.Where("id=?", id).UpdateColumn("item_quantity", itemActualQuantities[i]-quantity)
+		setupDB.DB.Where("id=?", id).UpdateColumn("item_inventory", itemActualQuantities[i]-quantity)
 
 	}
 
@@ -318,6 +318,7 @@ func main() {
 	a.Router.HandleFunc("/api/fetchProduct/{itemCategory}", GetFilteredCategory).Methods("GET")
 
 	a.Router.HandleFunc("/health-check", HealthCheck).Methods("GET")
+
 	http.Handle("/", a.Router)
 
 	// log.Fatal(http.ListenAndServe(":8000", a.Router))

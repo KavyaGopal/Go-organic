@@ -59,6 +59,7 @@ export class CartComponent implements OnInit {
     }
     localStorage.setItem('cartData',JSON.stringify(this.getCartDetails));
     this.getTotal();
+    window.location.reload()
 
   }
   incQty(item){
@@ -71,6 +72,7 @@ export class CartComponent implements OnInit {
     }
     localStorage.setItem('cartData',JSON.stringify(this.getCartDetails))
     this.getTotal();
+    window.location.reload()
   }
 
 

@@ -45,6 +45,9 @@ high level order of the categories to navigate and developed the mock APIs to ge
 ## Product Demo Short Videos
 
 - Frontend
+![sprint3](https://user-images.githubusercontent.com/17459225/161350431-46a13433-72e0-4787-a60b-9c8689ae9aea.gif)
+
+    
 
 UNIT TESTS:
 

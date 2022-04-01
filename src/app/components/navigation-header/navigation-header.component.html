@@ -1,37 +1,32 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport
-      [attr.role]="(isTab$ | async) ? 'dialog' : 'navigation' "
-      [ngClass]="{'hidden': !(isTab$ | async)}"
-      [mode]="(isTab$ | async) ? 'over' : 'side'"
-      [opened]="(isTab$ | async) === false">
-    <mat-toolbar >Menu</mat-toolbar>
-    <mat-nav-list>
-      <a mat-list-item href="#">Groceries</a>
-      <a mat-list-item href="#">Fruits</a>
-      <a mat-list-item href="#">Snacks</a>
-      <a mat-list-item href="#">Vegetables</a>
-      <a mat-list-item href="#">Dairy</a>
+    <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isTab$ | async) ? 'dialog' : 'navigation' " [ngClass]="{'hidden': !(isTab$ | async)}" [mode]="(isTab$ | async) ? 'over' : 'side'" [opened]="(isTab$ | async) === false">
+        <mat-toolbar>Menu</mat-toolbar>
+        <mat-nav-list>
+            <a mat-list-item href="#">Groceries</a>
+            <a mat-list-item href="#">Fruits</a>
+            <a mat-list-item href="#">Snacks</a>
+            <a mat-list-item href="#">Vegetables</a>
+            <a mat-list-item href="#">Dairy</a>
 
-    </mat-nav-list>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <mat-toolbar class="header-container">
-      <mat-toolbar-row class=""    *ngIf="(isTab$ | async)">
-        <!-- <div class="d-flex flex-row w-100 justify-content-center" *ngIf="(isTab$ | async)"><img class="logo1" src="../../../assets/Logo.svg"></div> -->
-      </mat-toolbar-row>
-      <mat-toolbar-row class="darkGrey header-one"   *ngIf="!(isTab$ | async)">
-        <span>Go Organic</span>
-      <span class="spacer"></span>
-        <a href="#">About us</a>
-        <a href="#">Contact us</a>
-        <a href="#">999-999-9999</a>
-        <a href="#" style="text-transform: capitalize;">go-organic@gnv.co</a>
-      </mat-toolbar-row>
-     <mat-toolbar-row [ngClass]="{'fullWidth': (isTab$ | async)}"
-     class="header-two d-flex flex-row justify-content-end">
-      <!-- <div class="d-flex flex-row"> -->
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar class="header-container">
+            <mat-toolbar-row class="" *ngIf="(isTab$ | async)">
+                <!-- <div class="d-flex flex-row w-100 justify-content-center" *ngIf="(isTab$ | async)"><img class="logo1" src="../../../assets/Logo.svg"></div> -->
+            </mat-toolbar-row>
+            <mat-toolbar-row class="darkGrey header-one" *ngIf="!(isTab$ | async)">
+                <a [routerLink]="['/home']"><span>Go Organic</span></a>
+                <span class="spacer"></span>
+                <a href="#">About us</a>
+                <a href="#">Contact us</a>
+                <a href="#">999-999-9999</a>
+                <a href="#" style="text-transform: capitalize;">go-organic@gnv.co</a>
+            </mat-toolbar-row>
+            <mat-toolbar-row [ngClass]="{'fullWidth': (isTab$ | async)}" class="header-two d-flex flex-row justify-content-end">
+                <!-- <div class="d-flex flex-row"> -->
 
-        <!-- <div class=" align-self-center  pr-2 mr-3"
+                <!-- <div class=" align-self-center  pr-2 mr-3"
         [ngClass]="{'locMargin': (isTab$ | async)}">
       <div class="d-flex flex-row">
         <button
@@ -51,170 +46,178 @@
           </div> -->
 
 
-          
 
-          <!-- Comment -->
-        <div class="align-self-center pr-3 mb-3  ">
-          <div class="row ">
-            <div class="col-4"><img src="../../../assets/location_icon.svg"></div>
-            <div class="col-8" *ngIf="!(isTab$ | async)"> Gainesville </div>
-          </div>
-          </div>
 
-        <div class="align-self-center pr-2 mb-3  ">
-         <div class="row ">
-          <div class="col-4"><img src="../../../assets/user_icon.svg"></div>
-          <div class="col-8" *ngIf="!(isTab$ | async)"> Login</div>
-         </div>
-         </div>
-   </mat-toolbar-row>
+                <!-- Comment -->
+                <div class="align-self-center pr-3 mb-3  ">
+                    <div class="row ">
+                        <div class="col-4"><img src="../../../assets/location_icon.svg"></div>
+                        <div class="col-8" *ngIf="!(isTab$ | async)"> Gainesville </div>
+                    </div>
+                </div>
 
-    </mat-toolbar>
-    <mat-toolbar  class="mat-primary darkGrey shadow sticky-toolbar header-three d-flex flex-wrap col-12 col-md-11"  *ngIf="!(isTab$ | async)">
-      <mat-nav-list class="list-horizontal">
-          <mat-list-item class="ml-5">
-           <button mat-menu-item>Groceries</button>
-         </mat-list-item> 
+                <div class="align-self-center pr-2 mb-3  ">
+                    <div class="row ">
+                        <div class="col-4"><img src="../../../assets/user_icon.svg"></div>
+                        <a>
+                            <!-- <span> {{localStorage.get('userDetails') === null ? 'Login' : 'localStorage.get('userDetails')'}} </span> -->
+                            <div class="col-8" *ngIf="!(isTab$ | async)" [routerLink]="['/login']">Login</div>
+                        </a>
+                    </div>
+                </div>
+            </mat-toolbar-row>
 
-         <mat-list-item>
-           <button mat-menu-item [matMenuTriggerFor]="referralsmenu">Fruits</button>
-         </mat-list-item>
-         <mat-menu #referralsmenu="matMenu" [overlapTrigger]="false">
-           <button mat-menu-item>
+        </mat-toolbar>
+        <mat-toolbar class="mat-primary darkGrey shadow sticky-toolbar header-three d-flex flex-wrap col-12 col-md-11" *ngIf="!(isTab$ | async)">
+            <mat-nav-list class="list-horizontal">
+                <mat-list-item class="ml-5">
+                    <button mat-menu-item>Groceries</button>
+                </mat-list-item>
+
+                <mat-list-item>
+                    <button mat-menu-item [matMenuTriggerFor]="referralsmenu">Fruits</button>
+                </mat-list-item>
+                <mat-menu #referralsmenu="matMenu" [overlapTrigger]="false">
+                    <button mat-menu-item>
              <mat-icon>home</mat-icon>
              <span>Telephonic Case Management</span>
            </button>
-           <button mat-menu-item>
+                    <button mat-menu-item>
              <mat-icon>save_alt</mat-icon>
              <span>Utilization Review </span>
            </button>
-           <button mat-menu-item>
+                    <button mat-menu-item>
              <mat-icon>home</mat-icon>
              <span>Pharmacy Management</span>
            </button>
-         </mat-menu>
-     
-         <mat-list-item>
-           <button mat-menu-item [matMenuTriggerFor]="DRmenu">Snacks</button>
-         </mat-list-item>
-         <mat-menu #DRmenu="matMenu" [overlapTrigger]="false">
-           <button mat-menu-item>
+                </mat-menu>
+
+                <mat-list-item>
+                    <button mat-menu-item [matMenuTriggerFor]="DRmenu">Snacks</button>
+                </mat-list-item>
+                <mat-menu #DRmenu="matMenu" [overlapTrigger]="false">
+                    <button mat-menu-item>
              <mat-icon>home</mat-icon>
              <span>Dashboards</span>
            </button>
-           <button mat-menu-item>
+                    <button mat-menu-item>
              <mat-icon>save_alt</mat-icon>
              <span>Reports </span>
            </button>
-         </mat-menu>
-     
-         <mat-list-item>
-           <button mat-menu-item [matMenuTriggerFor]="adminmenu">Vegetables</button>
-         </mat-list-item>
-         <mat-menu #adminmenu="matMenu" [overlapTrigger]="false">
-           <button mat-menu-item>
+                </mat-menu>
+
+                <mat-list-item>
+                    <button mat-menu-item [matMenuTriggerFor]="adminmenu">Vegetables</button>
+                </mat-list-item>
+                <mat-menu #adminmenu="matMenu" [overlapTrigger]="false">
+                    <button mat-menu-item>
              <mat-icon>home</mat-icon>
              <span>Coverage</span>
            </button>
-           <button mat-menu-item>
+                    <button mat-menu-item>
              <mat-icon>save_alt</mat-icon>
              <span>Configuration</span>
            </button>
-         </mat-menu>
-     
-         <mat-list-item>
-           <button mat-menu-item [matMenuTriggerFor]="searchmenu">Dairy</button>
-         </mat-list-item>
-         <mat-menu #searchmenu="matMenu" [overlapTrigger]="false">
-           <button mat-menu-item>
+                </mat-menu>
+
+                <mat-list-item>
+                    <button mat-menu-item [matMenuTriggerFor]="searchmenu">Dairy</button>
+                </mat-list-item>
+                <mat-menu #searchmenu="matMenu" [overlapTrigger]="false">
+                    <button mat-menu-item>
              <mat-icon>home</mat-icon>
              <span>Bills</span>
            </button>
-           <button mat-menu-item>
+                    <button mat-menu-item>
              <mat-icon>save_alt</mat-icon>
              <span>Claims </span>
            </button>
-           <button mat-menu-item>
+                    <button mat-menu-item>
              <mat-icon>home</mat-icon>
              <span>Providers</span>
            </button>
-         </mat-menu>
-         <!-- <mat-list-item>
+                </mat-menu>
+                <!-- <mat-list-item>
           <button mat-menu-item>PREMIUM Gifting</button>
         </mat-list-item>  -->
-        <!-- <div class="col  ml-auto text-center"><mat-icon aria-label="Side nav toggle icon">search</mat-icon></div> -->
-        <mat-list-item class="ml-auto text-center">
-          <!-- <button mat-fab><mat-icon aria-label="Side nav toggle icon">search</mat-icon></button> -->
-          <button mat-fab [routerLink]="['/cart']">
+                <!-- <div class="col  ml-auto text-center"><mat-icon aria-label="Side nav toggle icon">search</mat-icon></div> -->
+                <mat-list-item class="ml-auto text-center">
+                    <!-- <button mat-fab><mat-icon aria-label="Side nav toggle icon">search</mat-icon></button> -->
+                    <button mat-fab [routerLink]="['/cart']">
             <mat-icon [matBadge]="cartItem" matBadgeColor="warn">shopping_cart</mat-icon>
             <!-- <mat-icon aria-label="Side nav toggle icon">search</mat-icon> -->
           </button>
-        </mat-list-item> 
-       </mat-nav-list>
-    </mat-toolbar>
-    <ng-content></ng-content>
-    <!-- Add Content Here -->
-    <section>
-<div class="container-fluid  footer-container darkGrey">
-<div class="row justify-content-center">
-  <div class=" col-sm-12 col-md-4 p-5">
-    <div class="footer-header"><h4>About Go-organic</h4>
-    </div>
-    <hr>
-    <div class="footer-content">
-      <div class="d-flex flex-row ">
-        <!-- <div class="p-2"> <mat-icon aria-label="Side nav toggle icon">search</mat-icon> </div> -->
-        <div class=" p-2">We provide you with the best Organic food straight from farmer</div>
-      </div>
-      <p> Go-organic</p>
-    </div>
-  </div>
-  <div class=" col-sm-12 col-md-4 p-5">
-    <div class="footer-header"><h4>Quick Links</h4>
-    </div>
-    <hr>
-    <div class="footer-content">
-      <div class="d-flex flex-row ">
-        <div class="p-2 flex-fill">
-           <ul>
-        <li class="my-2">History</li>
-        <li class="my-2">FAQ</li>
-        <li class="my-2">Farmers</li>
-        <li class="my-2">Events</li>
-        <li class="my-2">Blog</li>
+                </mat-list-item>
+            </mat-nav-list>
+        </mat-toolbar>
+        <ng-content></ng-content>
+        <!-- Add Content Here -->
+        <section>
+            <div class="container-fluid  footer-container darkGrey">
+                <div class="row justify-content-center">
+                    <div class=" col-sm-12 col-md-4 p-5">
+                        <div class="footer-header">
+                            <h4>About Go-organic</h4>
+                        </div>
+                        <hr>
+                        <div class="footer-content">
+                            <div class="d-flex flex-row ">
+                                <!-- <div class="p-2"> <mat-icon aria-label="Side nav toggle icon">search</mat-icon> </div> -->
+                                <div class=" p-2">We provide you with the best Organic food straight from farmer</div>
+                            </div>
+                            <p> Go-organic</p>
+                        </div>
+                    </div>
+                    <div class=" col-sm-12 col-md-4 p-5">
+                        <div class="footer-header">
+                            <h4>Quick Links</h4>
+                        </div>
+                        <hr>
+                        <div class="footer-content">
+                            <div class="d-flex flex-row ">
+                                <div class="p-2 flex-fill">
+                                    <ul>
+                                        <li class="my-2">History</li>
+                                        <li class="my-2">FAQ</li>
+                                        <li class="my-2">Farmers</li>
+                                        <li class="my-2">Events</li>
+                                        <li class="my-2">Blog</li>
 
-        </ul> </div>
-        <div class=" p-2 flex-fill">   <ul>
-          <li class="my-2">Organic Fruits</li>
-          <li class="my-2">Our Smoothies</li>
-          <li class="my-2">FaFruits Boxes</li>
-          <li class="my-2">Dry Fruits</li>  
-          </ul></div>
-      </div>
-    </div>
-  </div>
-  <div class=" col-sm-12 col-md-4 p-5">
-    <div class="footer-header"><h4>Visit Go-organic</h4>
-    </div>
-    <hr>
-    <div class="footer-content">
-      <p>Please do drop by the store located at Gainesville right opposite to the University of Florida </p>
+                                    </ul>
+                                </div>
+                                <div class=" p-2 flex-fill">
+                                    <ul>
+                                        <li class="my-2">Organic Fruits</li>
+                                        <li class="my-2">Our Smoothies</li>
+                                        <li class="my-2">FaFruits Boxes</li>
+                                        <li class="my-2">Dry Fruits</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-sm-12 col-md-4 p-5">
+                        <div class="footer-header">
+                            <h4>Visit Go-organic</h4>
+                        </div>
+                        <hr>
+                        <div class="footer-content">
+                            <p>Please do drop by the store located at Gainesville right opposite to the University of Florida </p>
 
-       <div class="d-flex flex-row flex-wrap ">
-        <div class="py-2 pr-2 flex-fill">
-          <button class="btn-green-flat" mat-raised-button color="accent">Shop Now</button>
-          </div>
-          <div class="py-2 ml-auto flex-fill">
-            <button class="btn-green-flat" mat-raised-button color="accent">Contact us</button>
+                            <div class="d-flex flex-row flex-wrap ">
+                                <div class="py-2 pr-2 flex-fill">
+                                    <button class="btn-green-flat" mat-raised-button color="accent">Shop Now</button>
+                                </div>
+                                <div class="py-2 ml-auto flex-fill">
+                                    <button class="btn-green-flat" mat-raised-button color="accent">Contact us</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
-          </div>
-    </div>
-  </div>
-
-</div>
-</div>
-</section>
-  </mat-sidenav-content>
+        </section>
+    </mat-sidenav-content>
 
 </mat-sidenav-container>
-

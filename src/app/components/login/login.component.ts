@@ -29,17 +29,19 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    console.warn(this.login.value)
+    // console.warn(this.login.value)
     this.http.post<any>("http://localhost:8000/loginUser", this.login.value)
     .subscribe({
-      next: (value) => console.log(value),
+      next: (value) => localStorage.setItem('userData', JSON.stringify(value.name)),
       error: (e) => {alert("Something went wrong");
       console.log("The error is:");
       console.warn(e)
     },
-      complete: () => {alert("Login Success");
+      complete: () => {
+      // alert("Login Success");
       this.login.reset();
-      // this.router.navigate(['login'])
+      // console.warn(localStorage.getItem('userData'));
+      this.router.navigate(['home'])
       }
     })
   }

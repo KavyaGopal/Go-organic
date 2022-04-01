@@ -60,6 +60,7 @@
                     <div class="row ">
                         <div class="col-4"><img src="../../../assets/user_icon.svg"></div>
                         <a>
+                            <!-- <span> {{localStorage.get('userDetails') === null ? 'Login' : 'localStorage.get('userDetails')'}} </span> -->
                             <div class="col-8" *ngIf="!(isTab$ | async)" [routerLink]="['/login']">Login</div>
                         </a>
                     </div>

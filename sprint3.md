@@ -50,8 +50,13 @@ UNIT TESTS:
 
 SIGN UP
 
+https://user-images.githubusercontent.com/17459225/161349777-ce77882c-c4cd-4895-ab66-a92686ff8130.mp4
+
+
+
 LOGIN
 
+https://user-images.githubusercontent.com/17459225/161349888-4a41fee9-2005-465e-8a80-bea8661ad1c1.mp4
 
 
 

@@ -61,6 +61,10 @@ For testing, we will do unit testing for both front and back end when developing
 
 - https://github.com/KavyaGopal/Go-organic/blob/main/sprint2.md
 
+## Sprint 3
+
+- https://github.com/KavyaGopal/Go-organic/blob/main/sprint3.md
+
 ## Authors
 
 #### Authors

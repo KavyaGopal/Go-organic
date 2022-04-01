@@ -96,3 +96,8 @@ type CosmeticsMock struct {
 	ItemQuantity int64  `json:"itemQuantity"`
 	ItemCost     int64  `json:"itemCost"`
 }
+
+type Item struct {
+	ItemID       string `json:"itemID"`
+	ItemQuantity int64  `json:"itemQuantity"`
+}

@@ -5,7 +5,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"github.com/KavyaGopal/Go-organic/backend-go/pkg/db"
+
+	setupDB "github.com/KavyaGopal/Go-organic/backend-go/pkg/db"
 	"github.com/KavyaGopal/Go-organic/backend-go/pkg/model"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
@@ -214,6 +215,50 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(jsonLoginResponse)
 
 }
+func fetchItemQuantity(w http.ResponseWriter, r *http.Request) {
+	var items []model.Item
+
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&items)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		log.Println("Internal Server Error")
+		jsonMessage := model.JsonMessage{Status: 500, Message: "Internal Server Error"}
+		json.NewEncoder(w).Encode(jsonMessage)
+		return
+	}
+
+	var itemProd model.ProdMaster
+	var itemActualQuantities []int64
+
+	for _, x := range items {
+		id := x.ItemID
+		quantity := x.ItemQuantity
+
+		setupDB.DB.First(&itemProd, id)
+		if itemProd.ItemQuantity < quantity {
+			w.WriteHeader(http.StatusInternalServerError)
+			log.Println("Internal Server Error")
+			jsonMessage := model.JsonMessage{Status: 500, Message: "Item " + itemProd.ItemName + " is not available for selected quantity"}
+			json.NewEncoder(w).Encode(jsonMessage)
+			return
+
+		}
+		itemActualQuantities = append(itemActualQuantities, itemProd.ItemQuantity)
+
+	}
+	for i, x := range items {
+		id := x.ItemID
+		quantity := x.ItemQuantity
+		setupDB.DB.Where("id=?", id).UpdateColumn("item_quantity", itemActualQuantities[i]-quantity)
+
+	}
+
+	log.Println("Internal Server Error")
+	jsonMessage := model.JsonMessage{Status: 200, Message: "Checkout of All Items Done Successfully"}
+	json.NewEncoder(w).Encode(jsonMessage)
+
+}
 
 func main() {
 	//init router
@@ -271,7 +316,7 @@ func main() {
 	//add apis to fetch data from db
 	a.Router.HandleFunc("/api/fetchAllProductsFromDB", GetAllProductsFromDB).Methods("GET")
 	a.Router.HandleFunc("/api/fetchProduct/{itemCategory}", GetFilteredCategory).Methods("GET")
-	// a.Router.HandleFunc("/api/getLoginCreds",).Methods("POST")
+
 	a.Router.HandleFunc("/health-check", HealthCheck).Methods("GET")
 	http.Handle("/", a.Router)
 

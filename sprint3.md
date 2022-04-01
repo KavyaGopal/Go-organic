@@ -45,9 +45,14 @@ high level order of the categories to navigate and developed the mock APIs to ge
 ## Product Demo Short Videos
 
 - Frontend
+
+1. Sign In and Sign Up
 ![sprint3](https://user-images.githubusercontent.com/17459225/161350431-46a13433-72e0-4787-a60b-9c8689ae9aea.gif)
 
-    
+2. Add products to cart -> Checkout Components -> Proceed to Payment
+
+ ![sprint3demo](https://user-images.githubusercontent.com/30043582/161351344-9beb1c22-6d5a-4432-9849-4e42f0a8ac70.gif)
+
 
 UNIT TESTS:
 
@@ -60,6 +65,17 @@ https://user-images.githubusercontent.com/17459225/161349777-ce77882c-c4cd-4895-
 LOGIN
 
 https://user-images.githubusercontent.com/17459225/161349888-4a41fee9-2005-465e-8a80-bea8661ad1c1.mp4
+
+CART
+
+
+https://user-images.githubusercontent.com/30043582/161351280-290124fa-2f79-42de-83f4-f5ef8506c710.mp4
+
+
+
+CHECKOUT:
+
+https://user-images.githubusercontent.com/30043582/161351242-28374fc1-ace2-4b2c-875b-b1be3f0af326.mp4
 
 
 

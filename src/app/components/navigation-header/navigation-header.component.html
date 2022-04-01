@@ -60,11 +60,18 @@
                     <div class="row ">
                         <div class="col-4"><img src="../../../assets/user_icon.svg"></div>
                         <a>
-                            <!-- <span> {{localStorage.get('userDetails') === null ? 'Login' : 'localStorage.get('userDetails')'}} </span> -->
-                            <div class="col-8" *ngIf="!(isTab$ | async)" [routerLink]="['/login']">Login</div>
+
+                            <div class="col-8" *ngIf="!(isTab$ | async)" [routerLink]="['/login']">{{user === null ? 'Login' : user}}</div>
                         </a>
                     </div>
                 </div>
+                <!-- <div class="align-self-center pr-3 mb-3" *ngIf="user != null">
+                    <div class="row ">
+                        <div class="col-4"><img src="../../../assets/user_icon.svg"></div>
+                        <div class="col-8" *ngIf="!(isTab$ | async)"> Logout </div>
+                    </div>
+                </div> -->
+
             </mat-toolbar-row>
 
         </mat-toolbar>

@@ -15,6 +15,8 @@ export class NavigationHeaderComponent implements OnInit{
 
   myBreakpoint = '(max-width: 900px)';
   cartItem: number = 0;
+  user: string = null;
+
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches),
@@ -36,7 +38,12 @@ export class NavigationHeaderComponent implements OnInit{
       private breakpointObserver: BreakpointObserver, private cartService: CartService) {
         this.cartService.cartSubject.subscribe((data)=> {
           this.cartItem = data;
+          
         })
+        debugger;
+       
+        this.cartService.userName.subscribe((data) => this.user = data);
+        console.log('User Name: ' + this.user)
       }
   
       ngOnInit(): void {
@@ -49,12 +56,6 @@ export class NavigationHeaderComponent implements OnInit{
           this.cartItem = cartCount.length;
         }
       }
-      getUser() {
-        var user = 'Login'
-        if (localStorage.getItem('userDetails') != null) {
-            user = localStorage.getItem('userDetails')
-        }
-        return user
-      }
+     
 
 }

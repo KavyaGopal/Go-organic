@@ -3,6 +3,7 @@ import {FormBuilder, FormControl, FormGroup, Validator, Validators} from '@angul
 import { GetApiService } from './../../get-api.service';
 import { HttpClient} from '@angular/common/http';
 import { Router} from '@angular/router';
+import { CustomValidationService } from '../../services/custom-validation.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -11,16 +12,18 @@ import { Router} from '@angular/router';
 })
 export class SignUpComponent implements OnInit {
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private customValidator: CustomValidationService, private fb: FormBuilder) {}
 
   
-  loginForm = new FormGroup({
+  loginForm = this.fb.group({
     email: new FormControl('', Validators.required),
     name: new FormControl('', Validators.required),
     phone: new FormControl('', Validators.required),
     address: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
     password2: new FormControl('', Validators.required)
+  }, {
+    validator: this.customValidator.passwordMatchValidator("password", "password2")
   })
 
   ngOnInit(): void {

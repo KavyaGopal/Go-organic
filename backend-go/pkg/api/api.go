@@ -6,8 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-
-	setupDB "github.com/KavyaGopal/Go-organic/backend-go/pkg/db"
+	"github.com/KavyaGopal/Go-organic/backend-go/pkg/db"
 	"github.com/KavyaGopal/Go-organic/backend-go/pkg/model"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
@@ -136,7 +135,7 @@ func RegisterUser(w http.ResponseWriter, r *http.Request) {
 		panic(err2)
 	}
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), 8)
-	result := db.Create(&model.User{Name: user.Name, Email: user.Email, Address: user.Address, Password: string(hashedPassword), Age: user.Age, Phone: user.Phone})
+	result := db.Create(&model.User{Name: user.Name, Email: user.Email, Address: user.Address, Password: string(hashedPassword), Phone: user.Phone})
 
 	var jsonMessage model.JsonMessage
 
@@ -168,7 +167,7 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	handleCors(&w, r)
-	db, err := gorm.Open("sqlite3", "pkg/api/ProductData.db")
+	db, err := gorm.Open("sqlite3", "ProductData.db")
 	if err != nil {
 		panic("failed to connect database")
 	}
@@ -286,7 +285,7 @@ func main() {
 	a := &App{}
 
 	a.Router = mux.NewRouter()
-	setupDB.ConnectEndPointDatabase()
+	setupDB.ConnectDatabase()
 
 	fruits = append(fruits, model.FruitMock{ID: 1, ImageSource: "../../../assets/items/apple.png", ItemName: "Apple", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 12})
 	fruits = append(fruits, model.FruitMock{ID: 2, ImageSource: "../../../assets/items/cherry.png", ItemName: "Cherry", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 15})

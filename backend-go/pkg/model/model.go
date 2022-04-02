@@ -2,14 +2,15 @@ package model
 
 // Product Struct (Model)
 type ProdMaster struct {
-	ID           int64   `gorm:"AUTO_INCREMENT;PRIMARY_KEY;not_null" json:"id"`
-	ImageSource  string  `gorm:"type:varchar(255);NOT NULL" json:"imgSrc"`
-	ItemName     string  `gorm:"type:varchar(255);NOT NULL" json:"itemName"`
-	ItemCategory string  `gorm:"type:varchar(255);NOT NULL" json:"itemCategory"`
-	ItemDesc     string  `gorm:"type:text" json:"itemDesc"`
-	ItemWeight   float32 `gorm:"type:decimal(10,2)" json:"itemWt"`
-	ItemQuantity int64   `gorm:"<-" json:"itemQuantity"`
-	ItemCost     float32 `gorm:"type:decimal(10,2)" json:"itemCost"`
+	ID            int64   `gorm:"AUTO_INCREMENT;PRIMARY_KEY;not_null" json:"id"`
+	ImageSource   string  `gorm:"type:varchar(255);NOT NULL" json:"imgSrc"`
+	ItemName      string  `gorm:"type:varchar(255);NOT NULL" json:"itemName"`
+	ItemCategory  string  `gorm:"type:varchar(255);NOT NULL" json:"itemCategory"`
+	ItemDesc      string  `gorm:"type:text" json:"itemDesc"`
+	ItemWeight    float32 `gorm:"type:decimal(10,2)" json:"itemWt"`
+	ItemQuantity  int64   `gorm:"<-" json:"itemQuantity"`
+	ItemCost      float32 `gorm:"type:decimal(10,2)" json:"itemCost"`
+	ItemInventory int64   `gorm:"<-" json:"itemInventory"`
 }
 
 //user profile
@@ -19,7 +20,6 @@ type User struct {
 	Email    string `gorm:"unique; Not null " json:"email"`
 	Address  string `gorm:"type:varchar(255);NOT NULL" json:"address"`
 	Password string `gorm:"Not null " json:"password"`
-	Age      int64  `gorm:"<-" json:"age"`
 	Phone    string `gorm:"unique; Not null " json:"phone"`
 }
 
@@ -95,4 +95,9 @@ type CosmeticsMock struct {
 	ItemWeight   int64  `json:"itemWt"`
 	ItemQuantity int64  `json:"itemQuantity"`
 	ItemCost     int64  `json:"itemCost"`
+}
+
+type Item struct {
+	ItemID       int64 `json:"itemID"`
+	ItemQuantity int64 `json:"itemQuantity"`
 }

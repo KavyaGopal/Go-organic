@@ -44,6 +44,10 @@ td.mat-cell {
 .iconContainer {
     display: inline-flex;
 }
+
+.container {
+    width: 20%
+}
 .iconLabel {
     position: relative;
     top: 4px;
@@ -150,4 +154,8 @@ td.mat-cell {
     td.mat-cell {
         font-size: 10px;
    }
+}
+
+#total {
+    float: right;
 }

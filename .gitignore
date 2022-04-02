@@ -1,4 +1,4 @@
 /node_modules
-
+backend-go/pkg/api/ProductData.db
 .DS_Store
 .angular

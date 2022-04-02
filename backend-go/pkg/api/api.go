@@ -6,7 +6,8 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"github.com/KavyaGopal/Go-organic/backend-go/pkg/db"
+
+	setupDB "github.com/KavyaGopal/Go-organic/backend-go/pkg/db"
 	"github.com/KavyaGopal/Go-organic/backend-go/pkg/model"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
@@ -215,7 +216,7 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 		// If the two passwords don't match, return a 401 status
 		w.WriteHeader(http.StatusUnauthorized)
 		log.Println("Unauthorized Access ")
-		jsonMessage = model.JsonMessage{Status: http.StatusUnauthorized, Message: "Unauthorized Access"}
+		jsonMessage = model.JsonMessage{Status: 500, Message: "Unauthorized Access"}
 		json.NewEncoder(w).Encode(jsonMessage)
 
 		return
@@ -238,14 +239,6 @@ func fetchItemQuantity(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	json.Unmarshal(body, &items)
-
-	// if err != nil {
-	// 	w.WriteHeader(http.StatusInternalServerError)
-	// 	log.Println("Internal Server Error")
-	// 	jsonMessage := model.JsonMessage{Status: 500, Message: "Internal Server Error"}
-	// 	json.NewEncoder(w).Encode(jsonMessage)
-	// 	return
-	// }
 
 	itemsProd := make([]model.ProdMaster, len(items))
 

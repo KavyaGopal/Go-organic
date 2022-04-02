@@ -40,8 +40,8 @@ A one stop place to buy all the organic and healthy food. It is a web applicatio
     
 #### Backend
 
-    cd backend-go;
-    go run pkg/api/api.go
+    cd backend-go/pkg/api;
+    go run api.go
 
 ## Documentation
 [Go-Organic Wiki](https://github.com/KavyaGopal/Go-organic/wiki)

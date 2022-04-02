@@ -1,4 +1,4 @@
-# Status Update for Sprint 2
+# Status Update for Sprint 3
 We are developing organic food products web application to place the orders of the organic foods. We are using the tech stack Angular 13 for frontend, Golang 1.17 for the backend and SQLite for database. For sprint 1, we have completed the home page with
 high level order of the categories to navigate and developed the mock APIs to get the desired products according to the category of the organic food.  
 
@@ -40,12 +40,24 @@ high level order of the categories to navigate and developed the mock APIs to ge
 
 ## Backend
 
-
+- Sign Up
+    - API development completed
+    - Password encryption and decryption done using bcrypt
+    - Handles already registered user to sign in
+    - Test cases for success and failure done
+    - Integrated with frontend complete
+- Sign In
+    - API development completed
+    - Authentication check added when user prompts for wrong password
+    - Provide data to front end on the API response so user specific details can be displayed
+    - Test cases for success and failure done
+    - Integrated with frontend complete
+- Checkout
+    - API development completed
+    - Checks for the item quantity sent by user against the inventory completed
+    - Update the item inventory in the database post product checkout completed
 
 ## Bugs Fixed
-
-
-
 
 
 ## Product Demo Short Videos
@@ -84,11 +96,23 @@ CHECKOUT:
 https://user-images.githubusercontent.com/30043582/161351242-28374fc1-ace2-4b2c-875b-b1be3f0af326.mp4
 
 
-
-
-
 - Backend
 
+REGISTER API :
 
+https://user-images.githubusercontent.com/20243138/161363799-a7d4e2a5-1003-470f-af42-cf57726606d4.mp4
+
+LOGIN API:
+
+https://user-images.githubusercontent.com/20243138/161363858-5f516562-7636-4b5e-9f5a-d53b0118dbaf.mp4
+
+CHECKOUT CART API:
+
+https://user-images.githubusercontent.com/20243138/161363877-3357a8ae-0c4d-4e25-9426-82a349b425c8.mp4
+
+
+UNIT TEST COVERED:
+
+https://user-images.githubusercontent.com/20243138/161363899-9a74cc89-f434-4e47-bdb0-6e04d3e8f720.mp4
 
 

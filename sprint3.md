@@ -29,7 +29,13 @@ high level order of the categories to navigate and developed the mock APIs to ge
     - Integration with backend is complete
     - Test cases are complete
     - Redirects to sign in upon successful sign up.
-- Add to checkout component
+- Checkout
+    - Added routing from cart component to Checkout component
+    - Personal information and Delivery information fields created
+    - Payment Methods/Modes of Payment options added
+    - Summary of order and 'Make Payment' section added
+    - Test Cases for Checkout component and routing through Cart component are added
+    - Integration with backend is complete
 
 
 ## Backend

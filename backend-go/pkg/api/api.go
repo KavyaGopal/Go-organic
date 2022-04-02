@@ -122,7 +122,7 @@ func RegisterUser(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	handleCors(&w, r)
-	db, err := gorm.Open("sqlite3", "pkg/api/ProductData.db")
+	db, err := gorm.Open("sqlite3", "ProductData.db")
 	if err != nil {
 		panic("failed to connect database")
 	}
@@ -136,7 +136,7 @@ func RegisterUser(w http.ResponseWriter, r *http.Request) {
 		panic(err2)
 	}
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), 8)
-	result := db.Create(&model.User{Name: user.Name, Email: user.Email, Address: user.Address, Password: string(hashedPassword), Age: user.Age, Phone: user.Phone})
+	result := db.Create(&model.User{Name: user.Name, Email: user.Email, Address: user.Address, Password: string(hashedPassword), Phone: user.Phone})
 
 	var jsonMessage model.JsonMessage
 
@@ -145,6 +145,18 @@ func RegisterUser(w http.ResponseWriter, r *http.Request) {
 		log.Println("Unauthorized Access ")
 		jsonMessage = model.JsonMessage{Status: 500, Message: "User already exists"}
 		json.NewEncoder(w).Encode(jsonMessage)
+	} else if user.Email == "" {
+		w.WriteHeader(http.StatusUnauthorized)
+		log.Println("Email is Empty")
+		jsonMessage = model.JsonMessage{Status: http.StatusUnauthorized, Message: "User Email is empty"}
+		json.NewEncoder(w).Encode(jsonMessage)
+		return
+	} else if user.Phone == "" {
+		w.WriteHeader(http.StatusUnauthorized)
+		log.Println("Phone is Empty")
+		jsonMessage = model.JsonMessage{Status: http.StatusUnauthorized, Message: "User Phone is empty"}
+		json.NewEncoder(w).Encode(jsonMessage)
+		return
 	} else {
 		jsonMessage = model.JsonMessage{Status: 200, Message: "New User Successfully Added: " + user.Name}
 		json.NewEncoder(w).Encode(jsonMessage)
@@ -156,7 +168,7 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	handleCors(&w, r)
-	db, err := gorm.Open("sqlite3", "pkg/api/ProductData.db")
+	db, err := gorm.Open("sqlite3", "ProductData.db")
 	if err != nil {
 		panic("failed to connect database")
 	}
@@ -204,7 +216,7 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 		// If the two passwords don't match, return a 401 status
 		w.WriteHeader(http.StatusUnauthorized)
 		log.Println("Unauthorized Access ")
-		jsonMessage = model.JsonMessage{Status: http.StatusUnauthorized, Message: "Unauthorized Access"}
+		jsonMessage = model.JsonMessage{Status: 500, Message: "Unauthorized Access"}
 		json.NewEncoder(w).Encode(jsonMessage)
 
 		return
@@ -227,14 +239,6 @@ func fetchItemQuantity(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	json.Unmarshal(body, &items)
-
-	// if err != nil {
-	// 	w.WriteHeader(http.StatusInternalServerError)
-	// 	log.Println("Internal Server Error")
-	// 	jsonMessage := model.JsonMessage{Status: 500, Message: "Internal Server Error"}
-	// 	json.NewEncoder(w).Encode(jsonMessage)
-	// 	return
-	// }
 
 	itemsProd := make([]model.ProdMaster, len(items))
 
@@ -274,7 +278,7 @@ func main() {
 	a := &App{}
 
 	a.Router = mux.NewRouter()
-	setupDB.ConnectEndPointDatabase()
+	setupDB.ConnectDatabase()
 
 	fruits = append(fruits, model.FruitMock{ID: 1, ImageSource: "../../../assets/items/apple.png", ItemName: "Apple", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 12})
 	fruits = append(fruits, model.FruitMock{ID: 2, ImageSource: "../../../assets/items/cherry.png", ItemName: "Cherry", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 15})

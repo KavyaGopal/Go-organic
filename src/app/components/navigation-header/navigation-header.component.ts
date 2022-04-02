@@ -49,5 +49,12 @@ export class NavigationHeaderComponent implements OnInit{
           this.cartItem = cartCount.length;
         }
       }
+      getUser() {
+        var user = 'Login'
+        if (localStorage.getItem('userDetails') != null) {
+            user = localStorage.getItem('userDetails')
+        }
+        return user
+      }
 
 }

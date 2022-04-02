@@ -3,9 +3,11 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
-	"github.com/KavyaGopal/Go-organic/backend-go/pkg/db"
+
+	setupDB "github.com/KavyaGopal/Go-organic/backend-go/pkg/db"
 	"github.com/KavyaGopal/Go-organic/backend-go/pkg/model"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
@@ -214,6 +216,58 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(jsonLoginResponse)
 
 }
+func fetchItemQuantity(w http.ResponseWriter, r *http.Request) {
+	var items []model.Item
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		log.Println("Internal Server Error")
+		jsonMessage := model.JsonMessage{Status: 500, Message: "Internal Server Error"}
+		json.NewEncoder(w).Encode(jsonMessage)
+		return
+	}
+	json.Unmarshal(body, &items)
+
+	// if err != nil {
+	// 	w.WriteHeader(http.StatusInternalServerError)
+	// 	log.Println("Internal Server Error")
+	// 	jsonMessage := model.JsonMessage{Status: 500, Message: "Internal Server Error"}
+	// 	json.NewEncoder(w).Encode(jsonMessage)
+	// 	return
+	// }
+
+	itemsProd := make([]model.ProdMaster, len(items))
+
+	for i, x := range items {
+		id := x.ItemID
+		quantity := x.ItemQuantity
+
+		setupDB.DB.First(&itemsProd[i], id)
+		if itemsProd[i].ItemInventory < quantity {
+			w.WriteHeader(http.StatusInternalServerError)
+			log.Println("Internal Server Error")
+			jsonMessage := model.JsonMessage{Status: 500, Message: "Item " + itemsProd[i].ItemName + " is not available for selected quantity"}
+			json.NewEncoder(w).Encode(jsonMessage)
+			return
+
+		}
+
+	}
+
+	for i, x := range items {
+		id := x.ItemID
+
+		quantity := x.ItemQuantity
+		var product model.ProdMaster
+		setupDB.DB.First(&product, id)
+		setupDB.DB.Model(&product).Update("item_inventory", itemsProd[i].ItemInventory-quantity)
+
+	}
+
+	jsonMessage := model.JsonMessage{Status: 200, Message: "Checkout of All Items Done Successfully"}
+	json.NewEncoder(w).Encode(jsonMessage)
+
+}
 
 func main() {
 	//init router
@@ -271,8 +325,9 @@ func main() {
 	//add apis to fetch data from db
 	a.Router.HandleFunc("/api/fetchAllProductsFromDB", GetAllProductsFromDB).Methods("GET")
 	a.Router.HandleFunc("/api/fetchProduct/{itemCategory}", GetFilteredCategory).Methods("GET")
-	// a.Router.HandleFunc("/api/getLoginCreds",).Methods("POST")
+
 	a.Router.HandleFunc("/health-check", HealthCheck).Methods("GET")
+	a.Router.HandleFunc("/api/fetchItemQuantity", fetchItemQuantity).Methods("POST")
 	http.Handle("/", a.Router)
 
 	// log.Fatal(http.ListenAndServe(":8000", a.Router))

@@ -36,6 +36,7 @@ func CreateDatabase() {
 	// Migrate the schema
 	db.AutoMigrate(&model.ProdMaster{})
 	db.AutoMigrate(&model.User{})
+	db.AutoMigrate(&model.UserTestimonial{})
 
 	var products = []model.ProdMaster{
 		//fruits
@@ -73,6 +74,18 @@ func CreateDatabase() {
 		{ImageSource: "../../../assets/items/sugar.jpeg", ItemName: "Salt", ItemCategory: "Groceries", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemInventory: 200, ItemCost: 9},
 		{ImageSource: "../../../assets/items/chilli.png", ItemName: "Chilli Powder", ItemCategory: "Groceries", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemInventory: 200, ItemCost: 8},
 		{ImageSource: "../../../assets/items/chilli.png", ItemName: "Garam Masala", ItemCategory: "Groceries", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemInventory: 200, ItemCost: 8}}
-	db.Create(&products)
+	
+		db.Create(&products)
 
+		var testimonials = []model.UserTestimonial{
+            
+            {ImageSource: "../../../assets/testimonial-images/img-m1.png", UserDescription: "I am in my mid thirties and my weight gain hit me hard. I have tried every diet there is but instead of dieting now...I ordered go-organic products and who knew this was too good for you! Now I eat and truly enjoy my food."},
+            {ImageSource: "../../../assets/testimonial-images/img-fm1.jpeg", UserDescription: "These products are easy and super healthy. The choices are great. I would highly recommend to use go-organic products to my friends and first timers."},
+            {ImageSource: "../../../assets/testimonial-images/img-m2.jpeg", UserDescription: "I've been dabbling with the Vegan diet on and off since the beginning of the year. These products have really given me inspiration in terms of meal plans and different recipes to try."},
+            {ImageSource: "../../../assets/testimonial-images/img-fm2.jpeg", UserDescription: "I bought this to refresh my diet and nutrition and wanted some new healthy diets. Every single thing I have tried has been a winner and products are relatively cheaper."},
+            {ImageSource: "../../../assets/testimonial-images/img-m3.jpeg", UserDescription: "Mostly tasty products. I am not a vegan and enjoyed most of the go-organic products. I highly recommended these products if you want to become plant eater and not feel hungry."},
+            {ImageSource: "../../../assets/testimonial-images/img-fm3.jpeg",UserDescription: "Being healthy is in my genes and I highly appreciate that go-organic is promoting healty diets in the form of organic based products."}}
+        
+        db.Create(&testimonials)
+		
 }

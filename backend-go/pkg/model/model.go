@@ -40,11 +40,20 @@ type JsonMessage struct {
 	Status  int64  `gorm:"<-" json:"status"`
 	Message string `gorm:"type:varchar(255);NOT NULL" json:"message"`
 }
+
 type JsonLoginResponse struct {
 	Name    string `gorm:"type:varchar(255);NOT NULL" json:"name"`
 	Email   string `gorm:"unique; Not null " json:"email"`
 	Status  int64  `gorm:"<-" json:"status"`
 	Message string `gorm:"type:varchar(255);NOT NULL" json:"message"`
+}
+
+type UserTestimonial struct {
+
+	ID              int64   `gorm:"AUTO_INCREMENT;PRIMARY_KEY;not_null" json:"id"`
+	ImageSource     string  `gorm:"type:varchar(255);NOT NULL" json:"imgSrc"`
+	UserDescription string  `gorm:"type:text" json:"userDesc"`
+
 }
 
 type FruitMock struct {

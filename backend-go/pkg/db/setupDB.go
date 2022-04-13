@@ -36,6 +36,7 @@ func CreateDatabase() {
 	// Migrate the schema
 	db.AutoMigrate(&model.ProdMaster{})
 	db.AutoMigrate(&model.User{})
+	db.AutoMigrate(&model.UserTestimonial{})
 
 	var products = []model.ProdMaster{
 		//fruits
@@ -73,6 +74,7 @@ func CreateDatabase() {
 		{ImageSource: "../../../assets/items/sugar.jpeg", ItemName: "Salt", ItemCategory: "Groceries", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemInventory: 200, ItemCost: 9},
 		{ImageSource: "../../../assets/items/chilli.png", ItemName: "Chilli Powder", ItemCategory: "Groceries", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemInventory: 200, ItemCost: 8},
 		{ImageSource: "../../../assets/items/chilli.png", ItemName: "Garam Masala", ItemCategory: "Groceries", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemInventory: 200, ItemCost: 8}}
-	db.Create(&products)
-
+	
+		db.Create(&products)
+		
 }

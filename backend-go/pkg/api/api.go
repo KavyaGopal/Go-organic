@@ -273,6 +273,24 @@ func fetchItemQuantity(w http.ResponseWriter, r *http.Request) {
 
 }
 
+//get all the products from the database
+func GetUserTestimonials(w http.ResponseWriter, r *http.Request) {
+
+	log.Println("GetUserTestimonials is called")
+
+	w.Header().Set("Content-Type", "application/json")
+	handleCors(&w, r)
+	var userTestimonialMaster []model.UserTestimonial
+	//db query from sqlite
+	setupDB.DB.Find(&userTestimonialMaster)
+
+	err := json.NewEncoder(w).Encode(userTestimonialMaster)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+}
+
 func main() {
 	//init router
 	a := &App{}

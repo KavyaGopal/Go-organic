@@ -273,7 +273,7 @@ func fetchItemQuantity(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//get all the products from the database
+//get all user testimonials from the database
 func GetUserTestimonials(w http.ResponseWriter, r *http.Request) {
 
 	log.Println("GetUserTestimonials is called")
@@ -347,6 +347,7 @@ func main() {
 	//add apis to fetch data from db
 	a.Router.HandleFunc("/api/fetchAllProductsFromDB", GetAllProductsFromDB).Methods("GET")
 	a.Router.HandleFunc("/api/fetchProduct/{itemCategory}", GetFilteredCategory).Methods("GET")
+	a.Router.HandleFunc("/api/fetchUserTestimonials", GetUserTestimonials).Methods("GET")
 
 	a.Router.HandleFunc("/health-check", HealthCheck).Methods("GET")
 	a.Router.HandleFunc("/api/fetchItemQuantity", fetchItemQuantity).Methods("POST")

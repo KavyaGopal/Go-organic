@@ -6,13 +6,17 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-
-	setupDB "github.com/KavyaGopal/Go-organic/backend-go/pkg/db"
+	"os"
+	"github.com/KavyaGopal/Go-organic/backend-go/pkg/db"
 	"github.com/KavyaGopal/Go-organic/backend-go/pkg/model"
+	"github.com/KavyaGopal/Go-organic/backend-go/pkg/utils"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
+
+	"github.com/stripe/stripe-go/v72/price"
+	"github.com/stripe/stripe-go/v72/webhook"
 )
 
 //init product variable for mock
@@ -291,6 +295,55 @@ func GetUserTestimonials(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//payment integration 
+func handleConfig(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "GET" {
+		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
+		return
+	}
+	// Fetch a price, use it's unit amount and currency
+	p, _ := price.Get(
+		os.Getenv("PRICE"),
+		nil,
+	)
+	utils.WriteJSON(w, struct {
+		PublicKey  string `json:"publicKey"`
+		UnitAmount int64  `json:"unitAmount"`
+		Currency   string `json:"currency"`
+	}{
+		PublicKey:  os.Getenv("STRIPE_PUBLISHABLE_KEY"),
+		UnitAmount: p.UnitAmount,
+		Currency:   string(p.Currency),
+	})
+}
+
+func handleWebhook(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
+		return
+	}
+	b, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		log.Printf("ioutil.ReadAll: %v", err)
+		return
+	}
+
+	event, err := webhook.ConstructEvent(b, r.Header.Get("Stripe-Signature"), os.Getenv("STRIPE_WEBHOOK_SECRET"))
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		log.Printf("webhook.ConstructEvent: %v", err)
+		return
+	}
+
+	if event.Type == "checkout.session.completed" {
+		fmt.Println("Checkout Session completed!")
+	}
+
+	utils.WriteJSON(w, nil)
+}
+
+
 func main() {
 	//init router
 	a := &App{}
@@ -332,6 +385,7 @@ func main() {
 	groceries = append(groceries, model.GroceriesMock{ID: 44, ImageSource: "../../../assets/items/sugar.jpeg", ItemName: "Salt", ItemDesc: "SAlt is the generic name for salt-tasting, soluble carbohydrates, many of which are used in food. It is salty in nature.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 9})
 	groceries = append(groceries, model.GroceriesMock{ID: 45, ImageSource: "../../../assets/items/chilli.png", ItemName: "Chilli Powder", ItemDesc: "Chili powder is the dried, pulverized fruit of one or more varieties of chili pepper, sometimes with the addition of other spices.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 12})
 	groceries = append(groceries, model.GroceriesMock{ID: 46, ImageSource: "../../../assets/items/chilli.png", ItemName: "Garam Masala", ItemDesc: "Garam masala is a blend of ground spices originating from South Asia.It is common in Indian, Pakistani, Nepalese and Bangladeshi.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 20})
+
 
 	a.Router.HandleFunc("/getFruits", GetFruits).Methods("GET")
 	a.Router.HandleFunc("/getSnacks", GetSnacks).Methods("GET")

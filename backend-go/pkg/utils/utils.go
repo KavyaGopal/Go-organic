@@ -7,6 +7,7 @@ import(
 	"net/http"
 	"bytes"
 	"io"
+	"github.com/KavyaGopal/Go-organic/backend-go/pkg/model"
 
 )
 
@@ -22,4 +23,19 @@ func WriteJSON(w http.ResponseWriter, v interface{}) {
 		log.Printf("io.Copy: %v", err)
 		return
 	}
+}
+
+func writeJSONError(w http.ResponseWriter, v interface{}, code int) {
+	w.WriteHeader(code)
+	WriteJSON(w, v)
+	return
+}
+
+func writeJSONErrorMessage(w http.ResponseWriter, message string, code int) {
+	resp := &model.ErrorResponse{
+		Error: &model.ErrorResponseMessage{
+			Message: message,
+		},
+	}
+	writeJSONError(w, resp, code)
 }

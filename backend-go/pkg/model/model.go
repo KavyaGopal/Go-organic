@@ -56,6 +56,18 @@ type UserTestimonial struct {
 
 }
 
+// ErrorResponse represents the structure of the error object sent
+// in failed responses.
+type ErrorResponse struct {
+	Error *ErrorResponseMessage `json:"error"`
+}
+
+// ErrorResponseMessage represents the structure of the error
+// object sent in failed responses.
+type ErrorResponseMessage struct {
+	Message string `json:"message"`
+}
+
 type FruitMock struct {
 	ID           int64  `json:"id"`
 	ImageSource  string `json:"imgSrc"`

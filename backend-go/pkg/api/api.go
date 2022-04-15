@@ -14,7 +14,8 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
-
+	"github.com/joho/godotenv"
+	"github.com/stripe/stripe-go/v72"
 	"github.com/stripe/stripe-go/v72/price"
 	"github.com/stripe/stripe-go/v72/webhook"
 )
@@ -232,6 +233,8 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(jsonLoginResponse)
 
 }
+
+//this will check the item in the request against the inventory of items
 func fetchItemQuantity(w http.ResponseWriter, r *http.Request) {
 	var items []model.Item
 	body, err := ioutil.ReadAll(r.Body)
@@ -317,6 +320,8 @@ func handleConfig(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+//this is a server which can check if payment transaction is initiated
+// and return secret key
 func handleWebhook(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
@@ -341,6 +346,13 @@ func handleWebhook(w http.ResponseWriter, r *http.Request) {
 	}
 
 	utils.WriteJSON(w, nil)
+}
+
+func checkEnv() {
+	price := os.Getenv("PRICE")
+	if price == "price_12345" || price == "" {
+		log.Fatal("You must set a Price ID from your Stripe account. See the README for instructions.")
+	}
 }
 
 
@@ -386,6 +398,26 @@ func main() {
 	groceries = append(groceries, model.GroceriesMock{ID: 45, ImageSource: "../../../assets/items/chilli.png", ItemName: "Chilli Powder", ItemDesc: "Chili powder is the dried, pulverized fruit of one or more varieties of chili pepper, sometimes with the addition of other spices.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 12})
 	groceries = append(groceries, model.GroceriesMock{ID: 46, ImageSource: "../../../assets/items/chilli.png", ItemName: "Garam Masala", ItemDesc: "Garam masala is a blend of ground spices originating from South Asia.It is common in Indian, Pakistani, Nepalese and Bangladeshi.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 20})
 
+	//payment api
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+	checkEnv()
+
+	stripe.Key = os.Getenv("STRIPE_SECRET_KEY")
+
+	// For sample support and debugging, not required for production:
+	stripe.SetAppInfo(&stripe.AppInfo{
+		Name:    "stripe-samples/checkout-one-time-payments",
+		Version: "0.0.1",
+		URL:     "https://github.com/stripe-samples/checkout-one-time-payments",
+	})
+
+	//need to handle the mux compatibility as well
+	http.Handle("/", http.FileServer(http.Dir(os.Getenv("STATIC_DIR"))))
+	http.HandleFunc("/config", handleConfig)
+	http.HandleFunc("/webhook", handleWebhook)
 
 	a.Router.HandleFunc("/getFruits", GetFruits).Methods("GET")
 	a.Router.HandleFunc("/getSnacks", GetSnacks).Methods("GET")

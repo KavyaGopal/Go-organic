@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"github.com/KavyaGopal/Go-organic/backend-go/pkg/db"
 	"github.com/KavyaGopal/Go-organic/backend-go/pkg/model"
 	"github.com/KavyaGopal/Go-organic/backend-go/pkg/utils"
@@ -18,6 +19,7 @@ import (
 	"github.com/stripe/stripe-go/v72"
 	"github.com/stripe/stripe-go/v72/price"
 	"github.com/stripe/stripe-go/v72/webhook"
+	"github.com/stripe/stripe-go/v72/checkout/session"
 )
 
 //init product variable for mock
@@ -353,6 +355,46 @@ func checkEnv() {
 	if price == "price_12345" || price == "" {
 		log.Fatal("You must set a Price ID from your Stripe account. See the README for instructions.")
 	}
+}
+
+func handleCheckoutSession(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "GET" {
+		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
+		return
+	}
+	sessionID := r.URL.Query().Get("sessionId")
+	s, _ := session.Get(sessionID, nil)
+	utils.WriteJSON(w, s)
+}
+
+func handleCreateCheckoutSession(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+	quantity, err := strconv.ParseInt(r.PostFormValue("quantity")[0:], 10, 64)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("error parsing quantity %v", err.Error()), http.StatusInternalServerError)
+		return
+	}
+	domainURL := os.Getenv("DOMAIN")
+
+	params := &stripe.CheckoutSessionParams{
+		SuccessURL:         stripe.String(domainURL + "/success.html?session_id={CHECKOUT_SESSION_ID}"),
+		CancelURL:          stripe.String(domainURL + "/canceled.html"),
+		Mode:               stripe.String(string(stripe.CheckoutSessionModePayment)),
+		LineItems: []*stripe.CheckoutSessionLineItemParams{
+			{
+				Quantity: stripe.Int64(quantity),
+				Price:    stripe.String(os.Getenv("PRICE")),
+			},
+		},
+		
+	}
+	s, err := session.New(params)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("error while creating session %v", err.Error()), http.StatusInternalServerError)
+		return
+	}
+
+	http.Redirect(w, r, s.URL, http.StatusSeeOther)
 }
 
 

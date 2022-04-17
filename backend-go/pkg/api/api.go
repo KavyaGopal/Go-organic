@@ -243,6 +243,7 @@ func ResetPassword(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
 
 	var login model.Login
+	var jsonResetResponse model.JsonMessage
 
 	err2 := decoder.Decode(&login)
 	if err2 != nil {
@@ -256,9 +257,11 @@ func ResetPassword(w http.ResponseWriter, r *http.Request) {
 
 	var user_ model.User
 	// Get the existing entry present in the database for the given username
-	db.Table("users").Where("Email = ?", login.Email).Find(&user_)
+
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(login.Password), 8)
 	db.Model(&user_).Update("password", hashedPassword)
+	jsonResetResponse = model.JsonMessage{Status: 200, Message: "Password successfully updated."}
+	json.NewEncoder(w).Encode(jsonResetResponse)
 
 }
 func fetchItemQuantity(w http.ResponseWriter, r *http.Request) {

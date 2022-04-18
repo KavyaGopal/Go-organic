@@ -228,6 +228,56 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(jsonLoginResponse)
 
 }
+
+//reset password api
+func ResetPassword(w http.ResponseWriter, r *http.Request) {
+
+	w.Header().Set("Content-Type", "application/json")
+	handleCors(&w, r)
+	db, err := gorm.Open("sqlite3", "ProductData.db")
+	if err != nil {
+		panic("failed to connect database")
+	}
+	defer db.Close()
+
+	decoder := json.NewDecoder(r.Body)
+
+	var login model.Login
+	var jsonResetResponse model.JsonMessage
+
+	err2 := decoder.Decode(&login)
+	if err2 != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	if login.Email == "" || login.Password == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	var user_ model.User
+
+	db.Table("users").Where("Email = ?", login.Email).Find(&user_)
+	if user_.Email == "" {
+		w.WriteHeader(http.StatusUnauthorized)
+		log.Println("Unauthorized Access ")
+		jsonResetResponse = model.JsonMessage{Status: http.StatusUnauthorized, Message: "Unauthorized Access"}
+		json.NewEncoder(w).Encode(jsonResetResponse)
+		return
+	}
+	if login.Password == user_.Password {
+		jsonResetResponse = model.JsonMessage{Status: 500, Message: "Password is already matched with the database"}
+		json.NewEncoder(w).Encode(jsonResetResponse)
+		return
+	}
+
+	// Get the existing entry present in the database for the given username
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(login.Password), 8)
+	db.Model(&user_).Update("password", hashedPassword)
+	jsonResetResponse = model.JsonMessage{Status: 200, Message: "Password successfully updated."}
+	json.NewEncoder(w).Encode(jsonResetResponse)
+
+}
 func fetchItemQuantity(w http.ResponseWriter, r *http.Request) {
 	var items []model.Item
 	body, err := ioutil.ReadAll(r.Body)
@@ -343,7 +393,7 @@ func main() {
 	a.Router.HandleFunc("/registerUser", RegisterUser).Methods("POST")
 	//login api endpoint
 	a.Router.HandleFunc("/loginUser", LoginUser).Methods("POST")
-
+	a.Router.HandleFunc("/resetPassword", ResetPassword).Methods("POST")
 	//add apis to fetch data from db
 	a.Router.HandleFunc("/api/fetchAllProductsFromDB", GetAllProductsFromDB).Methods("GET")
 	a.Router.HandleFunc("/api/fetchProduct/{itemCategory}", GetFilteredCategory).Methods("GET")
@@ -351,6 +401,7 @@ func main() {
 
 	a.Router.HandleFunc("/health-check", HealthCheck).Methods("GET")
 	a.Router.HandleFunc("/api/fetchItemQuantity", fetchItemQuantity).Methods("POST")
+
 	http.Handle("/", a.Router)
 
 	// log.Fatal(http.ListenAndServe(":8000", a.Router))

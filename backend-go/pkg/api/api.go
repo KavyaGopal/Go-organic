@@ -254,8 +254,22 @@ func ResetPassword(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-
 	var user_ model.User
+
+	db.Table("users").Where("Email = ?", login.Email).Find(&user_)
+	if user_.Email == "" {
+		w.WriteHeader(http.StatusUnauthorized)
+		log.Println("Unauthorized Access ")
+		jsonResetResponse = model.JsonMessage{Status: http.StatusUnauthorized, Message: "Unauthorized Access"}
+		json.NewEncoder(w).Encode(jsonResetResponse)
+		return
+	}
+	if login.Password == user_.Password {
+		jsonResetResponse = model.JsonMessage{Status: 500, Message: "Password is already matched with the database"}
+		json.NewEncoder(w).Encode(jsonResetResponse)
+		return
+	}
+
 	// Get the existing entry present in the database for the given username
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(login.Password), 8)

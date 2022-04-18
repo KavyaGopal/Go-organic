@@ -7,7 +7,7 @@ import { CartComponent } from './components/cart/cart.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { LoginComponent } from './components/login/login.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
-
+import { PaypalpaymentComponent } from './components/paypalpayment/paypalpayment.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -16,7 +16,8 @@ const routes: Routes = [
   { path: 'cart', component: CartComponent  },
   { path: 'checkout', component: CheckoutComponent},
   { path: 'login', component: LoginComponent  },
-  { path: 'sign-up', component: SignUpComponent  }
+  { path: 'sign-up', component: SignUpComponent  },
+  { path: 'paypalpayment', component: PaypalpaymentComponent}
 
 
   // { path: 'error', component: ErrorComponent },

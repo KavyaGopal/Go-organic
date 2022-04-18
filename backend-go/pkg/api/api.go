@@ -7,7 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"strconv"
+	// "strconv"
 	"github.com/KavyaGopal/Go-organic/backend-go/pkg/db"
 	"github.com/KavyaGopal/Go-organic/backend-go/pkg/model"
 	"github.com/KavyaGopal/Go-organic/backend-go/pkg/utils"
@@ -302,6 +302,12 @@ func GetUserTestimonials(w http.ResponseWriter, r *http.Request) {
 
 //payment integration 
 func handleConfig(w http.ResponseWriter, r *http.Request) {
+
+	log.Printf("handle config called")
+
+	w.Header().Set("Content-Type", "application/json")
+	handleCors(&w, r)
+
 	if r.Method != "GET" {
 		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
 		return
@@ -325,6 +331,8 @@ func handleConfig(w http.ResponseWriter, r *http.Request) {
 //this is a server which can check if payment transaction is initiated
 // and return secret key
 func handleWebhook(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	handleCors(&w, r)
 	if r.Method != "POST" {
 		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
 		return
@@ -358,6 +366,9 @@ func checkEnv() {
 }
 
 func handleCheckoutSession(w http.ResponseWriter, r *http.Request) {
+	log.Printf("handle checkout session called")
+	w.Header().Set("Content-Type", "application/json")
+	handleCors(&w, r)
 	if r.Method != "GET" {
 		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
 		return
@@ -368,21 +379,29 @@ func handleCheckoutSession(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleCreateCheckoutSession(w http.ResponseWriter, r *http.Request) {
-	r.ParseForm()
-	quantity, err := strconv.ParseInt(r.PostFormValue("quantity")[0:], 10, 64)
-	if err != nil {
-		http.Error(w, fmt.Sprintf("error parsing quantity %v", err.Error()), http.StatusInternalServerError)
-		return
+	log.Printf("handle create checkout session called")
+	w.Header().Set("Content-Type", "application/json")
+	handleCors(&w, r)
+
+	decoder := json.NewDecoder(r.Body)
+	var productList []model.ProdMaster
+
+	err2 := decoder.Decode(&productList)
+	if err2 != nil {
+		panic(err2)
 	}
+
+	//TODO: add a function to fetch the mapping of the product id from the stripe
+
 	domainURL := os.Getenv("DOMAIN")
 
 	params := &stripe.CheckoutSessionParams{
-		SuccessURL:         stripe.String(domainURL + "/success.html?session_id={CHECKOUT_SESSION_ID}"),
+		SuccessURL:         stripe.String(domainURL + "/home"),
 		CancelURL:          stripe.String(domainURL + "/canceled.html"),
 		Mode:               stripe.String(string(stripe.CheckoutSessionModePayment)),
 		LineItems: []*stripe.CheckoutSessionLineItemParams{
 			{
-				Quantity: stripe.Int64(quantity),
+				Quantity: stripe.Int64(1),
 				Price:    stripe.String(os.Getenv("PRICE")),
 			},
 		},
@@ -440,21 +459,15 @@ func main() {
 	groceries = append(groceries, model.GroceriesMock{ID: 45, ImageSource: "../../../assets/items/chilli.png", ItemName: "Chilli Powder", ItemDesc: "Chili powder is the dried, pulverized fruit of one or more varieties of chili pepper, sometimes with the addition of other spices.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 12})
 	groceries = append(groceries, model.GroceriesMock{ID: 46, ImageSource: "../../../assets/items/chilli.png", ItemName: "Garam Masala", ItemDesc: "Garam masala is a blend of ground spices originating from South Asia.It is common in Indian, Pakistani, Nepalese and Bangladeshi.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 20})
 
-	//payment api
+	// payment api
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
+
 	checkEnv()
 
 	stripe.Key = os.Getenv("STRIPE_SECRET_KEY")
-
-	// For sample support and debugging, not required for production:
-	stripe.SetAppInfo(&stripe.AppInfo{
-		Name:    "stripe-samples/checkout-one-time-payments",
-		Version: "0.0.1",
-		URL:     "https://github.com/stripe-samples/checkout-one-time-payments",
-	})
 
 	//need to handle the mux compatibility as well
 	http.Handle("/", http.FileServer(http.Dir(os.Getenv("STATIC_DIR"))))
@@ -479,7 +492,7 @@ func main() {
 
 	a.Router.HandleFunc("/health-check", HealthCheck).Methods("GET")
 	a.Router.HandleFunc("/api/fetchItemQuantity", fetchItemQuantity).Methods("POST")
-	http.Handle("/", a.Router)
+	// http.Handle("/", a.Router)
 
 	// log.Fatal(http.ListenAndServe(":8000", a.Router))
 	// a.Run(":8010")

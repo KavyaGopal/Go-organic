@@ -6,13 +6,19 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-
-	setupDB "github.com/KavyaGopal/Go-organic/backend-go/pkg/db"
+	"os"
+	"github.com/KavyaGopal/Go-organic/backend-go/pkg/db"
 	"github.com/KavyaGopal/Go-organic/backend-go/pkg/model"
+	"github.com/KavyaGopal/Go-organic/backend-go/pkg/utils"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
+	"github.com/joho/godotenv"
+	"github.com/stripe/stripe-go/v72"
+	"github.com/stripe/stripe-go/v72/price"
+	"github.com/stripe/stripe-go/v72/webhook"
+	"github.com/stripe/stripe-go/v72/checkout/session"
 )
 
 //init product variable for mock
@@ -278,6 +284,7 @@ func ResetPassword(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(jsonResetResponse)
 
 }
+
 func fetchItemQuantity(w http.ResponseWriter, r *http.Request) {
 	var items []model.Item
 	body, err := ioutil.ReadAll(r.Body)
@@ -341,6 +348,193 @@ func GetUserTestimonials(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//payment integration 
+func handleConfig(w http.ResponseWriter, r *http.Request) {
+
+	log.Printf("handle config called")
+
+	w.Header().Set("Content-Type", "application/json")
+	handleCors(&w, r)
+
+	if r.Method != "GET" {
+		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
+		return
+	}
+	// Fetch a price, use it's unit amount and currency
+	p, _ := price.Get(
+		os.Getenv("PRICE"),
+		nil,
+	)
+	utils.WriteJSON(w, struct {
+		PublicKey  string `json:"publicKey"`
+		UnitAmount int64  `json:"unitAmount"`
+		Currency   string `json:"currency"`
+	}{
+		PublicKey:  os.Getenv("STRIPE_PUBLISHABLE_KEY"),
+		UnitAmount: p.UnitAmount,
+		Currency:   string(p.Currency),
+	})
+}
+
+//this is a server which can check if payment transaction is initiated
+// and return secret key
+func handleWebhook(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	handleCors(&w, r)
+	if r.Method != "POST" {
+		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
+		return
+	}
+	b, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		log.Printf("ioutil.ReadAll: %v", err)
+		return
+	}
+
+	event, err := webhook.ConstructEvent(b, r.Header.Get("Stripe-Signature"), os.Getenv("STRIPE_WEBHOOK_SECRET"))
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		log.Printf("webhook.ConstructEvent: %v", err)
+		return
+	}
+
+	if event.Type == "checkout.session.completed" {
+		fmt.Println("Checkout Session completed!")
+	}
+
+	utils.WriteJSON(w, nil)
+}
+
+//check the environment of the .env file
+func checkEnv() {
+	price := os.Getenv("PRICE")
+	if price == "price_12345" || price == "" {
+		log.Fatal("You must set a Price ID from your Stripe account. See the README for instructions.")
+	}
+}
+
+//create the session for the user on the server
+func handleCheckoutSession(w http.ResponseWriter, r *http.Request) {
+	log.Printf("handle checkout session called")
+	w.Header().Set("Content-Type", "application/json")
+	handleCors(&w, r)
+	if r.Method != "GET" {
+		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
+		return
+	}
+	sessionID := r.URL.Query().Get("sessionId")
+	s, _ := session.Get(sessionID, nil)
+	utils.WriteJSON(w, s)
+}
+
+//this is first invoked when stripe checkout is called
+func handleCreateCheckoutSession(w http.ResponseWriter, r *http.Request) {
+
+	log.Printf("handle create checkout session called")
+	w.Header().Set("Content-Type", "application/json")
+	handleCors(&w,r)
+
+	domainURL := os.Getenv("DOMAIN")
+
+	params := &stripe.CheckoutSessionParams{
+		SuccessURL:         stripe.String(domainURL + "/checkout-success"),
+		CancelURL:          stripe.String(domainURL + "/checkout-cancel"),
+		Mode:               stripe.String(string(stripe.CheckoutSessionModePayment)),
+		LineItems: 			GetLineItems(w,r),
+		
+	}
+	s, err := session.New(params)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("error while creating session %v", err.Error()), http.StatusInternalServerError)
+		return
+	}
+
+	http.Redirect(w, r, s.URL, http.StatusSeeOther)
+}
+
+//fetch the product keys of stripe corresponding to the product id
+func GetStripeProductKeys() (productKeyJson string){
+
+	log.Println("GetProductIDMappingList function called")
+	
+	var productIDMaster []model.ProductIDMaster
+	//db query from sqlite
+	setupDB.DB.Find(&productIDMaster)
+
+	u, err := json.Marshal(productIDMaster)
+	if err != nil {
+		panic(err)
+	}
+	
+	return string(u)
+}
+
+//get the LineItems object for the stripe payment
+func GetLineItems(w http.ResponseWriter, r *http.Request) ([]*stripe.CheckoutSessionLineItemParams){
+
+    log.Printf("GetLineItems called")
+
+	//process items first
+
+	var items []model.Item
+
+	body, err := ioutil.ReadAll(r.Body)
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		log.Println("Internal Server Error")
+		jsonMessage := model.JsonMessage{Status: 500, Message: "Internal Server Error"}
+		json.NewEncoder(w).Encode(jsonMessage)
+	}
+
+	json.Unmarshal(body, &items)
+
+	// items processing ends here
+
+	//process productkey list from getstripe
+
+	var productKeyList []model.ProductIDMaster
+
+    var productKeys string
+    productKeys = GetStripeProductKeys()
+
+    err1:= json.Unmarshal([]byte(productKeys), &productKeyList)
+
+    if err1 != nil{
+        panic(err1)
+    }
+
+	//object to return
+	var lineItems []*stripe.CheckoutSessionLineItemParams
+
+	//filter according to the item ID and item quantity
+	//need to iterate through the items 
+
+	for _, x := range items {
+
+		for _, productKeyData := range productKeyList {
+
+			if productKeyData.ID == x.ItemID {
+	
+				var lineItem stripe.CheckoutSessionLineItemParams
+
+				lineItem.Price = stripe.String(productKeyData.Key)
+				lineItem.Quantity = stripe.Int64(x.ItemQuantity)
+
+				lineItems = append(lineItems,&lineItem)
+			
+			}
+	
+			
+		}
+
+	}
+
+    return lineItems
+
+}
+
 func main() {
 	//init router
 	a := &App{}
@@ -383,6 +577,21 @@ func main() {
 	groceries = append(groceries, model.GroceriesMock{ID: 45, ImageSource: "../../../assets/items/chilli.png", ItemName: "Chilli Powder", ItemDesc: "Chili powder is the dried, pulverized fruit of one or more varieties of chili pepper, sometimes with the addition of other spices.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 12})
 	groceries = append(groceries, model.GroceriesMock{ID: 46, ImageSource: "../../../assets/items/chilli.png", ItemName: "Garam Masala", ItemDesc: "Garam masala is a blend of ground spices originating from South Asia.It is common in Indian, Pakistani, Nepalese and Bangladeshi.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 20})
 
+	// payment api
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	checkEnv()
+
+	stripe.Key = os.Getenv("STRIPE_SECRET_KEY")
+
+	//need to handle the mux compatibility as well
+	http.Handle("/", http.FileServer(http.Dir(os.Getenv("STATIC_DIR"))))
+	http.HandleFunc("/config", handleConfig)
+	http.HandleFunc("/webhook", handleWebhook)
+
 	a.Router.HandleFunc("/getFruits", GetFruits).Methods("GET")
 	a.Router.HandleFunc("/getSnacks", GetSnacks).Methods("GET")
 	a.Router.HandleFunc("/getVegetables", GetVegetables).Methods("GET")
@@ -401,8 +610,7 @@ func main() {
 
 	a.Router.HandleFunc("/health-check", HealthCheck).Methods("GET")
 	a.Router.HandleFunc("/api/fetchItemQuantity", fetchItemQuantity).Methods("POST")
-
-	http.Handle("/", a.Router)
+	// http.Handle("/", a.Router)
 
 	// log.Fatal(http.ListenAndServe(":8000", a.Router))
 	// a.Run(":8010")

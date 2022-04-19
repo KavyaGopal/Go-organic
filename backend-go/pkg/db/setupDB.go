@@ -37,6 +37,7 @@ func CreateDatabase() {
 	db.AutoMigrate(&model.ProdMaster{})
 	db.AutoMigrate(&model.User{})
 	db.AutoMigrate(&model.UserTestimonial{})
+	db.AutoMigrate(&model.ProductIDMaster{})
 
 	var products = []model.ProdMaster{
 		//fruits
@@ -74,18 +75,57 @@ func CreateDatabase() {
 		{ImageSource: "../../../assets/items/sugar.jpeg", ItemName: "Salt", ItemCategory: "Groceries", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemInventory: 200, ItemCost: 9},
 		{ImageSource: "../../../assets/items/chilli.png", ItemName: "Chilli Powder", ItemCategory: "Groceries", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemInventory: 200, ItemCost: 8},
 		{ImageSource: "../../../assets/items/chilli.png", ItemName: "Garam Masala", ItemCategory: "Groceries", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemInventory: 200, ItemCost: 8}}
-	
-		db.Create(&products)
 
-		var testimonials = []model.UserTestimonial{
-            
-            {ImageSource: "../../../assets/testimonial-images/img-m1.png", UserDescription: "I am in my mid thirties and my weight gain hit me hard. I have tried every diet there is but instead of dieting now...I ordered go-organic products and who knew this was too good for you! Now I eat and truly enjoy my food."},
-            {ImageSource: "../../../assets/testimonial-images/img-fm1.jpeg", UserDescription: "These products are easy and super healthy. The choices are great. I would highly recommend to use go-organic products to my friends and first timers."},
-            {ImageSource: "../../../assets/testimonial-images/img-m2.jpeg", UserDescription: "I've been dabbling with the Vegan diet on and off since the beginning of the year. These products have really given me inspiration in terms of meal plans and different recipes to try."},
-            {ImageSource: "../../../assets/testimonial-images/img-fm2.jpeg", UserDescription: "I bought this to refresh my diet and nutrition and wanted some new healthy diets. Every single thing I have tried has been a winner and products are relatively cheaper."},
-            {ImageSource: "../../../assets/testimonial-images/img-m3.jpeg", UserDescription: "Mostly tasty products. I am not a vegan and enjoyed most of the go-organic products. I highly recommended these products if you want to become plant eater and not feel hungry."},
-            {ImageSource: "../../../assets/testimonial-images/img-fm3.jpeg",UserDescription: "Being healthy is in my genes and I highly appreciate that go-organic is promoting healty diets in the form of organic based products."}}
-        
-        db.Create(&testimonials)
-		
+	db.Create(&products)
+
+	var testimonials = []model.UserTestimonial{
+
+		{Name: "Zubin Arya", ImageSource: "../../../assets/testimonial-images/img-m1.png", UserDescription: "I am in my mid thirties and my weight gain hit me hard. I have tried every diet there is but instead of dieting now...I ordered go-organic products and who knew this was too good for you! Now I eat and truly enjoy my food."},
+		{Name: "Aryan", ImageSource: "../../../assets/testimonial-images/img-fm1.jpeg", UserDescription: "These products are easy and super healthy. The choices are great. I would highly recommend to use go-organic products to my friends and first timers."},
+		{Name: "Kavya Gopal", ImageSource: "../../../assets/testimonial-images/img-m2.jpeg", UserDescription: "I've been dabbling with the Vegan diet on and off since the beginning of the year. These products have really given me inspiration in terms of meal plans and different recipes to try."},
+		{Name: "Vaibhav Kulkarni", ImageSource: "../../../assets/testimonial-images/img-fm2.jpeg", UserDescription: "I bought this to refresh my diet and nutrition and wanted some new healthy diets. Every single thing I have tried has been a winner and products are relatively cheaper."},
+		{Name: "Jay Shah", ImageSource: "../../../assets/testimonial-images/img-m3.jpeg", UserDescription: "Mostly tasty products. I am not a vegan and enjoyed most of the go-organic products. I highly recommended these products if you want to become plant eater and not feel hungry."},
+		{Name: "Amit Pandey", ImageSource: "../../../assets/testimonial-images/img-fm3.jpeg", UserDescription: "Being healthy is in my genes and I highly appreciate that go-organic is promoting healty diets in the form of organic based products."}}
+
+	db.Create(&testimonials)
+
+	var productIdMapping = []model.ProductIDMaster{
+		//fruits
+		{Key: "price_1Kpg3AEdowRWU1QhLGGU9OJ0"},
+		{Key: "price_1KpgN3EdowRWU1QhOKpvaaVr"},
+		{Key: "price_1KpgNREdowRWU1Qh2ukoR2yT"},
+		{Key: "price_1KpgNtEdowRWU1QhMjbadG77"},
+		{Key: "price_1KpgOHEdowRWU1Qhs4ajwrYY"},
+		{Key: "price_1KpgOoEdowRWU1QhjNPZamXT"},
+		//vegetables
+		{Key: "price_1Kpg3zEdowRWU1QhM01asQ1Q"},
+		{Key: "price_1KpgPJEdowRWU1Qh0U398QzW"},
+		{Key: "price_1KpgQ3EdowRWU1QhtWaCdKrk"},
+		{Key: "price_1KpgQOEdowRWU1QhSiZVE9XV"},
+		{Key: "price_1KpgQlEdowRWU1Qh4MGl5f1r"},
+		{Key: "price_1KpgRBEdowRWU1QhzItAHXkc"},
+		//snacks
+		{Key: "price_1KpgReEdowRWU1QhAMWJeNiT"},
+		{Key: "price_1KpgS4EdowRWU1Qh3dL5nbp9"},
+		{Key: "price_1KpgSSEdowRWU1QhuvjmlUNg"},
+		{Key: "price_1KpgSrEdowRWU1QhRPAYhv1C"},
+		{Key: "price_1KpgTNEdowRWU1QhZYwE6FJS"},
+		{Key: "price_1KpgTrEdowRWU1Qh9ONXiqXw"},
+		//cosmetics
+		{Key: "price_1KpgUDEdowRWU1QhBJxNS1rV"},
+		{Key: "price_1KpgUXEdowRWU1QhS3DzPKdQ"},
+		{Key: "price_1KpgUuEdowRWU1QhEBNpmpPs"},
+		{Key: "price_1KpgVEEdowRWU1QhUZmlToJs"},
+		{Key: "price_1KpgVVEdowRWU1Qh9vah3xX3"},
+		{Key: "price_1KpgVtEdowRWU1QhjKyOBX2j"},
+		//groceries
+		{Key: "price_1KpgWPEdowRWU1QhU5h4dvIL"},
+		{Key: "price_1KpgWlEdowRWU1QhUqXdoLZL"},
+		{Key: "price_1KpgX9EdowRWU1QhQvt4RPCc"},
+		{Key: "price_1KpgXQEdowRWU1QhqAuGMF3y"},
+		{Key: "price_1KpgXmEdowRWU1QhaAAJficP"},
+		{Key: "price_1KpgY3EdowRWU1QhRblhZSQi"}}
+
+	db.Create(&productIdMapping)
+
 }

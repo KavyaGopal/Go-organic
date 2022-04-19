@@ -13,6 +13,7 @@ import { NavigationHeaderComponent } from './components/navigation-header/naviga
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HomeComponent } from './components/home/home.component';
 import { CartComponent } from './components/cart/cart.component';
+import { TestimonialComponent} from "./components/testimonial/testimonial.component"
 import{ HttpClientModule,  HttpClient} from '@angular/common/http';
 import { CheckoutComponent } from './Components/checkout/checkout.component';
 import { LoginComponent } from './components/login/login.component';
@@ -35,6 +36,7 @@ import { FormsModule} from '@angular/forms';
     NavigationHeaderComponent,
     DashboardComponent,
     HomeComponent,
+    TestimonialComponent,
     CartComponent,
     CheckoutComponent,
     LoginComponent,

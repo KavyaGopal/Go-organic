@@ -392,12 +392,7 @@ func handleCreateCheckoutSession(w http.ResponseWriter, r *http.Request) {
 		SuccessURL:         stripe.String(domainURL + "/checkout-success"),
 		CancelURL:          stripe.String(domainURL + "/checkout-cancel"),
 		Mode:               stripe.String(string(stripe.CheckoutSessionModePayment)),
-		LineItems: []*stripe.CheckoutSessionLineItemParams{
-			{
-				Quantity: stripe.Int64(1),
-				Price:    stripe.String(os.Getenv("PRICE")),
-			},
-		},	
+		LineItems: 			GetLineItems(w,r),
 		
 	}
 	s, err := session.New(params)
@@ -424,6 +419,71 @@ func GetStripeProductKeys() (productKeyJson string){
 	}
 	
 	return string(u)
+}
+
+//get the LineItems object for the stripe payment
+func GetLineItems(w http.ResponseWriter, r *http.Request) ([]*stripe.CheckoutSessionLineItemParams){
+
+    log.Printf("GetLineItems called")
+
+	//process items first
+
+	var items []model.Item
+
+	body, err := ioutil.ReadAll(r.Body)
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		log.Println("Internal Server Error")
+		jsonMessage := model.JsonMessage{Status: 500, Message: "Internal Server Error"}
+		json.NewEncoder(w).Encode(jsonMessage)
+	}
+
+	json.Unmarshal(body, &items)
+
+	// items processing ends here
+
+	//process productkey list from getstripe
+
+	var productKeyList []model.ProductIDMaster
+
+    var productKeys string
+    productKeys = GetStripeProductKeys()
+
+    err1:= json.Unmarshal([]byte(productKeys), &productKeyList)
+
+    if err1 != nil{
+        panic(err1)
+    }
+
+	//object to return
+	var lineItems []*stripe.CheckoutSessionLineItemParams
+
+	//filter according to the item ID and item quantity
+	//need to iterate through the items 
+
+	for _, x := range items {
+
+		for _, productKeyData := range productKeyList {
+
+			if productKeyData.ID == x.ItemID {
+	
+				var lineItem stripe.CheckoutSessionLineItemParams
+
+				lineItem.Price = stripe.String(productKeyData.Key)
+				lineItem.Quantity = stripe.Int64(x.ItemQuantity)
+
+				lineItems = append(lineItems,&lineItem)
+			
+			}
+	
+			
+		}
+
+	}
+
+    return lineItems
+
 }
 
 func main() {

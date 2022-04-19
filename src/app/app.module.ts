@@ -26,6 +26,7 @@ import { MatCardModule} from '@angular/material/card';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { ReactiveFormsModule} from '@angular/forms';
 import { FormsModule} from '@angular/forms';
+import { PaymentComponent } from './components/payment/payment.component';
 
 
 
@@ -40,7 +41,8 @@ import { FormsModule} from '@angular/forms';
     CartComponent,
     CheckoutComponent,
     LoginComponent,
-    SignUpComponent
+    SignUpComponent,
+    PaymentComponent
      
   ],
   imports: [

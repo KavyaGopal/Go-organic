@@ -7,7 +7,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	// "strconv"
 	"github.com/KavyaGopal/Go-organic/backend-go/pkg/db"
 	"github.com/KavyaGopal/Go-organic/backend-go/pkg/model"
 	"github.com/KavyaGopal/Go-organic/backend-go/pkg/utils"
@@ -358,6 +357,7 @@ func handleWebhook(w http.ResponseWriter, r *http.Request) {
 	utils.WriteJSON(w, nil)
 }
 
+//check the environment of the .env file
 func checkEnv() {
 	price := os.Getenv("PRICE")
 	if price == "price_12345" || price == "" {
@@ -365,6 +365,7 @@ func checkEnv() {
 	}
 }
 
+//create the session for the user on the server
 func handleCheckoutSession(w http.ResponseWriter, r *http.Request) {
 	log.Printf("handle checkout session called")
 	w.Header().Set("Content-Type", "application/json")
@@ -378,33 +379,25 @@ func handleCheckoutSession(w http.ResponseWriter, r *http.Request) {
 	utils.WriteJSON(w, s)
 }
 
+//this is first invoked when stripe checkout is called
 func handleCreateCheckoutSession(w http.ResponseWriter, r *http.Request) {
+
 	log.Printf("handle create checkout session called")
 	w.Header().Set("Content-Type", "application/json")
-	handleCors(&w, r)
-
-	decoder := json.NewDecoder(r.Body)
-	var productList []model.ProdMaster
-
-	err2 := decoder.Decode(&productList)
-	if err2 != nil {
-		panic(err2)
-	}
-
-	//TODO: add a function to fetch the mapping of the product id from the stripe
+	handleCors(&w,r)
 
 	domainURL := os.Getenv("DOMAIN")
 
 	params := &stripe.CheckoutSessionParams{
-		SuccessURL:         stripe.String(domainURL + "/home"),
-		CancelURL:          stripe.String(domainURL + "/canceled.html"),
+		SuccessURL:         stripe.String(domainURL + "/checkout-success"),
+		CancelURL:          stripe.String(domainURL + "/checkout-cancel"),
 		Mode:               stripe.String(string(stripe.CheckoutSessionModePayment)),
 		LineItems: []*stripe.CheckoutSessionLineItemParams{
 			{
 				Quantity: stripe.Int64(1),
 				Price:    stripe.String(os.Getenv("PRICE")),
 			},
-		},
+		},	
 		
 	}
 	s, err := session.New(params)
@@ -416,6 +409,22 @@ func handleCreateCheckoutSession(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, s.URL, http.StatusSeeOther)
 }
 
+//fetch the product keys of stripe corresponding to the product id
+func GetStripeProductKeys() (productKeyJson string){
+
+	log.Println("GetProductIDMappingList function called")
+	
+	var productIDMaster []model.ProductIDMaster
+	//db query from sqlite
+	setupDB.DB.Find(&productIDMaster)
+
+	u, err := json.Marshal(productIDMaster)
+	if err != nil {
+		panic(err)
+	}
+	
+	return string(u)
+}
 
 func main() {
 	//init router

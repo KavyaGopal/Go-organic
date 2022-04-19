@@ -56,6 +56,13 @@ type UserTestimonial struct {
 
 }
 
+type ProductIDMaster struct {
+
+	ID      int64   `gorm:"AUTO_INCREMENT;PRIMARY_KEY;not_null" json:"id"`
+	Key     string  `gorm:"type:varchar(255);NOT NULL" json:"productKey"`
+
+}
+
 // ErrorResponse represents the structure of the error object sent
 // in failed responses.
 type ErrorResponse struct {

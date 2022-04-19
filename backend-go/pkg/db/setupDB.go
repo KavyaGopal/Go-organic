@@ -37,6 +37,7 @@ func CreateDatabase() {
 	db.AutoMigrate(&model.ProdMaster{})
 	db.AutoMigrate(&model.User{})
 	db.AutoMigrate(&model.UserTestimonial{})
+	db.AutoMigrate(&model.ProductIDMaster{})
 
 	var products = []model.ProdMaster{
 		//fruits
@@ -87,5 +88,44 @@ func CreateDatabase() {
             {ImageSource: "../../../assets/testimonial-images/img-fm3.jpeg",UserDescription: "Being healthy is in my genes and I highly appreciate that go-organic is promoting healty diets in the form of organic based products."}}
         
         db.Create(&testimonials)
+		
+		var productIdMapping = []model.ProductIDMaster{
+            //fruits
+            {Key: "price_1Kpg3AEdowRWU1QhLGGU9OJ0"},
+            {Key: "price_1KpgN3EdowRWU1QhOKpvaaVr"},
+			{Key: "price_1KpgNREdowRWU1Qh2ukoR2yT"},
+			{Key: "price_1KpgNtEdowRWU1QhMjbadG77"},
+			{Key: "price_1KpgOHEdowRWU1Qhs4ajwrYY"},
+			{Key: "price_1KpgOoEdowRWU1QhjNPZamXT"},
+			//vegetables
+			{Key: "price_1Kpg3zEdowRWU1QhM01asQ1Q"},
+            {Key: "price_1KpgPJEdowRWU1Qh0U398QzW"},
+			{Key: "price_1KpgQ3EdowRWU1QhtWaCdKrk"},
+			{Key: "price_1KpgQOEdowRWU1QhSiZVE9XV"},
+			{Key: "price_1KpgQlEdowRWU1Qh4MGl5f1r"},
+			{Key: "price_1KpgRBEdowRWU1QhzItAHXkc"},
+			//snacks
+			{Key: "price_1KpgReEdowRWU1QhAMWJeNiT"},
+            {Key: "price_1KpgS4EdowRWU1Qh3dL5nbp9"},
+			{Key: "price_1KpgSSEdowRWU1QhuvjmlUNg"},
+			{Key: "price_1KpgSrEdowRWU1QhRPAYhv1C"},
+			{Key: "price_1KpgTNEdowRWU1QhZYwE6FJS"},
+			{Key: "price_1KpgTrEdowRWU1Qh9ONXiqXw"},
+			//cosmetics
+			{Key: "price_1KpgUDEdowRWU1QhBJxNS1rV"},
+            {Key: "price_1KpgUXEdowRWU1QhS3DzPKdQ"},
+			{Key: "price_1KpgUuEdowRWU1QhEBNpmpPs"},
+			{Key: "price_1KpgVEEdowRWU1QhUZmlToJs"},
+			{Key: "price_1KpgVVEdowRWU1Qh9vah3xX3"},
+			{Key: "price_1KpgVtEdowRWU1QhjKyOBX2j"},
+			//groceries
+			{Key: "price_1KpgWPEdowRWU1QhU5h4dvIL"},
+            {Key: "price_1KpgWlEdowRWU1QhUqXdoLZL"},
+			{Key: "price_1KpgX9EdowRWU1QhQvt4RPCc"},
+			{Key: "price_1KpgXQEdowRWU1QhqAuGMF3y"},
+			{Key: "price_1KpgXmEdowRWU1QhaAAJficP"},
+			{Key: "price_1KpgY3EdowRWU1QhRblhZSQi"}}
+        
+        db.Create(&productIdMapping)
 		
 }

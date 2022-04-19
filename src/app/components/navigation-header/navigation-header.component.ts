@@ -3,6 +3,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { CartService} from '../../services/cart.service';
+import { Router} from '@angular/router'
 
 
 
@@ -35,7 +36,7 @@ export class NavigationHeaderComponent implements OnInit{
     //   shareReplay()
     // );
     constructor(
-      private breakpointObserver: BreakpointObserver, private cartService: CartService) {
+      private breakpointObserver: BreakpointObserver, private cartService: CartService, private router: Router) {
         this.cartService.cartSubject.subscribe((data)=> {
           this.cartItem = data;
           
@@ -55,6 +56,14 @@ export class NavigationHeaderComponent implements OnInit{
           console.log(cartCount.length);
           this.cartItem = cartCount.length;
         }
+      }
+
+      checkLogin(){
+        if(this.user != null){
+          localStorage.clear();
+          window.location.reload()
+        }
+        this.router.navigate(['/login']);
       }
      
 

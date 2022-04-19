@@ -49,18 +49,15 @@ type JsonLoginResponse struct {
 }
 
 type UserTestimonial struct {
-
-	ID              int64   `gorm:"AUTO_INCREMENT;PRIMARY_KEY;not_null" json:"id"`
-	ImageSource     string  `gorm:"type:varchar(255);NOT NULL" json:"imgSrc"`
-	UserDescription string  `gorm:"type:text" json:"userDesc"`
-
+	ID              int64  `gorm:"AUTO_INCREMENT;PRIMARY_KEY;not_null" json:"id"`
+	Name            string `gorm:"type:varchar(255);NOT NULL" json:"userName"`
+	ImageSource     string `gorm:"type:varchar(255);NOT NULL" json:"imgSrc"`
+	UserDescription string `gorm:"type:text" json:"userDesc"`
 }
 
 type ProductIDMaster struct {
-
-	ID      int64   `gorm:"AUTO_INCREMENT;PRIMARY_KEY;not_null" json:"id"`
-	Key     string  `gorm:"type:varchar(255);NOT NULL" json:"productKey"`
-
+	ID  int64  `gorm:"AUTO_INCREMENT;PRIMARY_KEY;not_null" json:"id"`
+	Key string `gorm:"type:varchar(255);NOT NULL" json:"productKey"`
 }
 
 // ErrorResponse represents the structure of the error object sent

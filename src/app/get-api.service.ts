@@ -34,4 +34,9 @@ export class GetApiService {
   {
     return this.httpClient.get('http://localhost:8000/api/fetchProduct/Cosmetics');
   }
+
+  fetchUserTestimonialsApiCall()
+  {
+    return this.httpClient.get('http://localhost:8000/api/fetchUserTestimonials');
+  }
 }

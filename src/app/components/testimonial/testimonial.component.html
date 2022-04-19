@@ -1,0 +1,56 @@
+<section>
+    <div class="section-container section-md-sm">
+        <span class="section-heading text-center">Testimonials</span>
+        <div class="d-flex justify-content-center">
+            <div class="col-8 text-center">
+                Testimonials describes what has been, and are a promise of what is to come.
+            </div>
+        </div>
+        <!-- <div class="d-flex justify-content-center mt-4">
+            <div class="testimony-container grow text-center">
+                <img src="../../../assets/testimonial-images/img-fm2.jpeg" class="testimony-img mx-auto m-2" alt="..." /><span class="testimonyName">Divya Gopal</span>
+                <span class="testimonyDesc">I am in my mid thirties and my weight gain hit me hard. I have tried every diet there is but instead of dieting now...I ordered go-organic products and who knew this was too good for you! Now I eat and truly enjoy my food.</span>
+
+            </div>
+            <div class="testimony-container grow text-center ">
+                <img src="../../../assets/testimonial-images/img-fm1.jpeg" class="testimony-img mx-auto m-2" alt="..." /><span class="testimonyName">Kate Willams</span>
+                <span class="testimonyDesc">These products are easy and super healthy. The choices are great. I would highly recommend to use go-organic products to my friends and first timers.</span>
+
+            </div>
+            <div class="testimony-container grow text-center">
+                <img src="../../../assets/testimonial-images/img-fm3.jpeg" class="testimony-img mx-auto m-2" alt="..." /><span class="testimonyName">Jenny</span>
+                <span class="testimonyDesc">I've been dabbling with the Vegan diet on and off since the beginning of the year. These products have really given me inspiration in terms of meal plans and different recipes to try</span>
+
+            </div>
+        </div> -->
+    </div>
+</section>
+
+<div class="grid-container">
+    <section class="bestseller">
+        <div class="section-container section-md-sm">
+            <div class="swiper-container">
+                <ngx-slick-carousel class="carousel" #testimonialSlickModal="slick-carousel" [config]="slideConfig">
+                    <div ngxSlickItem *ngFor="let item of testimonialData" class="slide d-flex justify-content-center">
+                        <!-- <img src="{{ slide.img }}" alt="" width="100%"> -->
+                        <div class="card my-3 swiper-card">
+                            <img [src]="item.imgSrc" class="testimony-img mx-auto m-2" alt="..." />
+                            <div class="card-body">
+                                <h5 class="card-title testimonyName">{{ item.userName }}</h5>
+                                <p class="card-text testimonyDesc">{{ item.userDesc }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </ngx-slick-carousel>
+                <button class="item-btn arrBack" aria-label="Back" (click)="testPrev()">
+                    <mat-icon>arrow_back_ios</mat-icon>
+                </button>
+                <button class="item-btn arrNext" aria-label="Back" (click)="testNext()">
+                    <mat-icon>arrow_forward_ios</mat-icon>
+                </button>
+            </div>
+
+
+        </div>
+    </section>
+</div>

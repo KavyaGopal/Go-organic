@@ -49,6 +49,12 @@
 
 
                 <!-- Comment -->
+                <div class="align-self-center pr-3 mb-3  " *ngIf="user != null">
+                    <div class="row ">
+                        <!-- <div class="col-4"><img src="../../../assets/location_icon.svg"></div> -->
+                        <div class="col-8" *ngIf="!(isTab$ | async)"> Welcome {{user}} </div>
+                    </div>
+                </div>
                 <div class="align-self-center pr-3 mb-3  ">
                     <div class="row ">
                         <div class="col-4"><img src="../../../assets/location_icon.svg"></div>
@@ -61,7 +67,7 @@
                         <div class="col-4"><img src="../../../assets/user_icon.svg"></div>
                         <a>
 
-                            <div class="col-8" *ngIf="!(isTab$ | async)" [routerLink]="['/login']">{{user === null ? 'Login' : user}}</div>
+                            <div class="col-8" *ngIf="!(isTab$ | async)" (click)="checkLogin()">{{user === null ? 'Login' : 'Logout'}}</div>
                         </a>
                     </div>
                 </div>

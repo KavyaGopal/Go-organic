@@ -86,15 +86,28 @@ LOGIN
 https://user-images.githubusercontent.com/17459225/161349888-4a41fee9-2005-465e-8a80-bea8661ad1c1.mp4
 
 
+LOGOUT:
+
+https://user-images.githubusercontent.com/17459225/164269145-e7c5c76d-1745-4544-9e2b-70d10f78fbac.mp4
+
+
 CART
 
-https://user-images.githubusercontent.com/30043582/161351280-290124fa-2f79-42de-83f4-f5ef8506c710.mp4
-
+https://user-images.githubusercontent.com/17459225/164269196-289f9504-5c51-43b2-8c3b-fbe1e0488dbe.mp4
 
 
 CHECKOUT:
 
 https://user-images.githubusercontent.com/30043582/161351242-28374fc1-ace2-4b2c-875b-b1be3f0af326.mp4
+
+
+TESTIMONIAL:
+
+
+https://user-images.githubusercontent.com/17459225/164269288-dcc1826a-62ef-4e21-af8e-aba55977ffd3.mp4
+
+
+
 
 ## Backend unit testing
 

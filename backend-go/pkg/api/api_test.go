@@ -193,6 +193,53 @@ func TestLoginAPI(t *testing.T) {
 
 }
 
+func TestResetPassword(t *testing.T) {
+
+	setupDB.ConnectDatabase()
+	loginUser := &model.Login{
+
+		Email: "test1",
+
+		Password: "test1",
+	}
+	jsonPayload, _ := json.Marshal(loginUser)
+	request, _ := http.NewRequest("POST", "/resetPassword", bytes.NewBuffer(jsonPayload))
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(ResetPassword)
+	handler.ServeHTTP(rr, request)
+	if status := rr.Code; status != http.StatusOK {
+		t.Errorf("handler returned wrong status code: got %v want %v",
+			status, http.StatusOK)
+	}
+
+	//success case
+	assert.Equal(t, 200, rr.Code, "OK response is expected")
+	assert.Equal(t, "{\"status\":200,\"message\":\"Password successfully updated.\"}\n", rr.Body.String(), "Password Reset Success")
+	log.Println("###### Test Case Passed For Password Reset Success #########")
+
+	//case for re-enter login with old password
+
+	loginUser = &model.Login{
+
+		Email: "test1",
+
+		Password: "test",
+	}
+	jsonPayload, _ = json.Marshal(loginUser)
+	request, _ = http.NewRequest("POST", "/loginUser", bytes.NewBuffer(jsonPayload))
+	rr = httptest.NewRecorder()
+	handler = http.HandlerFunc(LoginUser)
+	handler.ServeHTTP(rr, request)
+	if status := rr.Code; status != http.StatusUnauthorized {
+		t.Errorf("handler returned wrong status code: got %v want %v",
+			status, http.StatusOK)
+	}
+
+	assert.Equal(t, "{\"status\":500,\"message\":\"Unauthorized Access\"}\n", rr.Body.String(), "Login Attempt failed with old password")
+	log.Println("###### Test Case Passed For Re-enter Login with Old Password #########")
+
+}
+
 func TestCartCheckout(t *testing.T) {
 
 	setupDB.ConnectDatabase()

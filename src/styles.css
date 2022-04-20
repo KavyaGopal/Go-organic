@@ -114,6 +114,7 @@ button {
 
 .card-text {
     font-size: 0.89em !important;
+    height: 120px;
 }
 
 .item-details span {

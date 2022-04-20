@@ -30,7 +30,7 @@ export class PaypalpaymentComponent implements OnInit {
       {
         id: "#myCheckoutPayPal",
         currency: "USD",
-        value: (100).toString(),
+        value: "111",
         onApprove: (details) => {
           // Sends the items in the cart to backend for update
           this.placeOrder();

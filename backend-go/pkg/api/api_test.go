@@ -32,6 +32,7 @@ func Router() *mux.Router {
 	router.HandleFunc("/registerUser", RegisterUser).Methods("POST")
 	//login api endpoint
 	router.HandleFunc("/loginUser", LoginUser).Methods("POST")
+	router.HandleFunc("/api/fetchItemQuantity", FetchItemQuantity).Methods("POST")
 
 	return router
 }
@@ -188,6 +189,34 @@ func TestLoginAPI(t *testing.T) {
 	handler.ServeHTTP(rr, request)
 	assert.Equal(t, "{\"status\":500,\"message\":\"Unauthorized Access\"}\n", rr.Body.String(), "Login Failure")
 	log.Println("###### Test Case Passed For Login Failure #########")
+
+}
+
+func TestCartCheckout(t *testing.T) {
+
+	setupDB.ConnectDatabase()
+	ItemList := `[{
+		"itemID": 1,
+		"itemQuantity": 2
+	}, {
+		"itemID": 2,
+		"itemQuantity": 5
+	}]`
+
+	jsonPayload, _ := json.Marshal(ItemList)
+	request, _ := http.NewRequest("POST", "/api/fetchItemQuantity", bytes.NewBuffer(jsonPayload))
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(FetchItemQuantity)
+	handler.ServeHTTP(rr, request)
+	if status := rr.Code; status != http.StatusOK {
+		t.Errorf("handler returned wrong status code: got %v want %v",
+			status, http.StatusOK)
+	}
+
+	//success case
+	assert.Equal(t, 200, rr.Code, "OK response is expected")
+	assert.Equal(t, "{\"status\":200,\"message\":\"Checkout of All Items Done Successfully\"}\n", rr.Body.String(), "Cart Checkout Success")
+	log.Println("###### Test Case Passed For Cart Success #########")
 
 }
 

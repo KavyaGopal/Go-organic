@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { render } from 'creditcardpayments/creditCardPayments' 
+import {Router} from '@angular/router'; // import router from angular router
+
 @Component({
   selector: 'app-paypalpayment',
   templateUrl: './paypalpayment.component.html',
@@ -7,7 +9,7 @@ import { render } from 'creditcardpayments/creditCardPayments'
 })
 export class PaypalpaymentComponent implements OnInit {
 
-  constructor() {
+  constructor(private route:Router) {
     render(
       {
         id:"#myCheckoutPayPal",
@@ -15,6 +17,7 @@ export class PaypalpaymentComponent implements OnInit {
         value:"100.00",
         onApprove:(details)=> {
           alert("Transaction Successful. You may close the browser now.");
+          this.route.navigate(['/payment']);
 
         }
       }

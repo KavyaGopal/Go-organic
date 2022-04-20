@@ -43,8 +43,8 @@ A one stop place to buy all the organic and healthy food. It is a web applicatio
     cd backend-go/pkg/api;
     go run api.go
 
-## Documentation
-[Go-Organic Wiki](https://github.com/KavyaGopal/Go-organic/wiki)
+## Backend API Documentation
+[Go-Organic Wiki](https://github.com/KavyaGopal/Go-organic/wiki/Backend-Documentation)
 
 ## Testing
 For testing, we will do unit testing for both front and back end when developing, also end to end testing.
@@ -52,6 +52,9 @@ For testing, we will do unit testing for both front and back end when developing
 - end to end testing
 - back end unit testing
 - front end unit testing
+
+## Link to Project Board for all Sprints ##
+https://github.com/KavyaGopal/Go-organic/projects/1
 
 ## Sprint 1
 
@@ -64,6 +67,10 @@ For testing, we will do unit testing for both front and back end when developing
 ## Sprint 3
 
 - https://github.com/KavyaGopal/Go-organic/blob/main/sprint3.md
+
+## Sprint 4
+
+- https://github.com/KavyaGopal/Go-organic/blob/main/sprint4.md
 
 ## Authors
 

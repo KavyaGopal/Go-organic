@@ -7,8 +7,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
-
-	setupDB "github.com/KavyaGopal/Go-organic/backend-go/pkg/db"
+	"github.com/KavyaGopal/Go-organic/backend-go/pkg/db"
 	"github.com/KavyaGopal/Go-organic/backend-go/pkg/model"
 	"github.com/gorilla/mux"
 	"github.com/stretchr/testify/assert"
@@ -33,6 +32,7 @@ func Router() *mux.Router {
 	//login api endpoint
 	router.HandleFunc("/loginUser", LoginUser).Methods("POST")
 	router.HandleFunc("/api/fetchItemQuantity", FetchItemQuantity).Methods("POST")
+	router.HandleFunc("/api/fetchUserTestimonials", GetUserTestimonials).Methods("GET")
 
 	return router
 }
@@ -143,6 +143,7 @@ func TestRegisterAPI(t *testing.T) {
 	log.Println("###### Test Case Passed For Register Failure #########")
 
 }
+
 func TestLoginAPI(t *testing.T) {
 
 	setupDB.ConnectDatabase()
@@ -213,36 +214,32 @@ func TestCartCheckout(t *testing.T) {
 			status, http.StatusOK)
 	}
 
-	//success case
 	assert.Equal(t, 200, rr.Code, "OK response is expected")
 	assert.Equal(t, "{\"status\":200,\"message\":\"Checkout of All Items Done Successfully\"}\n", rr.Body.String(), "Cart Checkout Success")
-	log.Println("###### Test Case Passed For Cart Success #########")
+	log.Println("###### Test Case Passed For Cart Checkout #########")
 
 }
 
-//test for sample mock json->Fruit
-func TestGetFruits(t *testing.T) {
+func TestUserTestimonials(t *testing.T){
 
-	fruits = append(fruits, model.FruitMock{ID: 1, ImageSource: "../../../assets/items/apple.png", ItemName: "Apple", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 12})
-	fruits = append(fruits, model.FruitMock{ID: 2, ImageSource: "../../../assets/items/cherry.png", ItemName: "Cherry", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 15})
-	fruits = append(fruits, model.FruitMock{ID: 3, ImageSource: "../../../assets/items/orange.png", ItemName: "Orange", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 5})
-	fruits = append(fruits, model.FruitMock{ID: 4, ImageSource: "../../../assets/items/pineapple.jpeg", ItemName: "Pineapple", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 9})
-	fruits = append(fruits, model.FruitMock{ID: 5, ImageSource: "../../../assets/items/jackfruit.jpeg", ItemName: "Jackfruit", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 12})
-	fruits = append(fruits, model.FruitMock{ID: 6, ImageSource: "../../../assets/items/watermelon.jpeg", ItemName: "Watermelon", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemCost: 20})
-
-	//write test cases for api health
-	request, _ := http.NewRequest("GET", "/getFruits", nil)
-	response := httptest.NewRecorder()
-	Router().ServeHTTP(response, request)
-
-	if status := response.Code; status != http.StatusOK {
+	request, err := http.NewRequest("GET", "/api/fetchUserTestimonials", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(GetUserTestimonials)
+	handler.ServeHTTP(rr, request)
+	if status := rr.Code; status != http.StatusOK {
 		t.Errorf("handler returned wrong status code: got %v want %v",
 			status, http.StatusOK)
 	}
 
-	//expected json for the fruit
-	expected := `[{"id":1,"imgSrc":"../../../assets/items/apple.png","itemName":"Apple","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":12},{"id":2,"imgSrc":"../../../assets/items/cherry.png","itemName":"Cherry","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":15},{"id":3,"imgSrc":"../../../assets/items/orange.png","itemName":"Orange","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":5},{"id":4,"imgSrc":"../../../assets/items/pineapple.jpeg","itemName":"Pineapple","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":9},{"id":5,"imgSrc":"../../../assets/items/jackfruit.jpeg","itemName":"Jackfruit","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":12},{"id":6,"imgSrc":"../../../assets/items/watermelon.jpeg","itemName":"Watermelon","itemDesc":"This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.","itemWt":500,"itemQuantity":1,"itemCost":20}]`
+	//expected json for all user testimonials fetched from the database
+	expected := `[{"id":1,"userName":"Zack Wright","imgSrc":"../../../assets/testimonial-images/img-m1.png","userDesc":"I am in my mid thirties and my weight gain hit me hard. I have tried every diet there is but instead of dieting now...I ordered go-organic products and who knew this was too good for you! Now I eat and truly enjoy my food."},{"id":2,"userName":"Alexa Brighton","imgSrc":"../../../assets/testimonial-images/img-fm1.jpeg","userDesc":"These products are easy and super healthy. The choices are great. I would highly recommend to use go-organic products to my friends and first timers."},{"id":3,"userName":"Joe Tribbiani","imgSrc":"../../../assets/testimonial-images/img-m2.jpeg","userDesc":"I've been dabbling with the Vegan diet on and off since the beginning of the year. These products have really given me inspiration in terms of meal plans and different recipes to try."},{"id":4,"userName":"Myra Philips","imgSrc":"../../../assets/testimonial-images/img-fm2.jpeg","userDesc":"I bought this to refresh my diet and nutrition and wanted some new healthy diets. Every single thing I have tried has been a winner and products are relatively cheaper."},{"id":5,"userName":"Jay Shah","imgSrc":"../../../assets/testimonial-images/img-m3.jpeg","userDesc":"Mostly tasty products. I am not a vegan and enjoyed most of the go-organic products. I highly recommended these products if you want to become plant eater and not feel hungry."},{"id":6,"userName":"Phoebe Buffet","imgSrc":"../../../assets/testimonial-images/img-fm3.jpeg","userDesc":"Being healthy is in my genes and I highly appreciate that go-organic is promoting healty diets in the form of organic based products."}]`
 
-	//check equality of json for the fruit product
-	require.JSONEq(t, expected, response.Body.String())
+	//check equality of json for all products
+	require.JSONEq(t, expected, rr.Body.String())
+
+	log.Println("########## Test Case Passed For Getting User Testimonials from DB ############")
+	
 }

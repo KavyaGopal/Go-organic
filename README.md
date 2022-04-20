@@ -14,6 +14,8 @@ A one-stop place to buy all the organic and healthy food. It is a web applicatio
 - [Backend API Documentation](#backend-api-documentation)
 - [Project Board Link](#project-board-link)
 - [Sprint-4 Deliverables](#sprint-4-deliverables)
+- [Bug Fixed](#bugs-fixed)
+- [Sprint Report](#sprint-report)
 - [License and authors](#authors)
 
 ## Features
@@ -141,6 +143,10 @@ https://user-images.githubusercontent.com/30043582/164331422-67ed53f9-5874-418d-
 
 ## Back End Unit Testing
 
+FETCH ALL PRODUCTS | FETCH PARTICULAR PRODUCT | SIGN UP| LOGIN | RESET PASSWORD | USER TESTIMONIAL | CART CHECKOUT
+
+https://user-images.githubusercontent.com/20243138/164340487-3219f726-630d-4769-994d-3f8e118ffe52.mp4
+
 ## Backend API Documentation
 [Backend API Docs](https://github.com/KavyaGopal/Go-organic/wiki/Backend-Documentation)
 
@@ -198,6 +204,8 @@ https://user-images.githubusercontent.com/30043582/164331422-67ed53f9-5874-418d-
     - Change home banner since the current one is blurred in different resolutions
     - Navigate to components(groceries, cosmetics and all) doesn't work clicking navigation bar
     - Update product description and fix styling
+
+## Sprint Report
 
 ## Sprint 1
 

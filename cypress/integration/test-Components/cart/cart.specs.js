@@ -28,5 +28,29 @@
          cy.url().should('include', '/checkout')
      })
 
+     it('Tests adding and removing element from cart', () => {
+         cy.visit('http://localhost:4200/home')
+             // Add items to cart
+         cy.get('#slick-slide00 > .card > .card-body > .justify-content-between > .mat-focus-indicator').click();
+         cy.get('#slick-slide01 > .card > .card-body > .justify-content-between > .mat-focus-indicator').click();
+         cy.visit('http://localhost:4200/cart')
+             // Increase the number of items to 3
+         cy.get(':nth-child(1) > .cdk-column-itemDesc > div > [aria-label="add"]').click();
+         cy.get(':nth-child(1) > .cdk-column-itemDesc > div > [aria-label="add"]').click();
+         cy.contains('3')
+             // Decrease the number of items to 2
+         cy.get(' :nth-child(1) > .cdk-column-itemDesc > div > [aria-label="subtract"] > .mat-button-wrapper > .mat-icon').click();
+         cy.contains('2')
+             // Delete an item
+         cy.get(':nth-child(1) > .cdk-column-star > .iconContainer > .mat-icon').click();
+         // Proceed to Payment
+         cy.get('.center > .mat-focus-indicator').click();
+         cy.url().should('include', '/checkout')
 
+
+
+
+
+
+     })
  });

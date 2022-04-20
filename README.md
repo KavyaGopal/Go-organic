@@ -60,9 +60,29 @@ A one-stop place to buy all the organic and healthy food. It is a web applicatio
 1. Sign In and Sign Up
 ![sprint3](https://user-images.githubusercontent.com/17459225/161350431-46a13433-72e0-4787-a60b-9c8689ae9aea.gif)
 
-2. Add products to cart -> Checkout Components -> Proceed to Payment
+2. Logout
+
+![logout](https://user-images.githubusercontent.com/17459225/164273519-ae72e05e-677f-4614-a0ac-8d2de6f3b502.gif)
+
+
+3. Add products to cart -> Checkout Components -> Proceed to Payment
 
  ![sprint3demo](https://user-images.githubusercontent.com/30043582/161351344-9beb1c22-6d5a-4432-9849-4e42f0a8ac70.gif)
+ 
+4. Navigation bar -> Navigates within home pages -> Navigates from other page to homepage
+
+![navigation](https://user-images.githubusercontent.com/17459225/164273785-f9b0e447-1a8f-4a7a-9ecc-e1e473201186.gif)
+
+
+5. Testimonial page -> from home page
+
+![testimonial](https://user-images.githubusercontent.com/17459225/164273895-f57fa8d5-dc83-46fc-b7aa-94db735963ea.gif)
+
+
+6. Cart -> Delete items from cart(will update cart number) -> Add button is disabled when items are out of stocks
+
+![cart](https://user-images.githubusercontent.com/17459225/164274307-0f308336-4cea-4275-a20d-34e124ad0afb.gif)
+
 
 
 
@@ -86,15 +106,28 @@ LOGIN
 https://user-images.githubusercontent.com/17459225/161349888-4a41fee9-2005-465e-8a80-bea8661ad1c1.mp4
 
 
+LOGOUT:
+
+https://user-images.githubusercontent.com/17459225/164269145-e7c5c76d-1745-4544-9e2b-70d10f78fbac.mp4
+
+
 CART
 
-https://user-images.githubusercontent.com/30043582/161351280-290124fa-2f79-42de-83f4-f5ef8506c710.mp4
-
+https://user-images.githubusercontent.com/17459225/164269196-289f9504-5c51-43b2-8c3b-fbe1e0488dbe.mp4
 
 
 CHECKOUT:
 
 https://user-images.githubusercontent.com/30043582/161351242-28374fc1-ace2-4b2c-875b-b1be3f0af326.mp4
+
+
+TESTIMONIAL:
+
+
+https://user-images.githubusercontent.com/17459225/164269288-dcc1826a-62ef-4e21-af8e-aba55977ffd3.mp4
+
+
+
 
 ## Backend unit testing
 

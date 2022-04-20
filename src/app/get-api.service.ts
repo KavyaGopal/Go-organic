@@ -41,6 +41,6 @@ export class GetApiService {
   }
 
   sendCartData(data){
-    return this.httpClient.put('http://localhost:8000/api/fetchUserTestimonials', data);
+    return this.httpClient.post('http://localhost:8000/api/fetchItemQuantity', data);
   }
 }

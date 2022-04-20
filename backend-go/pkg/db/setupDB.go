@@ -41,7 +41,7 @@ func CreateDatabase() {
 
 	var products = []model.ProdMaster{
 		//fruits
-		{ImageSource: "../../../assets/items/apple.png", ItemName: "Apple", ItemCategory: "Fruits", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemInventory: 200, ItemCost: 12},
+		{ImageSource: "../../../assets/items/apple.png", ItemName: "Apple", ItemCategory: "Fruits", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemInventory: 3, ItemCost: 12},
 		{ImageSource: "../../../assets/items/cherry.png", ItemName: "Cherry", ItemCategory: "Fruits", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemInventory: 200, ItemCost: 10},
 		{ImageSource: "../../../assets/items/orange.png", ItemName: "Orange", ItemCategory: "Fruits", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemInventory: 200, ItemCost: 9},
 		{ImageSource: "../../../assets/items/pineapple.jpeg", ItemName: "Pineapple", ItemCategory: "Fruits", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemInventory: 200, ItemCost: 9},
@@ -49,7 +49,7 @@ func CreateDatabase() {
 		{ImageSource: "../../../assets/items/watermelon.jpeg", ItemName: "Watermelon", ItemCategory: "Fruits", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemInventory: 200, ItemCost: 9},
 		//vegetables
 		{ImageSource: "../../../assets/items/potato.jpeg", ItemName: "Potato", ItemCategory: "Vegetables", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemInventory: 200, ItemCost: 10},
-		{ImageSource: "../../../assets/items/tomato.jpeg", ItemName: "Tomato", ItemCategory: "Vegetables", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemInventory: 200, ItemCost: 9},
+		{ImageSource: "../../../assets/items/tomato.jpeg", ItemName: "Tomato", ItemCategory: "Vegetables", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemInventory: 3, ItemCost: 9},
 		{ImageSource: "../../../assets/items/cauliflower.jpeg", ItemName: "Cauliflower", ItemCategory: "Vegetables", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemInventory: 200, ItemCost: 10},
 		{ImageSource: "../../../assets/items/brinjal.jpeg", ItemName: "Brinjal", ItemCategory: "Vegetables", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemInventory: 200, ItemCost: 9},
 		{ImageSource: "../../../assets/items/onion.jpeg", ItemName: "Onion", ItemCategory: "Vegetables", ItemDesc: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.", ItemWeight: 500, ItemQuantity: 1, ItemInventory: 200, ItemCost: 8},
@@ -80,12 +80,12 @@ func CreateDatabase() {
 
 	var testimonials = []model.UserTestimonial{
 
-		{Name: "Zubin Arya", ImageSource: "../../../assets/testimonial-images/img-m1.png", UserDescription: "I am in my mid thirties and my weight gain hit me hard. I have tried every diet there is but instead of dieting now...I ordered go-organic products and who knew this was too good for you! Now I eat and truly enjoy my food."},
-		{Name: "Aryan", ImageSource: "../../../assets/testimonial-images/img-fm1.jpeg", UserDescription: "These products are easy and super healthy. The choices are great. I would highly recommend to use go-organic products to my friends and first timers."},
-		{Name: "Kavya Gopal", ImageSource: "../../../assets/testimonial-images/img-m2.jpeg", UserDescription: "I've been dabbling with the Vegan diet on and off since the beginning of the year. These products have really given me inspiration in terms of meal plans and different recipes to try."},
-		{Name: "Vaibhav Kulkarni", ImageSource: "../../../assets/testimonial-images/img-fm2.jpeg", UserDescription: "I bought this to refresh my diet and nutrition and wanted some new healthy diets. Every single thing I have tried has been a winner and products are relatively cheaper."},
+		{Name: "Zack Wright", ImageSource: "../../../assets/testimonial-images/img-m1.png", UserDescription: "I am in my mid thirties and my weight gain hit me hard. I have tried every diet there is but instead of dieting now...I ordered go-organic products and who knew this was too good for you! Now I eat and truly enjoy my food."},
+		{Name: "Alexa Brighton", ImageSource: "../../../assets/testimonial-images/img-fm1.jpeg", UserDescription: "These products are easy and super healthy. The choices are great. I would highly recommend to use go-organic products to my friends and first timers."},
+		{Name: "Joe Tribbiani", ImageSource: "../../../assets/testimonial-images/img-m2.jpeg", UserDescription: "I've been dabbling with the Vegan diet on and off since the beginning of the year. These products have really given me inspiration in terms of meal plans and different recipes to try."},
+		{Name: "Myra Philips", ImageSource: "../../../assets/testimonial-images/img-fm2.jpeg", UserDescription: "I bought this to refresh my diet and nutrition and wanted some new healthy diets. Every single thing I have tried has been a winner and products are relatively cheaper."},
 		{Name: "Jay Shah", ImageSource: "../../../assets/testimonial-images/img-m3.jpeg", UserDescription: "Mostly tasty products. I am not a vegan and enjoyed most of the go-organic products. I highly recommended these products if you want to become plant eater and not feel hungry."},
-		{Name: "Amit Pandey", ImageSource: "../../../assets/testimonial-images/img-fm3.jpeg", UserDescription: "Being healthy is in my genes and I highly appreciate that go-organic is promoting healty diets in the form of organic based products."}}
+		{Name: "Phoebe Buffet", ImageSource: "../../../assets/testimonial-images/img-fm3.jpeg", UserDescription: "Being healthy is in my genes and I highly appreciate that go-organic is promoting healty diets in the form of organic based products."}}
 
 	db.Create(&testimonials)
 

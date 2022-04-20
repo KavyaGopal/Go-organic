@@ -42,7 +42,6 @@ export class NavigationHeaderComponent implements OnInit{
           this.cartItem = data;
           
         })
-        debugger;
        
         this.cartService.userName.subscribe((data) => this.user = data);
         console.log('User Name: ' + this.user)

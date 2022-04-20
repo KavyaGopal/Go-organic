@@ -50,7 +50,6 @@ export class CartComponent implements OnInit {
   }
 
   decQty(item){
-    debugger;
     for(let i=0; i<this.getCartDetails.length; i++){
       if(this.getCartDetails[i].id == item.id){
         if(item.itemQuantity !=1) //condition to add only 5 items

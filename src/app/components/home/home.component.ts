@@ -137,7 +137,6 @@ export class HomeComponent implements OnInit {
 
   addToCart(item:any){
     console.log(item);
-    debugger;
     let checkCartData = localStorage.getItem('cartData');
     if(checkCartData == null){
       let storeCartData: any = [];

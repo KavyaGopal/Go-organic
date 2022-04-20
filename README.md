@@ -44,7 +44,10 @@ A one stop place to buy all the organic and healthy food. It is a web applicatio
     go run api.go
 
 ## Backend API Documentation
-[Go-Organic Wiki](https://github.com/KavyaGopal/Go-organic/wiki/Backend-Documentation)
+[Backend API Docs](https://github.com/KavyaGopal/Go-organic/wiki/Backend-Documentation)
+
+## End To End Application Demo
+https://user-images.githubusercontent.com/20243138/164326576-5d0a1822-e255-4170-a776-f1e8df8e9645.mp4
 
 ## Testing
 For testing, we will do unit testing for both front and back end when developing, also end to end testing.
@@ -70,7 +73,7 @@ https://github.com/KavyaGopal/Go-organic/projects/1
 
 ## Sprint 4
 
-- https://github.com/KavyaGopal/Go-organic/blob/main/sprint4.md
+- https://github.com/KavyaGopal/Go-organic/blob/sprint4-backend-update-readme/sprint4.md
 
 ## Authors
 

@@ -32,9 +32,11 @@ export class PaypalpaymentComponent implements OnInit {
         currency: "USD",
         value: (100).toString(),
         onApprove: (details) => {
+          // Sends the items in the cart to backend for update
+          this.placeOrder();
           // alert("Transaction Successful. You may close the browser now.");
           this.route.navigate(['/payment']);
-          this.placeOrder();
+         
 
         }
       }
@@ -66,7 +68,7 @@ export class PaypalpaymentComponent implements OnInit {
   placeOrder(){
     let checkCartData = JSON.parse(localStorage.getItem('cartData'))
     
-    let finalData : any[];
+    let finalData : any[] = [];
     for(let i=0; i< checkCartData.length; i++){
       let cartData = {
           "itemID": checkCartData[i].id,
@@ -74,7 +76,7 @@ export class PaypalpaymentComponent implements OnInit {
       }
       finalData.push(cartData);
     }
-    this.api.sendCartData(finalData).subscribe(x => console.log(x))
+    this.api.sendCartData(JSON.stringify(finalData)).subscribe(x => console.log(x))
 
   }
 

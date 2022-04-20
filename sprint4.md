@@ -25,11 +25,26 @@
 
 ## Backend
 
-- Logout
-    - API development completed
-    - 
+- Testimonial
+    - Fetch the testimonials of the users from the database as a GET request
+    - New Entries can be added in database to without need for code change 
+    - Integration with frontend is complete
+    - Test cases are complete
 - Payment
-    - 
+    - Get the user specific cart items and checks against the inventory items of all products
+    - Initiates third party API invocation passing all params of cart items as product key mapping in the database
+    - DB update on the item quantity is reduced after successful payment
+    - Integration with frontend is complete. The number of remaining items are correctly reflected in the database
+    - Test cases are complete
+- Reset Password
+    - Added a functionality to reset the password in case user has forgotten the password
+    - New password is successfully updated in the database
+    - Relogin attempt with old password does not allow user to login
+    - Test cases are complete
+- Cart Checkout
+    - Added functionality to keep a check on item values from cart items in the frontend against inventory in the database
+    - Reflect which product is out of stock on items exceeding the inventory value in the database
+    - Test cases are complete
 
 ## Bugs Fixed
 

@@ -285,6 +285,7 @@ func ResetPassword(w http.ResponseWriter, r *http.Request) {
 
 }
 
+//business logic for item soldout condition
 func fetchItemQuantity(w http.ResponseWriter, r *http.Request) {
 	var items []model.Item
 	body, err := ioutil.ReadAll(r.Body)

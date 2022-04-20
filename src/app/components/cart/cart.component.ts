@@ -50,10 +50,13 @@ export class CartComponent implements OnInit {
   }
 
   decQty(item){
+    debugger;
     for(let i=0; i<this.getCartDetails.length; i++){
       if(this.getCartDetails[i].id == item.id){
         if(item.itemQuantity !=1) //condition to add only 5 items
         this.getCartDetails[i].itemQuantity = parseInt(item.itemQuantity) - 1; 
+        //this.getCartDetails[i] = this.getCartDetails.filter((x)=> { return x.id !== item.id})
+        // this.getCartDetails.splice(i,1);
       }
 
     }
@@ -65,8 +68,22 @@ export class CartComponent implements OnInit {
   incQty(item){
     for(let i=0; i<this.getCartDetails.length; i++){
       if(this.getCartDetails[i].id == item.id){
-        if(item.itemQuantity !=5) //condition to add only 5 items
+        if(item.itemQuantity != item.itemInventory) //condition to add only 5 items
         this.getCartDetails[i].itemQuantity = parseInt(item.itemQuantity) + 1; 
+      }
+
+    }
+    localStorage.setItem('cartData',JSON.stringify(this.getCartDetails))
+    this.getTotal();
+    window.location.reload()
+  }
+
+  delItm(item){
+    for(let i=0; i<this.getCartDetails.length; i++){
+      if(this.getCartDetails[i].id == item.id){
+        this.getCartDetails.splice(i,1);
+        // if(item.itemQuantity !=5) //condition to add only 5 items
+        // this.getCartDetails[i].itemQuantity = parseInt(item.itemQuantity) + 1; 
       }
 
     }

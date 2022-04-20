@@ -1,54 +1,54 @@
 <div class="grid-container">
-  <div class="row no-gutters banner">
-    <div class="col-11 col-sm-11 col-md-7 text-center d-flex flex-column">
-      <div class="discount focus-in-contract-bck mx-auto">
-      </div>
-      <div class="heading tracking-in-expand-fwd">A one stop place</div>
-      <div class="sub-heading focus-in-contract-bck">for all your</div>
-      <div class="sub-heading tracking-in-expand-fwd">Organic food</div>
+    <div class="row no-gutters banner">
+        <div class="col-11 col-sm-11 col-md-7 text-center d-flex flex-column">
+            <div class="discount focus-in-contract-bck mx-auto">
+            </div>
+            <div class="heading tracking-in-expand-fwd">A one stop place</div>
+            <div class="sub-heading focus-in-contract-bck">for all your</div>
+            <div class="sub-heading tracking-in-expand-fwd">Organic food</div>
 
-      <button mat-raised-button class="btn-shopNow">Shop Now</button>
+            <button mat-raised-button class="btn-shopNow">Shop Now</button>
+        </div>
     </div>
-  </div>
 
 
 
-  
-
-  <br>
 
 
-  <!-- </section> --> 
-  <!-- Groceries section -->
-  <section class="bestseller">
-    <div class="section-container section-md-sm">
-      <span class="section-heading">Groceries</span>
-      <div class="swiper-container">
-        <ngx-slick-carousel class="carousel" #groceriesSlickModal="slick-carousel" [config]="slideConfig">
-          <div ngxSlickItem *ngFor="let item of groceriesData" class="slide d-flex justify-content-center">
-            <!-- <img src="{{ slide.img }}" alt="" width="100%"> -->
-            <div class="card my-3 swiper-card">
-              <img [src]="item.imgSrc" class="card-img-top" alt="..." />
-              <div class="card-body">
-                <h5 class="card-title">{{ item.itemName }}</h5>
-                <p class="card-text text-justify">{{ item.itemDesc }}</p>
-                <div class="item-details d-flex">
-                  <div class="mr-5">
-                    <span>Net wt : </span>
-                    <span>{{ item.itemWt }}gms</span>
-                  </div>
-                  <div class="">
-                    <span>Gross :</span>
-                    <span>{{ item.itemGross }}gms</span>
-                  </div>
-                </div>
-                <div class="d-flex justify-content-between align-items-end">
-                  <div class="item-price">${{ item.itemCost }}</div>
-                  <button mat-raised-button color="accent" class="btn-green" (click)="addToCart(item)">
+    <br>
+
+
+    <!-- </section> -->
+    <!-- Groceries section -->
+    <section class="bestseller">
+        <div class="section-container section-md-sm">
+            <span class="section-heading" id="groceries">Groceries</span>
+            <div class="swiper-container">
+                <ngx-slick-carousel class="carousel" #groceriesSlickModal="slick-carousel" [config]="slideConfig">
+                    <div ngxSlickItem *ngFor="let item of groceriesData" class="slide d-flex justify-content-center">
+                        <!-- <img src="{{ slide.img }}" alt="" width="100%"> -->
+                        <div class="card my-3 swiper-card">
+                            <img [src]="item.imgSrc" class="card-img-top" alt="..." />
+                            <div class="card-body">
+                                <h5 class="card-title">{{ item.itemName }}</h5>
+                                <p class="card-text text-justify">{{ item.itemDesc }}</p>
+                                <div class="item-details d-flex">
+                                    <div class="mr-5">
+                                        <span>Net wt : </span>
+                                        <span>{{ item.itemWt }}gms</span>
+                                    </div>
+                                    <!-- <div class="">
+                                        <span>Gross :</span>
+                                        <span>{{ item.itemGross }}gms</span>
+                                    </div> -->
+                                </div>
+                                <div class="d-flex justify-content-between align-items-end">
+                                    <div class="item-price">${{ item.itemCost }}</div>
+                                    <button mat-raised-button color="accent" class="btn-green" (click)="addToCart(item)">
                     Add to Cart
                   </button>
-                  <!-- Add and subract button: To add functionality -->
-                  <!-- <div>
+                                    <!-- Add and subract button: To add functionality -->
+                                    <!-- <div>
                     <button mat-mini-fab aria-label="subtract">
                       <mat-icon>remove</mat-icon>
                     </button>
@@ -57,206 +57,206 @@
                       <mat-icon>add</mat-icon>
                     </button>
                   </div> -->
-                </div>
-              </div>
-              <div class="card-footer p-0 text-center">
-                <small class="text-muted">Today in 180 mins</small>
-              </div>
-            </div>
-          </div>
-        </ngx-slick-carousel>
-        <button class="item-btn arrBack"  aria-label="Back" (click)="groceriesPrev()">
+                                </div>
+                            </div>
+                            <div class="card-footer p-0 text-center">
+                                <small class="text-muted">Today in 180 mins</small>
+                            </div>
+                        </div>
+                    </div>
+                </ngx-slick-carousel>
+                <button class="item-btn arrBack" aria-label="Back" (click)="groceriesPrev()">
           <mat-icon>arrow_back_ios</mat-icon>
         </button>
-        <button class="item-btn arrNext" aria-label="Back" (click)="groceriesNext()">
+                <button class="item-btn arrNext" aria-label="Back" (click)="groceriesNext()">
           <mat-icon>arrow_forward_ios</mat-icon>
         </button>
-      </div>
-    </div>
-  </section>
+            </div>
+        </div>
+    </section>
 
 
-  <section class="bestseller">
-    <div class="section-container section-md-sm">
-      <span class="section-heading">Fruits</span>
-      <div class="swiper-container">
-        <ngx-slick-carousel class="carousel" #fruitsSlickModal="slick-carousel" [config]="slideConfig">
-          <div ngxSlickItem *ngFor="let item of fruitsData" class="slide d-flex justify-content-center">
-            <!-- <img src="{{ slide.img }}" alt="" width="100%"> -->
-            <div class="card my-3 swiper-card">
-              <img [src]="item.imgSrc" class="card-img-top" alt="..." />
-              <div class="card-body">
-                <h5 class="card-title">{{ item.itemName }}</h5>
-                <p class="card-text text-justify">{{ item.itemDesc }}</p>
-                <div class="item-details d-flex">
-                  <div class="mr-5">
-                    <span>Net wt : </span>
-                    <span>{{ item.itemWt }}gms</span>
-                  </div>
-                  <div class="">
-                    <span>Gross :</span>
-                    <span>{{ item.itemGross }}gms</span>
-                  </div>
-                </div>
-                <div class="d-flex justify-content-between align-items-end">
-                  <div class="item-price">${{ item.itemCost }}</div>
-                  <button mat-raised-button color="accent" class="btn-green" (click)="addToCart(item)">
+    <section class="bestseller" id="fruits">
+        <div class="section-container section-md-sm">
+            <span class="section-heading">Fruits</span>
+            <div class="swiper-container">
+                <ngx-slick-carousel class="carousel" #fruitsSlickModal="slick-carousel" [config]="slideConfig">
+                    <div ngxSlickItem *ngFor="let item of fruitsData" class="slide d-flex justify-content-center">
+                        <!-- <img src="{{ slide.img }}" alt="" width="100%"> -->
+                        <div class="card my-3 swiper-card">
+                            <img [src]="item.imgSrc" class="card-img-top" alt="..." />
+                            <div class="card-body">
+                                <h5 class="card-title">{{ item.itemName }}</h5>
+                                <p class="card-text text-justify">{{ item.itemDesc }}</p>
+                                <div class="item-details d-flex">
+                                    <div class="mr-5">
+                                        <span>Net wt : </span>
+                                        <span>{{ item.itemWt }}gms</span>
+                                    </div>
+                                    <!-- <div class="">
+                                        <span>Gross :</span>
+                                        <span>{{ item.itemGross }}gms</span>
+                                    </div> -->
+                                </div>
+                                <div class="d-flex justify-content-between align-items-end">
+                                    <div class="item-price">${{ item.itemCost }}</div>
+                                    <button mat-raised-button color="accent" class="btn-green" (click)="addToCart(item)">
                     Add to Cart
                   </button>
-                </div>
-              </div>
-              <div class="card-footer p-0 text-center">
-                <small class="text-muted">Today in 180 mins</small>
-              </div>
-            </div>
-          </div>
-        </ngx-slick-carousel>
-        <button class="item-btn arrBack"  aria-label="Back" (click)="fruitsPrev()">
+                                </div>
+                            </div>
+                            <div class="card-footer p-0 text-center">
+                                <small class="text-muted">Today in 180 mins</small>
+                            </div>
+                        </div>
+                    </div>
+                </ngx-slick-carousel>
+                <button class="item-btn arrBack" aria-label="Back" (click)="fruitsPrev()">
           <mat-icon>arrow_back_ios</mat-icon>
         </button>
-        <button class="item-btn arrNext" aria-label="Back" (click)="fruitsNext()">
+                <button class="item-btn arrNext" aria-label="Back" (click)="fruitsNext()">
           <mat-icon>arrow_forward_ios</mat-icon>
         </button>
-      </div>
-    </div>
-  </section>
+            </div>
+        </div>
+    </section>
 
 
-  <section class="bestseller">
-    <div class="section-container section-md-sm">
-      <span class="section-heading">Snacks</span>
-      <div class="swiper-container">
-        <ngx-slick-carousel class="carousel" #snacksSlickModal="slick-carousel" [config]="slideConfig">
-          <div ngxSlickItem *ngFor="let item of snacksData" class="slide d-flex justify-content-center">
-            <!-- <img src="{{ slide.img }}" alt="" width="100%"> -->
-            <div class="card my-3 swiper-card">
-              <img [src]="item.imgSrc" class="card-img-top" alt="..." />
-              <div class="card-body">
-                <h5 class="card-title">{{ item.itemName }}</h5>
-                <p class="card-text text-justify">{{ item.itemDesc }}</p>
-                <div class="item-details d-flex">
-                  <div class="mr-5">
-                    <span>Net wt : </span>
-                    <span>{{ item.itemWt }}gms</span>
-                  </div>
-                  <div class="">
-                    <span>Gross :</span>
-                    <span>{{ item.itemGross }}gms</span>
-                  </div>
-                </div>
-                <div class="d-flex justify-content-between align-items-end">
-                  <div class="item-price">${{ item.itemCost }}</div>
-                  <button mat-raised-button color="accent" class="btn-green" (click)="addToCart(item)">
+    <section class="bestseller" id="snacks">
+        <div class="section-container section-md-sm">
+            <span class="section-heading">Snacks</span>
+            <div class="swiper-container">
+                <ngx-slick-carousel class="carousel" #snacksSlickModal="slick-carousel" [config]="slideConfig">
+                    <div ngxSlickItem *ngFor="let item of snacksData" class="slide d-flex justify-content-center">
+                        <!-- <img src="{{ slide.img }}" alt="" width="100%"> -->
+                        <div class="card my-3 swiper-card">
+                            <img [src]="item.imgSrc" class="card-img-top" alt="..." />
+                            <div class="card-body">
+                                <h5 class="card-title">{{ item.itemName }}</h5>
+                                <p class="card-text text-justify">{{ item.itemDesc }}</p>
+                                <div class="item-details d-flex">
+                                    <div class="mr-5">
+                                        <span>Net wt : </span>
+                                        <span>{{ item.itemWt }}gms</span>
+                                    </div>
+                                    <!-- <div class="">
+                                        <span>Gross :</span>
+                                        <span>{{ item.itemGross }}gms</span>
+                                    </div> -->
+                                </div>
+                                <div class="d-flex justify-content-between align-items-end">
+                                    <div class="item-price">${{ item.itemCost }}</div>
+                                    <button mat-raised-button color="accent" class="btn-green" (click)="addToCart(item)">
                     Add to Cart
                   </button>
-                </div>
-              </div>
-              <div class="card-footer p-0 text-center">
-                <small class="text-muted">Today in 180 mins</small>
-              </div>
-            </div>
-          </div>
-        </ngx-slick-carousel>
-        <button class="item-btn arrBack"  aria-label="Back" (click)="snacksPrev()">
+                                </div>
+                            </div>
+                            <div class="card-footer p-0 text-center">
+                                <small class="text-muted">Today in 180 mins</small>
+                            </div>
+                        </div>
+                    </div>
+                </ngx-slick-carousel>
+                <button class="item-btn arrBack" aria-label="Back" (click)="snacksPrev()">
           <mat-icon>arrow_back_ios</mat-icon>
         </button>
-        <button class="item-btn arrNext" aria-label="Back" (click)="snacksNext()">
+                <button class="item-btn arrNext" aria-label="Back" (click)="snacksNext()">
           <mat-icon>arrow_forward_ios</mat-icon>
         </button>
-      </div>
-    </div>
-  </section>
+            </div>
+        </div>
+    </section>
 
 
-  <section class="bestseller">
-    <div class="section-container section-md-sm">
-      <span class="section-heading">Vegetables</span>
-      <div class="swiper-container">
-        <ngx-slick-carousel class="carousel" #vegetablesSlickModal="slick-carousel" [config]="slideConfig">
-          <div ngxSlickItem *ngFor="let item of vegetablesData" class="slide d-flex justify-content-center">
-            <!-- <img src="{{ slide.img }}" alt="" width="100%"> -->
-            <div class="card my-3 swiper-card">
-              <img [src]="item.imgSrc" class="card-img-top" alt="..." />
-              <div class="card-body">
-                <h5 class="card-title">{{ item.itemName }}</h5>
-                <p class="card-text text-justify">{{ item.itemDesc }}</p>
-                <div class="item-details d-flex">
-                  <div class="mr-5">
-                    <span>Net wt : </span>
-                    <span>{{ item.itemWt }}gms</span>
-                  </div>
-                  <div class="">
-                    <span>Gross :</span>
-                    <span>{{ item.itemGross }}gms</span>
-                  </div>
-                </div>
-                <div class="d-flex justify-content-between align-items-end">
-                  <div class="item-price">${{ item.itemCost }}</div>
-                  <button mat-raised-button color="accent" class="btn-green" (click)="addToCart(item)">
+    <section class="bestseller" id="vegetables">
+        <div class="section-container section-md-sm">
+            <span class="section-heading">Vegetables</span>
+            <div class="swiper-container">
+                <ngx-slick-carousel class="carousel" #vegetablesSlickModal="slick-carousel" [config]="slideConfig">
+                    <div ngxSlickItem *ngFor="let item of vegetablesData" class="slide d-flex justify-content-center">
+                        <!-- <img src="{{ slide.img }}" alt="" width="100%"> -->
+                        <div class="card my-3 swiper-card">
+                            <img [src]="item.imgSrc" class="card-img-top" alt="..." />
+                            <div class="card-body">
+                                <h5 class="card-title">{{ item.itemName }}</h5>
+                                <p class="card-text text-justify">{{ item.itemDesc }}</p>
+                                <div class="item-details d-flex">
+                                    <div class="mr-5">
+                                        <span>Net wt : </span>
+                                        <span>{{ item.itemWt }}gms</span>
+                                    </div>
+                                    <!-- <div class="">
+                                        <span>Gross :</span>
+                                        <span>{{ item.itemGross }}gms</span>
+                                    </div> -->
+                                </div>
+                                <div class="d-flex justify-content-between align-items-end">
+                                    <div class="item-price">${{ item.itemCost }}</div>
+                                    <button mat-raised-button color="accent" class="btn-green" (click)="addToCart(item)">
                     Add to Cart
                   </button>
-                </div>
-              </div>
-              <div class="card-footer p-0 text-center">
-                <small class="text-muted">Today in 180 mins</small>
-              </div>
-            </div>
-          </div>
-        </ngx-slick-carousel>
-        <button class="item-btn arrBack"  aria-label="Back" (click)="vegPrev()">
+                                </div>
+                            </div>
+                            <div class="card-footer p-0 text-center">
+                                <small class="text-muted">Today in 180 mins</small>
+                            </div>
+                        </div>
+                    </div>
+                </ngx-slick-carousel>
+                <button class="item-btn arrBack" aria-label="Back" (click)="vegPrev()">
           <mat-icon>arrow_back_ios</mat-icon>
         </button>
-        <button class="item-btn arrNext" aria-label="Back" (click)="vegNext()">
+                <button class="item-btn arrNext" aria-label="Back" (click)="vegNext()">
           <mat-icon>arrow_forward_ios</mat-icon>
         </button>
-      </div>
-    </div>
-  </section>
+            </div>
+        </div>
+    </section>
 
 
-  <section class="bestseller">
-    <div class="section-container section-md-sm">
-      <span class="section-heading">Cosmetics</span>
-      <div class="swiper-container">
-        <ngx-slick-carousel class="carousel" #cosmeticsSlickModal="slick-carousel" [config]="slideConfig">
-          <div ngxSlickItem *ngFor="let item of cosmeticsData" class="slide d-flex justify-content-center">
-            <!-- <img src="{{ slide.img }}" alt="" width="100%"> -->
-            <div class="card my-3 swiper-card">
-              <img [src]="item.imgSrc" class="card-img-top" alt="..." />
-              <div class="card-body">
-                <h5 class="card-title">{{ item.itemName }}</h5>
-                <p class="card-text text-justify">{{ item.itemDesc }}</p>
-                <div class="item-details d-flex">
-                  <div class="mr-5">
-                    <span>Net wt : </span>
-                    <span>{{ item.itemWt }}gms</span>
-                  </div>
-                  <div class="">
-                    <span>Gross :</span>
-                    <span>{{ item.itemGross }}gms</span>
-                  </div>
-                </div>
-                <div class="d-flex justify-content-between align-items-end">
-                  <div class="item-price">${{ item.itemCost }}</div>
-                  <button mat-raised-button color="accent" class="btn-green" (click)="addToCart(item)">
+    <section class="bestseller" id="cosmetics">
+        <div class="section-container section-md-sm">
+            <span class="section-heading">Cosmetics</span>
+            <div class="swiper-container">
+                <ngx-slick-carousel class="carousel" #cosmeticsSlickModal="slick-carousel" [config]="slideConfig">
+                    <div ngxSlickItem *ngFor="let item of cosmeticsData" class="slide d-flex justify-content-center">
+                        <!-- <img src="{{ slide.img }}" alt="" width="100%"> -->
+                        <div class="card my-3 swiper-card">
+                            <img [src]="item.imgSrc" class="card-img-top" alt="..." />
+                            <div class="card-body">
+                                <h5 class="card-title">{{ item.itemName }}</h5>
+                                <p class="card-text text-justify">{{ item.itemDesc }}</p>
+                                <div class="item-details d-flex">
+                                    <div class="mr-5">
+                                        <span>Net wt : </span>
+                                        <span>{{ item.itemWt }}gms</span>
+                                    </div>
+                                    <!-- <div class="">
+                                        <span>Gross :</span>
+                                        <span>{{ item.itemGross }}gms</span>
+                                    </div> -->
+                                </div>
+                                <div class="d-flex justify-content-between align-items-end">
+                                    <div class="item-price">${{ item.itemCost }}</div>
+                                    <button mat-raised-button color="accent" class="btn-green" (click)="addToCart(item)">
                     Add to Cart
                   </button>
-                </div>
-              </div>
-              <div class="card-footer p-0 text-center">
-                <small class="text-muted">Today in 180 mins</small>
-              </div>
-            </div>
-          </div>
-        </ngx-slick-carousel>
-        <button class="item-btn arrBack"  aria-label="Back" (click)="cosmeticsPrev()">
+                                </div>
+                            </div>
+                            <div class="card-footer p-0 text-center">
+                                <small class="text-muted">Today in 180 mins</small>
+                            </div>
+                        </div>
+                    </div>
+                </ngx-slick-carousel>
+                <button class="item-btn arrBack" aria-label="Back" (click)="cosmeticsPrev()">
           <mat-icon>arrow_back_ios</mat-icon>
         </button>
-        <button class="item-btn arrNext" aria-label="Back" (click)="cosmeticsNext()">
+                <button class="item-btn arrNext" aria-label="Back" (click)="cosmeticsNext()">
           <mat-icon>arrow_forward_ios</mat-icon>
         </button>
-      </div>
-    </div>
-  </section>
+            </div>
+        </div>
+    </section>
 
 </div>

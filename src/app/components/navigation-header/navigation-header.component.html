@@ -49,6 +49,12 @@
 
 
                 <!-- Comment -->
+                <div class="align-self-center pr-3 mb-3  " *ngIf="user != null">
+                    <div class="row ">
+                        <!-- <div class="col-4"><img src="../../../assets/location_icon.svg"></div> -->
+                        <div class="col-8" *ngIf="!(isTab$ | async)"> Welcome {{user}} </div>
+                    </div>
+                </div>
                 <div class="align-self-center pr-3 mb-3  ">
                     <div class="row ">
                         <div class="col-4"><img src="../../../assets/location_icon.svg"></div>
@@ -61,7 +67,7 @@
                         <div class="col-4"><img src="../../../assets/user_icon.svg"></div>
                         <a>
 
-                            <div class="col-8" *ngIf="!(isTab$ | async)" [routerLink]="['/login']">{{user === null ? 'Login' : user}}</div>
+                            <div class="col-8" *ngIf="!(isTab$ | async)" (click)="checkLogin()">{{user === null ? 'Login' : 'Logout'}}</div>
                         </a>
                     </div>
                 </div>
@@ -78,72 +84,25 @@
         <mat-toolbar class="mat-primary darkGrey shadow sticky-toolbar header-three d-flex flex-wrap col-12 col-md-11" *ngIf="!(isTab$ | async)">
             <mat-nav-list class="list-horizontal">
                 <mat-list-item class="ml-5">
-                    <button mat-menu-item>Groceries</button>
+                    <button mat-menu-item class="border-0" (click)="internalRoute('home','groceries')">Groceries</button>
                 </mat-list-item>
 
                 <mat-list-item>
-                    <button mat-menu-item [matMenuTriggerFor]="referralsmenu">Fruits</button>
+                    <button mat-menu-item class="border-0" (click)="internalRoute('home','fruits')">Fruits</button>
                 </mat-list-item>
-                <mat-menu #referralsmenu="matMenu" [overlapTrigger]="false">
-                    <button mat-menu-item>
-             <mat-icon>home</mat-icon>
-             <span>Telephonic Case Management</span>
-           </button>
-                    <button mat-menu-item>
-             <mat-icon>save_alt</mat-icon>
-             <span>Utilization Review </span>
-           </button>
-                    <button mat-menu-item>
-             <mat-icon>home</mat-icon>
-             <span>Pharmacy Management</span>
-           </button>
-                </mat-menu>
 
                 <mat-list-item>
-                    <button mat-menu-item [matMenuTriggerFor]="DRmenu">Snacks</button>
+                    <button mat-menu-item class="border-0" (click)="internalRoute('home','snacks')">Snacks</button>
                 </mat-list-item>
-                <mat-menu #DRmenu="matMenu" [overlapTrigger]="false">
-                    <button mat-menu-item>
-             <mat-icon>home</mat-icon>
-             <span>Dashboards</span>
-           </button>
-                    <button mat-menu-item>
-             <mat-icon>save_alt</mat-icon>
-             <span>Reports </span>
-           </button>
-                </mat-menu>
 
                 <mat-list-item>
-                    <button mat-menu-item [matMenuTriggerFor]="adminmenu">Vegetables</button>
+                    <button mat-menu-item class="border-0" (click)="internalRoute('home','vegetables')">Vegetables</button>
                 </mat-list-item>
-                <mat-menu #adminmenu="matMenu" [overlapTrigger]="false">
-                    <button mat-menu-item>
-             <mat-icon>home</mat-icon>
-             <span>Coverage</span>
-           </button>
-                    <button mat-menu-item>
-             <mat-icon>save_alt</mat-icon>
-             <span>Configuration</span>
-           </button>
-                </mat-menu>
 
                 <mat-list-item>
-                    <button mat-menu-item [matMenuTriggerFor]="searchmenu">Dairy</button>
+                    <button mat-menu-item class="border-0" (click)="internalRoute('home','cosmetics')">Cosmetics</button>
                 </mat-list-item>
-                <mat-menu #searchmenu="matMenu" [overlapTrigger]="false">
-                    <button mat-menu-item>
-             <mat-icon>home</mat-icon>
-             <span>Bills</span>
-           </button>
-                    <button mat-menu-item>
-             <mat-icon>save_alt</mat-icon>
-             <span>Claims </span>
-           </button>
-                    <button mat-menu-item>
-             <mat-icon>home</mat-icon>
-             <span>Providers</span>
-           </button>
-                </mat-menu>
+
                 <!-- <mat-list-item>
           <button mat-menu-item>PREMIUM Gifting</button>
         </mat-list-item>  -->
@@ -213,7 +172,7 @@
 
                             <div class="d-flex flex-row flex-wrap ">
                                 <div class="py-2 pr-2 flex-fill">
-                                    <button class="btn-green-flat" mat-raised-button color="accent">Shop Now</button>
+                                    <button [routerLink]="['/testimonial']" class="btn-green-flat" mat-raised-button color="accent">Testimonials</button>
                                 </div>
                                 <div class="py-2 ml-auto flex-fill">
                                     <button class="btn-green-flat" mat-raised-button color="accent">Contact us</button>

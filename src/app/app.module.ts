@@ -13,6 +13,7 @@ import { NavigationHeaderComponent } from './components/navigation-header/naviga
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HomeComponent } from './components/home/home.component';
 import { CartComponent } from './components/cart/cart.component';
+import { TestimonialComponent} from "./components/testimonial/testimonial.component"
 import{ HttpClientModule,  HttpClient} from '@angular/common/http';
 import { CheckoutComponent } from './Components/checkout/checkout.component';
 import { LoginComponent } from './components/login/login.component';
@@ -26,6 +27,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { ReactiveFormsModule} from '@angular/forms';
 import { FormsModule} from '@angular/forms';
 import { PaypalpaymentComponent } from './components/paypalpayment/paypalpayment.component';
+import { PaymentComponent } from './components/payment/payment.component';
 
 
 
@@ -36,11 +38,13 @@ import { PaypalpaymentComponent } from './components/paypalpayment/paypalpayment
     NavigationHeaderComponent,
     DashboardComponent,
     HomeComponent,
+    TestimonialComponent,
     CartComponent,
     CheckoutComponent,
     LoginComponent,
     SignUpComponent,
-    PaypalpaymentComponent
+    PaypalpaymentComponent,
+    PaymentComponent
      
   ],
   imports: [

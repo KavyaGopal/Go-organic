@@ -8,6 +8,9 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
 import { LoginComponent } from './components/login/login.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { PaypalpaymentComponent } from './components/paypalpayment/paypalpayment.component';
+import { TestimonialComponent } from './components/testimonial/testimonial.component';
+import { PaymentComponent } from './components/payment/payment.component';
+
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -17,7 +20,9 @@ const routes: Routes = [
   { path: 'checkout', component: CheckoutComponent},
   { path: 'login', component: LoginComponent  },
   { path: 'sign-up', component: SignUpComponent  },
-  { path: 'paypalpayment', component: PaypalpaymentComponent}
+  { path: 'paypalpayment', component: PaypalpaymentComponent},
+  { path: 'testimonial', component: TestimonialComponent  },
+  { path: 'payment', component: PaymentComponent  }
 
 
   // { path: 'error', component: ErrorComponent },

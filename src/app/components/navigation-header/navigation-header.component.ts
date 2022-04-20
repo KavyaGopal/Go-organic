@@ -3,6 +3,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { CartService} from '../../services/cart.service';
+import { NavigationEnd, Router} from '@angular/router'
 
 
 
@@ -29,13 +30,14 @@ export class NavigationHeaderComponent implements OnInit{
       map(result => result.matches),
       shareReplay()
     );
+  sectionScroll: any;
     // isTab$: Observable<boolean> = this.breakpointObserver.observe(this.myBreakpoint)
     // .pipe(
     //   map(result => result.matches),
     //   shareReplay()
     // );
     constructor(
-      private breakpointObserver: BreakpointObserver, private cartService: CartService) {
+      private breakpointObserver: BreakpointObserver, private cartService: CartService, private router: Router) {
         this.cartService.cartSubject.subscribe((data)=> {
           this.cartItem = data;
           
@@ -48,6 +50,14 @@ export class NavigationHeaderComponent implements OnInit{
   
       ngOnInit(): void {
           this.cartItemFunc();
+          this.router.events.subscribe((evt) => {
+            if (!(evt instanceof NavigationEnd)) {
+              return;
+            }
+            this.doScroll();
+            this.sectionScroll= null;
+          });
+      
       }
       cartItemFunc(){
         if(localStorage.getItem('cartData') != null){
@@ -56,6 +66,33 @@ export class NavigationHeaderComponent implements OnInit{
           this.cartItem = cartCount.length;
         }
       }
+
+      checkLogin(){
+        if(this.user != null){
+          localStorage.clear();
+          window.location.reload()
+        }
+        this.router.navigate(['/login']);
+      }
+      internalRoute(page,dst){
+        this.sectionScroll=dst;
+        this.router.navigate([page], {fragment: dst});
+    }
+    doScroll() {
+
+      if (!this.sectionScroll) {
+        return;
+      }
+      try {
+        var elements = document.getElementById(this.sectionScroll);
+  
+        elements.scrollIntoView();
+      }
+      finally{
+        this.sectionScroll = null;
+      }
+    } 
+  
      
 
 }

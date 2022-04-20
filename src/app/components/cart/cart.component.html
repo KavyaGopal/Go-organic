@@ -4,10 +4,9 @@
             <!-- ID Column -->
             <ng-container matColumnDef="id">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                     ID
+                    ID
                 </th>
-                <td mat-cell *matCellDef="let element" class="m-card-title" 
-                    data-label="Job ID">
+                <td mat-cell *matCellDef="let element" class="m-card-title" data-label="Job ID">
                     {{ element.id }}
                 </td>
             </ng-container>
@@ -16,20 +15,18 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Name
                 </th>
-                <td mat-cell *matCellDef="let element"  class="m-card-sub-title"
-                    data-label="Name">
+                <td mat-cell *matCellDef="let element" class="m-card-sub-title" data-label="Name">
                     <span>{{ element.itemName }} </span>
                 </td>
             </ng-container>
 
 
-           
+
             <ng-container matColumnDef="imgSrc">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                   Item
+                    Item
                 </th>
-                <td mat-cell  fxShow fxHide.lt-md *matCellDef="let element"
-                    data-label="Job Type">
+                <td mat-cell fxShow fxHide.lt-md *matCellDef="let element" data-label="Job Type">
                     <img [src]=" element.imgSrc" class="card-img-top" alt="..." />
                 </td>
             </ng-container>
@@ -40,8 +37,7 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Cost
                 </th>
-                <td mat-cell *matCellDef="let element" class="has_label_on_mobile"
-                    data-label="item Cost">
+                <td mat-cell *matCellDef="let element" class="has_label_on_mobile" data-label="item Cost">
                     <span>{{ element.itemCost }} </span>
                 </td>
             </ng-container>
@@ -50,28 +46,26 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Quantity
                 </th>
-                <td mat-cell *matCellDef="let element" class="has_label_on_mobile"
-                    data-label="Quantity">
+                <td mat-cell *matCellDef="let element" class="has_label_on_mobile" data-label="Quantity">
                     <div>
                         <button mat-mini-fab aria-label="subtract" (click)="decQty(element)">
                           <mat-icon>remove</mat-icon>
                         </button>
                         <span class="px-2"> {{ element.itemQuantity }} </span>
-                        <button mat-mini-fab aria-label="add" (click)="incQty(element)">
+                        <button mat-mini-fab aria-label="add" (click)="incQty(element)" [disabled]="element.itemQuantity >= element.itemInventory">
                           <mat-icon>add</mat-icon>
                         </button>
-                      </div>
+                    </div>
                 </td>
             </ng-container>
-           
-           
-           
+
+
+
             <ng-container matColumnDef="itemSubtotal">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Sub Total
                 </th>
-                <td mat-cell *matCellDef="let element" class="has_label_on_mobile"
-                    data-label="itemSubtotal">
+                <td mat-cell *matCellDef="let element" class="has_label_on_mobile" data-label="itemSubtotal">
                     <span>{{ element.itemQuantity  * element.itemCost | number}} </span>
                 </td>
             </ng-container>
@@ -81,10 +75,10 @@
                 <th mat-header-cell *matHeaderCellDef>Actions</th>
                 <td mat-cell *matCellDef="let element">
                     <div class="iconContainer">
-                        <mat-icon   class=" text-danger pr-1">delete</mat-icon>
+                        <mat-icon class=" text-danger pr-1" (click)="delItm(element)">delete</mat-icon>
                         <!-- <span>Delete</span> -->
                     </div>
-                    
+
                 </td>
             </ng-container>
 
@@ -92,15 +86,15 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
         <mat-paginator [pageSizeOptions]="[10, 20, 30]"></mat-paginator>
-        <div align="right"class="p-2 text-muted">  Total   <span class="total"> $ {{total}}</span>  </div>
-        
-        
+        <div align="right" class="p-2 text-muted"> Total <span class="total"> $ {{total}}</span> </div>
+
+
     </div>
     <div class="container">
         <div class="center">
             <button [routerLink]="['/checkout']" mat-raised-button class="btn btn-primary btn-block">Proceed to Payment</button>
 
         </div>
-      </div>
-   
+    </div>
+
 </div>

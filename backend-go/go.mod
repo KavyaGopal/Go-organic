@@ -3,10 +3,13 @@ module github.com/KavyaGopal/Go-organic/backend-go
 go 1.17
 
 require (
+	github.com/fatih/structs v1.1.0
 	github.com/gorilla/handlers v1.5.1
 	github.com/gorilla/mux v1.8.0
 	github.com/jinzhu/gorm v1.9.16
+	github.com/joho/godotenv v1.4.0
 	github.com/stretchr/testify v1.7.0
+	github.com/stripe/stripe-go/v72 v72.101.0
 	golang.org/x/crypto v0.0.0-20191205180655-e7c4368fe9dd
 	gorm.io/driver/sqlite v1.2.6
 	gorm.io/gorm v1.22.5

@@ -3,7 +3,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { CartService} from '../../services/cart.service';
-import { Router} from '@angular/router'
+import { NavigationEnd, Router} from '@angular/router'
 
 
 
@@ -30,6 +30,7 @@ export class NavigationHeaderComponent implements OnInit{
       map(result => result.matches),
       shareReplay()
     );
+  sectionScroll: any;
     // isTab$: Observable<boolean> = this.breakpointObserver.observe(this.myBreakpoint)
     // .pipe(
     //   map(result => result.matches),
@@ -49,6 +50,14 @@ export class NavigationHeaderComponent implements OnInit{
   
       ngOnInit(): void {
           this.cartItemFunc();
+          this.router.events.subscribe((evt) => {
+            if (!(evt instanceof NavigationEnd)) {
+              return;
+            }
+            this.doScroll();
+            this.sectionScroll= null;
+          });
+      
       }
       cartItemFunc(){
         if(localStorage.getItem('cartData') != null){
@@ -65,6 +74,25 @@ export class NavigationHeaderComponent implements OnInit{
         }
         this.router.navigate(['/login']);
       }
+      internalRoute(page,dst){
+        this.sectionScroll=dst;
+        this.router.navigate([page], {fragment: dst});
+    }
+    doScroll() {
+
+      if (!this.sectionScroll) {
+        return;
+      }
+      try {
+        var elements = document.getElementById(this.sectionScroll);
+  
+        elements.scrollIntoView();
+      }
+      finally{
+        this.sectionScroll = null;
+      }
+    } 
+  
      
 
 }

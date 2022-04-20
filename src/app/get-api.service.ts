@@ -39,4 +39,8 @@ export class GetApiService {
   {
     return this.httpClient.get('http://localhost:8000/api/fetchUserTestimonials');
   }
+
+  sendCartData(data){
+    return this.httpClient.put('http://localhost:8000/api/fetchUserTestimonials', data);
+  }
 }

@@ -285,8 +285,7 @@ func ResetPassword(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//business logic for item soldout condition
-func fetchItemQuantity(w http.ResponseWriter, r *http.Request) {
+func FetchItemQuantity(w http.ResponseWriter, r *http.Request) {
 	var items []model.Item
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -610,7 +609,7 @@ func main() {
 	a.Router.HandleFunc("/api/fetchUserTestimonials", GetUserTestimonials).Methods("GET")
 
 	a.Router.HandleFunc("/health-check", HealthCheck).Methods("GET")
-	a.Router.HandleFunc("/api/fetchItemQuantity", fetchItemQuantity).Methods("POST")
+	a.Router.HandleFunc("/api/fetchItemQuantity", FetchItemQuantity).Methods("POST")
 	// http.Handle("/", a.Router)
 
 	// log.Fatal(http.ListenAndServe(":8000", a.Router))

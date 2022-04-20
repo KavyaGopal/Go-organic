@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-
+import { NavigationEnd, Router} from '@angular/router';
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
@@ -18,7 +18,7 @@ export class CheckoutComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  constructor() {
+  constructor(private router: Router) {
     //  localStorage.getItem('cartData');;
 
     // this.dataSource =  new MatTableDataSource<cartItem>(ELEMENT_DATA);
@@ -27,6 +27,20 @@ export class CheckoutComponent implements OnInit {
   ngOnInit(): void {
     this.cartDetails();
     this.getTotal();
+
+    this.router.events.subscribe((evt) => {
+      if (!(evt instanceof NavigationEnd)) {
+        return;
+      }
+      // this.doScroll();
+      // this.sectionScroll= null;
+    });
+  }
+
+  redirectPayment(){
+    this.router.navigate(['/paypalpayment']);
+    window.location.reload() 
+  
   }
 
   cartDetails() {
